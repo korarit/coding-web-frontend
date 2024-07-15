@@ -96,7 +96,7 @@
                     <div class="col-span-2 lg:col-span-1 h-auto w-full">
                         <div class="relative w-full min-h-[310px]">
                             <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-[#00C7A3] text-[#FEFEFE] w-[128px] h-[128px] rounded-xl flex items-center justify-center">
-                                <font-awesome-icon :icon="['far', 'id-card']" class="text-[96px] text-center" />
+                                <font-awesome-icon :icon="['fas', 'sliders']" class="text-[96px] text-center" />
                             </div>
                             <div class="absolute top-[64px] z-10 bg-[#FBFBFB] rounded-t-[4px] rounded-b-xl border border-[#AFAFAF] drop-shadow-md text-[#FEFEFE] w-full min-h-[128px]">
                                 <div class="w-fit mx-auto mt-[80px] mb-10">
