@@ -9,6 +9,9 @@ export default {
     "./error.vue",
   ],
   theme: {
+    fontFamily: {
+      Kanit: ['Kanit', 'sans-serif'],
+    },
     extend: {},
   },
   plugins: [],
