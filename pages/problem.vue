@@ -84,7 +84,7 @@
                                         >
                                             <div
                                                 v-show="isLangExpanded"
-                                                class="absolute left-0 right-0 mt-1 w-fit bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
+                                                class="absolute z-20 left-0 right-0 mt-1 w-fit bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
                                             >
                                                 <DropdownEditorLang />
                                             </div>
@@ -103,12 +103,21 @@
                                             />
                                         </button>
 
+                                        <transition
+                                            enter-active-class="transform transition duration-500 ease-custom"
+                                            enter-class="-translate-y-1/2 scale-y-0 opacity-0"
+                                            enter-to-class="translate-y-0 scale-y-100 opacity-100"
+                                            leave-active-class="transform transition duration-300 ease-custom"
+                                            leave-class="translate-y-0 scale-y-100 opacity-100"
+                                            leave-to-class="-translate-y-1/2 scale-y-0 opacity-0"
+                                        >
                                         <div
                                             v-show="isVersionExpanded"
-                                            class="absolute left-0 right-0 mt-1 w-fit bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
+                                            class="absolute z-20 left-0 right-0 mt-1 w-fit bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
                                         >
                                             <DropdownLangversion />
                                         </div>
+                                        </transition>
                                     </div>
 
                                 </div>
