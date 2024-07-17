@@ -1,6 +1,6 @@
 <template>
     <NuxtLayout name="main">
-        <div class="bg-[#FBFBFB] min-h-[calc(100dvh-65px)] max-w-[100%] pt-[32px] sm:pt-[96px]">
+        <div class="bg-[#FBFBFB] min-h-[calc(100dvh-65px)] max-w-[100%] pt-[32px] sm:pt-[64px]">
             
             <div class="px-4 xl:px-16 2xl:px-[96px] grid grid-cols-12 content-center gap-x-5 gap-y-8 mb-[72px]">
 
