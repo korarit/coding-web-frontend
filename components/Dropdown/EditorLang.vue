@@ -18,7 +18,6 @@
 
 
 <script setup>
-  import { version } from 'vue';
 import LangData from '~/assets/json/editor_lang.json'
 
   //set v-model
