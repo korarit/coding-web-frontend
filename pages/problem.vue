@@ -42,34 +42,30 @@
                 <pane :size="paneRightWidth" class="min-w-9">
                     <splitpanes @resized="resizedHeight" horizontal>
                     <pane :size="paneEditor" class="min-h-9">
-                        <div class="w-full h-full bg-[#FFFFFF] border border-[#B0B0B0] rounded-md overflow-hidden drop-shadow-md">
+                        <div class="flex flex-col w-full h-full bg-[#FFFFFF] border border-[#B0B0B0] rounded-md overflow-hidden drop-shadow-md">
 
-                            <div :class="`w-full bg-[#F6F6F6] border-b border-[#B0B0B0] flex  ${isVerticalRightMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
-                                <div class="flex h-full items-center gap-[2px]">
-                                    <div :class="`hover:bg-[#e4e4e4] rounded-md flex items-center gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
+                            <div :class="`flex-none w-full bg-[#F6F6F6] border-b border-[#B0B0B0] flex   ${isVerticalRightMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
+                                    <div @mouseover="expandButtonShow(0, false)" v-show="statusShowTitle[0]" :class="`flex items-center hover:bg-[#e4e4e4] rounded-md gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
                                         <font-awesome-icon :icon="['fas', 'code']" :class="`text-[20px] text-[#00C7A3] ${isVerticalRightMode ? 'rotate-90	' : null}`" />
                                         <span class="text-[#000000] text-[16px] font-medium">Editor</span>
                                     </div>
-                                </div>
 
-                                <div class="flex items-center gap-[4px]">
                                     <button  @click="() => setHeightEditor(0)" v-show="paneEditor > 1.5 && EditorHidden == false"  class="hover:bg-[#e4e4e4] rounded-md h-8 w-8 flex items-center justify-center">
                                         <font-awesome-icon :icon="['fas', 'chevron-up']" class="text-[24px] text-[#6B6B6B]" />
                                     </button>
-                                    <button  @click="() => setHeightEditor(null)" v-show="paneEditor < 1.5 || EditorHidden == true"  class="hover:bg-[#e4e4e4] rounded-md h-8 w-8 flex items-center justify-center">
+                                    <button @blur="expandButtonShow(0, true)" @mouseleave="expandButtonShow(0, true)"  @click="() => setHeightEditor(null)" v-show="paneEditor < 1.5 || EditorHidden == true"  class="hover:bg-[#e4e4e4] rounded-md h-8 w-8 flex items-center justify-center">
                                         <font-awesome-icon :icon="['fas', 'chevron-down']" class="text-[24px] text-[#6B6B6B]" />
                                     </button>
-                                </div>
                             </div>
 
-                            <div class="w-full border-b border-[#B0B0B0] h-9 pl-3 pr-1 flex items-center justify-between">
+                            <div class="flex-none w-full border-b border-[#B0B0B0] h-9 pl-3 pr-1 flex items-center justify-between">
                                 <div class="flex items-center gap-3">
                                     <div class="relative w-fit">
                                         <button class="px-[4px] h-6 rounded-[4px] border border-[#C9C9C9] flex items-center"
                                             @click="isLangExpanded = !isLangExpanded"
                                             @blur="isLangExpanded = false"
                                         >
-                                            <p class="text-[14px] text-[#6B6B6B] leading-4 mr-2">Python 3</p>
+                                            <p class="text-[14px] text-[#6B6B6B] leading-4 mr-2">{{ LanguageEditor.name }}</p>
                                             <font-awesome-icon :icon="['fas', 'caret-down']" 
                                                 class="text-[18px] h-4 text-[#6B6B6B] transition duration-300"
                                                 :class="isLangExpanded ? 'rotate-180' : 'rotate-0'"
@@ -88,37 +84,8 @@
                                                 v-show="isLangExpanded"
                                                 class="absolute z-20 left-0 right-0 mt-1 w-fit bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
                                             >
-                                                <DropdownEditorLang />
+                                                <DropdownEditorLang v-model="LanguageEditor" />
                                             </div>
-                                        </transition>
-                                    </div>
-                                    
-                                    <div class="relative w-fit">
-                                        <button 
-                                            @click="isVersionExpanded = !isVersionExpanded"
-                                            @blur="isVersionExpanded = false"
-                                            class="px-[4px] h-6 rounded-[4px] border border-[#C9C9C9] flex items-center" 
-                                        >
-                                            <p class="text-[14px] text-[#6B6B6B] leading-4 mr-2">3.12.10</p>
-                                            <font-awesome-icon :icon="['fas', 'caret-down']" class="text-[18px] h-4 text-[#6B6B6B] transition duration-300" 
-                                            :class="isVersionExpanded ? 'rotate-180' : 'rotate-0'"
-                                            />
-                                        </button>
-
-                                        <transition
-                                            enter-active-class="transform transition duration-500 ease-custom"
-                                            enter-class="-translate-y-1/2 scale-y-0 opacity-0"
-                                            enter-to-class="translate-y-0 scale-y-100 opacity-100"
-                                            leave-active-class="transform transition duration-300 ease-custom"
-                                            leave-class="translate-y-0 scale-y-100 opacity-100"
-                                            leave-to-class="-translate-y-1/2 scale-y-0 opacity-0"
-                                        >
-                                        <div
-                                            v-show="isVersionExpanded"
-                                            class="absolute z-20 left-0 right-0 mt-1 w-fit bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
-                                        >
-                                            <DropdownLangversion />
-                                        </div>
                                         </transition>
                                     </div>
 
@@ -135,8 +102,22 @@
                             </div>
 
                             <!-- Editor -->
-                            <div class="w-full h-[90%] p-1">
-                                <MonacoEditor lang="python" class="min-h-full border-[#000000] " :options="{overviewRulerBorder: false}" />
+                            <div class="flex-auto w-full p-1 overflow-hidden min-h-0">
+                                <MonacoEditor v-model="codeSave" :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " :options="{overviewRulerBorder: false}" />
+                            </div>
+
+                            <div class="flex-none px-3 py-2 flex items-center justify-between border-t border-[#B0B0B0]">
+                                <p class="text-[14px] text-[#6B6B6B]">Line 1 Col 3</p>
+
+                                <div class="flex gap-x-2">
+                                    <button class=" bg-[#606060] hover:bg-[#303030] py-1 px-4 text-[#FEFEFE] text-[16px] font-medium  drop-shadow-md rounded">
+                                        Run
+                                    </button>
+
+                                    <button class=" bg-[#00C7A3] hover:bg-[#199c80] py-1 px-4 text-[#FEFEFE] text-[16px] font-medium  drop-shadow-md rounded">
+                                        Summit
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </pane>
@@ -144,10 +125,11 @@
                     <pane :size="paneTest" class="min-h-[36px]">
                         <div class="w-full h-full bg-[#FFFFFF] border border-[#B0B0B0] rounded-md overflow-hidden drop-shadow-md">
                             
+                            <!-- head title test -->
                             <div :class="`w-full bg-[#F6F6F6] border-b border-[#B0B0B0] flex ${isVerticalRightMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
-                                <div class="flex h-full items-center gap-[2px]">
+                                <div class="flex h-full items-center gap-[2px]" v-show="statusShowTitle[1]">
                                     <button :class="`hover:bg-[#e4e4e4] rounded-md flex items-center gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
-                                        <font-awesome-icon :icon="['far', 'square-check']" :class="`text-[20px] text-[#00C7A3] ${isVerticalRightMode ? 'rotate-90' : null}`" />
+                                        <font-awesome-icon @mouseover="expandButtonShow(1, false)" :icon="['far', 'square-check']" :class="`text-[20px] text-[#00C7A3] ${isVerticalRightMode ? 'rotate-90' : null}`" />
                                         <span class="text-[#000000] text-[16px] font-medium">Test Case</span>
                                     </button>
 
@@ -163,9 +145,59 @@
                                     <button @click="setHeightTest(0)" v-show="paneTest > 2 && TestHidden == false" class="hover:bg-[#e4e4e4] rounded-md h-8 w-8 flex items-center justify-center">
                                         <font-awesome-icon :icon="['fas', 'chevron-up']" class="text-[24px] text-[#6B6B6B]" />
                                     </button>
-                                    <button @click="setHeightTest(null)" v-show="paneTest < 2  || TestHidden == true" class="hover:bg-[#e4e4e4] rounded-md h-8 w-8 flex items-center justify-center">
+                                    <button @blur="expandButtonShow(1, true)" @mouseleave="expandButtonShow(1, true)" @click="setHeightTest(null)" v-show="paneTest < 2  || TestHidden == true" class="hover:bg-[#e4e4e4] rounded-md h-8 w-8 flex items-center justify-center">
                                         <font-awesome-icon :icon="['fas', 'chevron-down']" class="text-[24px] text-[#6B6B6B]" />
                                     </button>
+                                </div>
+                            </div>
+
+                            <!-- test cases -->
+                            <div class="w-full h-[calc(100%-36px)] p-3">
+                                <div class="flex gap-x-3">
+                                    <button class="bg-[#F9F9F9] hover:bg-[#e2e2e2] active:bg-[#e2e2e2] border border-[#AEAEAE] rounded-md py-[2px] px-3 text-[16px] text-[#202020]">
+                                        Case 1
+                                    </button>
+                                    <button class="bg-[#F9F9F9] hover:bg-[#e2e2e2] active:bg-[#e2e2e2] border border-[#AEAEAE] rounded-md py-[2px] px-3 text-[16px] text-[#202020]">
+                                        Case 2
+                                    </button>
+                                    <button class="bg-[#F9F9F9] hover:bg-[#e2e2e2] active:bg-[#e2e2e2] border border-[#AEAEAE] rounded-md py-[2px] px-3 text-[16px] text-[#202020]">
+                                        Case 3
+                                    </button>
+                                    <button class=" hover:bg-[#e2e2e2] active:bg-[#e2e2e2] flex items-center justify-center rounded-md h-[36px] w-[36px] text-[28px] text-[#202020]">
+                                        <font-awesome-icon :icon="['fas', 'plus']" />
+                                    </button>
+                                </div>
+
+                                <div class="w-full h-px bg-[#AEAEAE] my-3"></div>
+
+                                <div class="flex flex-col gap-y-3 min-w-full">
+                                    <div class="flex items-center w-full gap-x-3">
+                                        <p class="text-[16px] text-[#202020] flex-none leading-4">Input line</p>
+                                        <input type="text" 
+                                            class="flex-auto h-8 border border-[#AEAEAE] rounded-md px-2 text-[16px] text-[#202020] placeholder:text-[16px] placeholder:font-light placeholder:text-[#AEAEAE] shadow-inner"
+                                            placeholder="1"
+                                        />
+                                    </div>
+                                    <div class="flex items-center w-full gap-x-3">
+                                        <p class="text-[16px] text-[#202020] flex-none leading-4">Input line</p>
+                                        <input type="text" 
+                                            class="flex-auto h-8 border border-[#AEAEAE] rounded-md px-2 text-[16px] text-[#202020] placeholder:text-[16px] placeholder:font-light placeholder:text-[#AEAEAE] shadow-inner"
+                                            placeholder="2"
+                                        />
+                                    </div>
+                                    <div class="flex items-center w-full gap-x-3">
+                                        <p class="text-[16px] text-[#202020] flex-none leading-4">Input line</p>
+                                        <input type="text" 
+                                            class="flex-auto h-8 border border-[#AEAEAE] rounded-md px-2 text-[16px] text-[#202020] placeholder:text-[16px] placeholder:font-light placeholder:text-[#AEAEAE] shadow-inner"
+                                            placeholder="3"
+                                        />
+                                    </div>
+                                    <div class="flex items-center w-full gap-x-3">
+                                        <p class="text-[16px] text-[#202020] flex-none leading-4">Input Add </p>
+                                        <button class="flex-auto bg-[#606060] hover:bg-[#303030] active:bg-[#303030] drop-shadow-md rounded-md py-[6px] px-3 text-[16px] font-medium text-[#FEFEFE]">
+                                            เพิ่ม input
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -179,6 +211,8 @@
     </NuxtLayout>
   </template>
 <script setup>
+import { version } from 'vue';
+
 const isLangExpanded = ref(false);
 const isVersionExpanded = ref(false);
 
@@ -200,7 +234,10 @@ const EditorHidden = ref(false);
 
 const paneTest = ref(40);
 const TestHidden = ref(false);
-
+const statusShowTitle = ref([
+    true, // Editor
+    true, // Test Case
+]);
 
 const resizedHeight = (sizes) => {
     nextTick(() => {
@@ -225,6 +262,23 @@ const resizedHeight = (sizes) => {
         TestHidden.value = false;
     }
     });
+}
+
+function expandButtonShow(show, status) {
+    //hide expand button
+    if(paneRightWidth.value > 6 || paneRightWidthOld.value > 6){
+        return;
+    }
+    if(paneEditor.value < 6 || paneTest.value < 6 ){
+        if(status == false){
+            statusShowTitle.value[show] = false;
+        }else{
+            statusShowTitle.value[show] = true;
+        }
+    }else{
+        statusShowTitle.value[show] = true;
+    }
+
 }
 
 function setHeightEditor(value) {
@@ -320,6 +374,7 @@ const onResizedWidth = (sizes) => {
       
         isVerticalLeftMode.value = sizes[0].size <= 1.5;
         isVerticalRightMode.value = sizes[1].size <= 1.5;
+
     } else {
       console.log('No sizes data available');
     }
@@ -372,6 +427,18 @@ function fullScreen() {
     }
   });
 }
+
+
+
+
+
+//////////////////////// Editor //////////////////////////
+const LanguageEditor = ref({
+    lang: "python",
+    name: "Python 3",
+    version: "3.9.1"
+});
+const codeSave = ref("");
 
 
 
