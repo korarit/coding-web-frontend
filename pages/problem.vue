@@ -179,7 +179,7 @@
 
                             <!-- Editor -->
                             <div class="flex-auto w-full p-1 overflow-hidden min-h-0">
-                                <MonacoEditor ref="editorRef" v-model="codeSave" :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " :options="{overviewRulerBorder: false}" />
+                                <MonacoEditor ref="editorRef" :options="{minimap: { enabled: false }}" v-model="codeSave" :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " />
                             </div>
 
                             <div class="flex-none px-3 py-2 flex items-center justify-between border-t border-[#B0B0B0]">
