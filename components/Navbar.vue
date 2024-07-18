@@ -24,7 +24,7 @@
                 Sing Up
             </button>
             <button class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
-                Sing Up
+                Log In
             </button>
         </div>
         <!-- mobile menu -->
