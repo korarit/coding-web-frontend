@@ -103,11 +103,11 @@
 
                             <!-- Editor -->
                             <div class="flex-auto w-full p-1 overflow-hidden min-h-0">
-                                <MonacoEditor v-model="codeSave" :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " :options="{overviewRulerBorder: false}" />
+                                <MonacoEditor ref="editorRef" v-model="codeSave" :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " :options="{overviewRulerBorder: false}" />
                             </div>
 
                             <div class="flex-none px-3 py-2 flex items-center justify-between border-t border-[#B0B0B0]">
-                                <p class="text-[14px] text-[#6B6B6B]">Line 1 Col 3</p>
+                                <p class="text-[14px] text-[#6B6B6B]">Line {{ currentLine }} Col {{ currentColumn }}</p>
 
                                 <div class="flex gap-x-2">
                                     <button class=" bg-[#606060] hover:bg-[#303030] py-1 px-4 text-[#FEFEFE] text-[16px] font-medium  drop-shadow-md rounded">
@@ -439,6 +439,47 @@ const LanguageEditor = ref({
     version: "3.9.1"
 });
 const codeSave = ref("");
+const editorRef = ref(null);
+
+
+// ตัวแปรเก็บค่า cursor และ column ปัจจุบัน
+const currentLine = ref(0)
+const currentColumn = ref(0)
+
+onMounted(() => {
+  nextTick(() => {
+    const editorInstance = editorRef.value?.$editor;
+
+    if (editorInstance) {
+
+        editorInstance.onDidFocusEditorText(() => {
+            const position = editorInstance.getPosition();
+            currentLine.value = position.lineNumber;
+            currentColumn.value = position.column;
+        });
+
+        editorInstance.onDidBlurEditorText(() => {
+            currentLine.value = 0;
+            currentColumn.value = 0;
+        });
+
+        editorInstance.onMouseDown((e) => {
+            const position = editorInstance.getPosition();
+            currentLine.value = position.lineNumber;
+            currentColumn.value = position.column;
+        });
+
+    
+        editorInstance.onDidChangeCursorPosition((e) => {
+            const position = editorInstance.getPosition();
+            currentLine.value = position.lineNumber;
+            currentColumn.value = position.column;
+        });
+
+    }
+  });
+});
+
 
 
 
