@@ -1,52 +1,34 @@
 <template>
   <div class="py-2 px-2 flex gap-2 w-fit">
-    <div class="flex flex-col w-fit gap-x-2">
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">C</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">C++</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">C#</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">Rust</p>
-      </button>
+
+    <div class="grid grid-rows-4 grid-flow-col">
+      <div class="relative flex items-center" v-for="(data, index) in LangData">
+        <button @click="setLangEditor(data)" class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-2 mx-2">
+          <p class="text-[16px] text-left text-[#262626] leading-4">{{ data.name }}</p>
+        </button>
+        <div v-if="index < 8" class="absolute inset-y-0 right-0 w-px">
+          <div class="w-px bg-gray-400 h-full"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="min-h-full w-[1px] bg-[#bababa]"></div>
 
-    <div class="flex flex-col w-fit gap-x-2">
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">Java</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">Python 3</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">Python 2</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">Lua</p>
-      </button>
-    </div>
-
-    <div class="min-h-full w-[1px] bg-[#bababa]"></div>
-
-    <div class="flex flex-col w-fit gap-x-2">
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">JavaScript</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">TypeScript</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">PHP</p>
-      </button>
-      <button class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-1">
-        <p class="text-[16px] text-left text-[#262626] leading-4">Go</p>
-      </button>
-    </div>
   </div>
 </template>
+
+
+<script setup>
+  import { version } from 'vue';
+import LangData from '~/assets/json/editor_lang.json'
+
+  //set v-model
+  const datamodal = defineModel()
+
+  const setLangEditor = (lang) => {
+    datamodal.value = {
+      lang: lang.lang,
+      name: lang.name,
+      version: lang.version[0]
+    }
+  }
+</script>

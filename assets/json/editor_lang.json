@@ -1,0 +1,62 @@
+[
+    {
+        "lang": "c",
+        "name": "C",
+        "version": ["10.2.0"]
+    },
+    {
+        "lang": "c++",
+        "name": "C++",
+        "version": ["10.2.0"]
+    },
+    {
+        "lang": "c#",
+        "name": "C#",
+        "version": ["5.0.201"]
+    },
+    {
+        "lang": "rust",
+        "name": "Rust",
+        "version": ["1.68.2"]
+    },
+    {
+        "lang": "java",
+        "name": "Java",
+        "version": ["15.0.2"]
+    },
+    {
+        "lang": "python",
+        "name": "Python 3",
+        "version": ["3.12.0"]
+    },
+    {
+        "lang": "python2",
+        "name": "Python 2",
+        "version": ["2.7.18"]
+    },
+    {
+        "lang": "lua",
+        "name": "Lua",
+        "version": ["5.4.4"]
+    },
+    {
+        "lang": "javascript",
+        "name": "JavaScript",
+        "version": ["20.11.1"]
+    },
+    {
+        "lang": "typescript",
+        "name": "TypeScript",
+        "version": ["5.0.3"]
+    },
+    {
+        "lang": "php",
+        "name": "PHP",
+        "version": ["8.2.3"]
+    },
+    {
+        "lang": "go",
+        "name": "Go",
+        "version": ["1.16.2"]
+    }
+]
