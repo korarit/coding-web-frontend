@@ -44,70 +44,22 @@
                                 1. โจทย์
                             </p>
                          </div>
-                         <div v-else class="flex-auto w-full h-full">
-                            <div class="w-full px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
-                                <div class="relative w-fit" :ref="el => { if (el) dropdownRef[0] = el }">
-                                    <button 
-                                        @click="dropdown_table_status['submission_status'] = !dropdown_table_status['submission_status']" 
-                                        class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[212px]"
-                                    >
-                                        <p class="text-[18px] font-light leading-5">{{ submission_status[submission_type_id] }}</p>
-                                        <font-awesome-icon 
-                                                :icon="['fas','chevron-down']" 
-                                                class="text-[18px] h-4 transition duration-300"
-                                                :class="dropdown_table_status['submission_status'] ? 'rotate-180' : 'rotate-0'"
-                                        />
-                                    </button>
-                                    <transition
-                                        enter-active-class="transform transition duration-500 ease-custom"
-                                        enter-class="-translate-y-1/2 scale-y-0 opacity-0"
-                                        enter-to-class="translate-y-0 scale-y-100 opacity-100"
-                                        leave-active-class="transform transition duration-300 ease-custom"
-                                        leave-class="translate-y-0 scale-y-100 opacity-100"
-                                        leave-to-class="-translate-y-1/2 scale-y-0 opacity-0"
-                                    >
-                                    <div
-                                        v-show="dropdown_table_status['submission_status']"
-                                        tabindex="1"
-                                        class="absolute z-20 left-0 right-0 mt-1 w-full bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
-                                    >
-                                        <DropdownCheckSelect v-model="submission_type_id" :list_data="submission_status" />
-                                    </div>
-                                    </transition>
-                                </div>
-                                <div class="relative w-fit" :ref="el => { if (el) dropdownRef[1] = el }">
-                                    <button 
-                                        @click="dropdown_table_status['submission_lang'] = !dropdown_table_status['submission_lang']" 
-                                        class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[164px]"
-                                    >
-                                        <p class="text-[18px] font-light leading-5">{{ LanguageListName[submission_status_id] }}</p>
-                                        <font-awesome-icon 
-                                                :icon="['fas','chevron-down']" 
-                                                class="text-[18px] h-4 transition duration-300"
-                                                :class="dropdown_table_status['submission_lang'] ? 'rotate-180' : 'rotate-0'"
-                                        />
-                                    </button>
-                                    <transition
-                                        enter-active-class="transform transition duration-500 ease-custom"
-                                        enter-class="-translate-y-1/2 scale-y-0 opacity-0"
-                                        enter-to-class="translate-y-0 scale-y-100 opacity-100"
-                                        leave-active-class="transform transition duration-300 ease-custom"
-                                        leave-class="translate-y-0 scale-y-100 opacity-100"
-                                        leave-to-class="-translate-y-1/2 scale-y-0 opacity-0"
-                                    >
-                                    <div
-                                        v-show="dropdown_table_status['submission_lang']"
-                                        class="absolute z-20 left-0 right-0 mt-1 w-full bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden"
-                                    >
-                                        <DropdownCheckSelect tabindex="1" v-model="submission_status_id" :list_data="LanguageListName" />
-                                    </div>
-                                    </transition>
-                                </div>
+                         <div v-else class="flex-auto flex flex-col w-full h-full">
+                            <div class="flex-none w-full px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
+                                <DropdownCheckSelect customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[212px]" v-model="submission_type_id" :list_data="submission_status" />
+                                <DropdownCheckSelect customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[164px]" v-model="submission_status_id" :list_data="LanguageListName" />
+                                
                                 <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-12">
                                     <p class="text-[18px] font-light leading-5">Runtime</p>
                                 </div>
                                 <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-12">
                                     <p class="text-[18px] font-light leading-5">Memory</p>
+                                </div>
+                            </div>
+
+                            <div class="flex-auto w-full">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <p class="text-[20px] font-light text-[#303030]">ไม่มีข้อมูลการส่ง</p>
                                 </div>
                             </div>
                          </div>
@@ -136,7 +88,7 @@
 
                             <div class="flex-none w-full border-b border-[#B0B0B0] h-9 pl-3 pr-1 flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <div class="relative w-fit" :ref="el => { if (el) dropdownRef[2] = el }">
+                                    <div class="relative w-fit" ref="dropdownRefLang">
                                         <button class="px-[4px] h-6 rounded-[4px] border border-[#C9C9C9] flex items-center"
                                             @click="isLangExpanded = !isLangExpanded"
                                         >
@@ -199,21 +151,21 @@
                     </pane>
 
                     <pane :size="paneTest" class="min-h-[36px]">
-                        <div class="w-full h-full bg-[#FFFFFF] border border-[#B0B0B0] rounded-md overflow-hidden drop-shadow-md">
+                        <div class="flex flex-col w-full h-full bg-[#FFFFFF] border border-[#B0B0B0] rounded-md overflow-hidden drop-shadow-md">
                             
                             <!-- head title test -->
-                            <div :class="`w-full bg-[#F6F6F6] border-b border-[#B0B0B0] flex ${isVerticalRightMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
+                            <div :class="`flex-none w-full bg-[#F6F6F6] border-b border-[#B0B0B0] flex ${isVerticalRightMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
                                 <div class="flex h-full items-center gap-[2px]" v-show="statusShowTitle[1]">
-                                    <button :class="`hover:bg-[#e4e4e4] rounded-md flex items-center gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
-                                        <font-awesome-icon @mouseover="expandButtonShow(1, false)" :icon="['far', 'square-check']" :class="`text-[20px] text-[#00C7A3] ${isVerticalRightMode ? 'rotate-90' : null}`" />
-                                        <span class="text-[#000000] text-[16px] font-medium">Test Case</span>
+                                    <button @click="ShowTestCase = true" :class="`hover:bg-[#e4e4e4] rounded-md flex items-center gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
+                                        <font-awesome-icon @mouseover="expandButtonShow(1, false)" :icon="['far', 'square-check']" :class="`text-[20px] ${ShowTestCase ? 'text-[#00C7A3]' : 'text-[#7FDBC1]'}`" />
+                                        <span :class="`text-[16px] ${ShowTestCase ? 'text-[#000000]  font-medium' : 'text-[#6B6B6B] font-light'} `">Test Case</span>
                                     </button>
 
                                     <div class="h-5 w-[1px] bg-[#B0B0B0]"></div>
 
-                                    <button :class="`hover:bg-[#e4e4e4] rounded-md h-8 px-2 flex items-center gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
-                                        <font-awesome-icon :icon="['fas', 'terminal']" class="`text-[20px] text-[#7FDBC1] ${isVerticalRightMode ? 'rotate-90' : null}`" />
-                                        <span class="text-[#6B6B6B] text-[16px] font-light">Test Result</span>
+                                    <button @click="ShowTestCase = false" :class="`hover:bg-[#e4e4e4] rounded-md h-8 px-2 flex items-center gap-2 ${isVerticalRightMode ? 'h-fit py-2' : 'h-8 px-2'}`">
+                                        <font-awesome-icon :icon="['fas', 'terminal']" :class="`text-[20px] ${!ShowTestCase ? 'text-[#00C7A3]' : 'text-[#7FDBC1]'}`" />
+                                        <span :class="`text-[16px] ${!ShowTestCase ? 'text-[#000000]  font-medium' : 'text-[#6B6B6B] font-light'} `">Test Result</span>
                                     </button>
                                 </div>
 
@@ -228,7 +180,7 @@
                             </div>
 
                             <!-- test cases -->
-                            <div class="w-full h-[calc(100%-36px)] p-3">
+                            <div class="flex-auto w-full h-[calc(100%-36px)] p-3" v-if="ShowTestCase">
                                 <div class="flex gap-x-3">
                                     <button class="bg-[#F9F9F9] hover:bg-[#e2e2e2] active:bg-[#e2e2e2] border border-[#AEAEAE] rounded-md py-[2px] px-3 text-[16px] text-[#202020]">
                                         Case 1
@@ -276,6 +228,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Test Result -->
+                            <div v-else class="flex-auto">
+                                <div class="min-w-full min-h-full flex items-center justify-center">
+                                    <p class="text-[20px] font-light text-[#303030]">คุณควร รัน โปรแกรม ที่คุณเขียนก่อน</p>
+                                </div>
+                            </div>
                         </div>
                     </pane>
                     </splitpanes>
@@ -298,7 +257,6 @@ EditorLang.filter((data) => {
 })
 
 const isLangExpanded = ref(false);
-const isVersionExpanded = ref(false);
 
 const isVerticalLeftMode = ref(false);
 const isVerticalRightMode = ref(false);
@@ -522,6 +480,9 @@ const LanguageEditor = ref({
     name: "Python 3",
     version: "3.9.1"
 });
+watch(LanguageEditor, ()=> {
+    isLangExpanded.value = false;
+})
 const codeSave = ref("");
 const editorRef = ref(null);
 
@@ -564,33 +525,12 @@ onMounted(() => {
   });
 });
 
-
-//////////////////////// Discription And Submission //////////////////////////
-const ShowDiscription = ref(true);
-
-const dropdown_table_status = ref({
-    submission_status: false,
-    submission_lang: false
-});
-
-const dropdownRef = ref([
-    'submission_status',
-    'submission_lang'
-]);
+const dropdownRefLang = ref(null);
 const closeDropdown = (event) => {
-  if (dropdownRef.value[0] && !dropdownRef.value[0].contains(event.target)) {
-    dropdown_table_status.value['submission_status'] = false
+  if (dropdownRefLang.value && !dropdownRefLang.value.contains(event.target)) {
+    isLangExpanded.value = false
   }
-
-    if (dropdownRef.value[1] && !dropdownRef.value[1].contains(event.target)) {
-        dropdown_table_status.value['submission_lang'] = false
-    }
-
-    if (dropdownRef.value[2] && !dropdownRef.value[2].contains(event.target)) {
-        isLangExpanded.value = false
-    }
 }
-
 
 onMounted(() => {
   document.addEventListener('click', closeDropdown)
@@ -600,12 +540,18 @@ onUnmounted(() => {
   document.removeEventListener('click', closeDropdown)
 })
 
+
+//////////////////////// Discription And Submission //////////////////////////
+const ShowDiscription = ref(true);
+
 // submission status table select
 const submission_type_id = ref(0);
 const submission_status_id = ref(0);
-watch(submission_type_id, (value) => {
-    console.log(value);
-});
+
+
+
+//////////////////////// Test case , Test Result //////////////////////////
+const ShowTestCase = ref(true);
 
 </script>
 <style>
