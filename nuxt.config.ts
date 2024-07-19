@@ -13,7 +13,8 @@ export default defineNuxtConfig({
   
   modules: [
     ["@nuxtjs/google-fonts",{families:{Kanit: [100,200,300,400,500,600,700,800,900]}}],
-    "nuxt-monaco-editor"
+    "nuxt-monaco-editor",
+    '@vueuse/nuxt',
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],
