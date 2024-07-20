@@ -7,7 +7,7 @@
             class="w-32 h-32 rounded-full bg-[#d9d9d9] flex items-center justify-center mb-4 relative overflow-hidden"
           >
             <div
-              class="absolute bottom-0 w-full h-8 bg-gray-700 text-white flex items-center justify-center"
+              class="absolute bottom-0 w-full h-8 bg-[#10101095] text-white flex items-center justify-center"
             >
               Upload
             </div>
