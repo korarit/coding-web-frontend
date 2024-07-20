@@ -1,4 +1,5 @@
 <template>
-  <Navbar />
-  <Registerform />
+  <NuxtLayout name="main">
+    <Registerform />
+  </NuxtLayout>
 </template>
