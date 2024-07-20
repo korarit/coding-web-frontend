@@ -1,6 +1,8 @@
 <template>
-  <div class="flex items-center justify-center h-screen bg-[#aeaeae]">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-[90dvw] sm:w-96s">
+  <div class="flex items-center justify-center h-screen bg-[#fbfbfb]">
+    <div
+      class="bg-white p-6 border border-[#afafaf] rounded-lg shadow-lg w-[90dvw] sm:w-96"
+    >
       <div class="flex items-center justify-center mb-4">
         <div class="relative">
           <div
@@ -23,28 +25,28 @@
           <input
             type="text"
             placeholder="Username"
-            class="w-full p-2 border border-gray-300 rounded"
+            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500"
           />
         </div>
         <div class="mb-4">
           <input
             type="text"
             placeholder="Full-Name"
-            class="w-full p-2 border border-gray-300 rounded"
+            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500"
           />
         </div>
         <div class="mb-4">
           <input
             type="email"
             placeholder="Email"
-            class="w-full p-2 border border-gray-300 rounded"
+            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500"
           />
         </div>
         <div class="mb-4">
           <input
             type="password"
             placeholder="Password"
-            class="w-full p-2 border border-gray-300 rounded"
+            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500"
           />
         </div>
         <div class="mb-4 flex items-center justify-center">
@@ -60,7 +62,9 @@
         </div>
         <p class="text-center text-sm my-4 text-[#606060]">
           มีบัญชีอยู่แล้ว
-          <a href="#" class="text-blue-500 underline underline-offset-2"
+          <a
+            href="#"
+            class="text-blue-500 hover:text-blue-700 underline underline-offset-2"
             >Log In</a
           >
           เลย
