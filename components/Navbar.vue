@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full bg-[#FEFEFE] border-b border-[#cecece] drop-shadow-md h-[64px] flex justify-between px-4 xl:px-16 2xl:px-[96px]">
+    <div class="min-w-full bg-[#FEFEFE] border-b border-[#cecece] drop-shadow-md py-2 xl:py-2 2xl:py-3 flex justify-between px-4 xl:px-16 2xl:px-[96px]">
 
         <!-- logo -->
         <div>
@@ -23,13 +23,13 @@
             <button class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[6px]">
                 Sing Up
             </button>
-            <button class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
                 Log In
             </button>
         </div>
         <!-- mobile menu -->
         <div class="flex xl:hidden">
-            <button class="text-[40px] text-[#00C7A3] hover:text-[#199c80] active:text-[#199c80] font-medium px-3 py-[6px]">
+            <button class="text-[40px] text-[#00C7A3] hover:text-[#199c80] active:text-[#199c80] font-medium px-3 flex items-center">
                 <font-awesome-icon :icon="['fas', 'bars']" />
             </button>
         </div>
