@@ -27,8 +27,8 @@
                 Log In
             </button>
             <button v-if="props.login_status" @click="$emit('openUser')" class="flex items-center">
-                <div class="w-[48px] h-[48px] rounded-full bg-[#262626] flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'user']" class="text-[32px] text-white" />
+                <div class="w-[44px] h-[44px] rounded-full bg-[#262626] flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'user']" class="text-[24px] text-white" />
                 </div>
             </button>
         </div>
