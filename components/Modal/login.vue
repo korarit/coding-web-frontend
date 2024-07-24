@@ -23,16 +23,24 @@
         </button>
       </div>
 
-      <form>
         <div class="mb-4">
           <label for="username" class="sr-only">Username / Email</label>
-          <input type="text" id="username" placeholder="Username / Email"
-            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500 2xl:text-[20px] placeholder:font-light" />
+          <input v-model="username"
+            type="text" id="username" placeholder="Username / Email"
+            class="w-full p-2 border rounded hover:border-gray-500 2xl:text-[20px] placeholder:font-light" 
+            :class="`${username_error ? 'border-red-500' : 'border-gray-300'}`"
+          />
+          <p v-show="username_error" class="text-red-500 text-[12px] 2xl:text-[16px]">กรุณากรอกชื่อผู้ใช้</p>
         </div>
         <div class="mb-4">
           <label for="password" class="sr-only">Password</label>
-          <input type="password" id="password" placeholder="Password"
-            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500 2xl:text-[20px] placeholder:font-light" />
+          <input
+            v-model="password"
+            type="password" id="password" placeholder="Password"
+            class="w-full p-2 border border-gray-300 rounded hover:border-gray-500 2xl:text-[20px] placeholder:font-light"
+            :class="`${password_error ? 'border-red-500' : 'border-gray-300'}`"
+          />
+          <p v-show="password_error" class="text-red-500 text-[12px] 2xl:text-[16px]">กรุณากรอกรหัสผ่าน</p>
         </div>
         <div class="flex items-center justify-between mb-4">
           <label class="flex items-center text-sm 2xl:text-[20px] text-gray-600">
@@ -44,7 +52,7 @@
           </p>
         </div>
 
-        <button @click="" type="submit" class="w-full bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] 2xl:text-[24px] text-white p-2 rounded">
+        <button @click="checkInput" class="w-full bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] 2xl:text-[24px] text-white p-2 rounded">
           เข้าสู่ระบบ
         </button>
         <p class="text-center text-sm 2xl:text-[20px] my-4 text-[#606060]">หรือเข้าสู่ระบบด้วย</p>
@@ -67,7 +75,6 @@
           <a href="#" class="text-blue-500 hover:text-blue-700 underline underline-offset-2">สมัคร</a>
           เลย
         </p>
-      </form>
     </div>
     </transition>
   </div>
@@ -80,9 +87,6 @@
 }
 </style>
 <script setup>
-import { set } from '@vueuse/core';
-
-
 
 const props = defineProps({
   show: Boolean
@@ -95,7 +99,7 @@ watch(() => props.show, (val) => {
 })
 
 
-const emit = defineEmits(['closeModal'])
+const emit = defineEmits(['closeModal', 'login'])
 const closeModal = () => {
   show_modal.value = false
   setTimeout(() => {
@@ -103,5 +107,38 @@ const closeModal = () => {
   }, 300)
 }
 
+///////////// check input //////////////
+const username = ref('')
+const username_error = ref(false)
+watch(username, (val) => {
+  if (val !== '' && username_error.value === true) {
+    username_error.value = false
+  }
+})
+
+const password = ref('')
+const password_error = ref(false)
+watch(password, (val) => {
+  if (val !== '' && password_error.value === true) {
+    password_error.value = false
+  }
+})
+
+const checkInput = () => {
+  if (username.value === '' || password.value === '') {
+    if (username.value === '') {
+      username_error.value = true
+    }
+    if (password.value === '') {
+      password_error.value = true
+    }
+  }else {
+    username_error.value = false
+    password_error.value = false
+    emit('login', username.value, password.value)
+
+    closeModal()
+  }
+}
 
 </script>
