@@ -20,11 +20,16 @@
             <p class="text-[24px] text-[#606060] font-normal text-center"> 
                 ชั้นเรียน
             </p>
-            <button class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button v-if="!props.login_status" class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[6px]">
                 Sing Up
             </button>
-            <button @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button v-if="!props.login_status" @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
                 Log In
+            </button>
+            <button v-if="props.login_status" @click="$emit('openUser')" class="flex items-center">
+                <div class="w-[48px] h-[48px] rounded-full bg-[#262626] flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'user']" class="text-[32px] text-white" />
+                </div>
             </button>
         </div>
         <!-- mobile menu -->
@@ -35,3 +40,10 @@
         </div>
     </div>
 </template>
+
+<script setup>
+const props = defineProps({
+    login_status: Boolean
+})
+
+</script>
