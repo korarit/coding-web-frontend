@@ -10,10 +10,10 @@
     <div v-show="show_modal" class="w-fit h-fit p-3 bg-[#ffffff] rounded-lg border border-[#C1C1C1] drop-shadow-md">
         <div class="flex flex-col space-y-3 w-fit min-w-[270px]">
             <div class="flex space-x-3 items-center">
-                <div class="w-[64px] h-[64px] rounded-full bg-[#00C7A3] flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'user']" class="text-[32px] text-white" />
+                <div class="w-[64px] h-[64px] rounded-full bg-[#00C7A3] overflow-hidden flex items-center justify-center">
+                    <img :src="data?.profile_img" class="w-full h-full object-cover" />
                 </div>
-                <p class="text-[20px] text-[#262626] font-medium">ชื่อผู้ใช้</p>
+                <p class="text-[20px] text-[#262626] font-medium">{{ data?.name }}</p>
             </div>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
@@ -54,7 +54,7 @@
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
-            <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
+            <button @click="signOut" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
                 <div class="w-[64px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-[32px] " />
                 </div>
@@ -66,8 +66,10 @@
 </template>
 
 <script setup>
+
 const props = defineProps({
-  show: Boolean
+    show: Boolean,
+    data: Object
 })
 
 const show_modal = ref(false)
@@ -79,4 +81,6 @@ watch(() => props.show, (val) => {
     show_modal.value = false
   }
 })
+
+const { signOut } = useAuth()
 </script>
