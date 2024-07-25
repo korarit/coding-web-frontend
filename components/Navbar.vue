@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full bg-[#FEFEFE] border-b border-[#cecece] drop-shadow-md py-2 xl:py-2 2xl:py-3 flex justify-between px-4 xl:px-16 2xl:px-[96px]">
+    <div class="min-w-full bg-[#FEFEFE] border-b border-[#cecece] drop-shadow-md py-1 xl:py-1 2xl:py-2 flex justify-between px-4 xl:px-16 2xl:px-[96px]">
 
         <!-- logo -->
         <div>
@@ -8,27 +8,27 @@
 
         <!-- menu -->
         <div class="items-center w-fit gap-x-5 hidden xl:flex">
-            <p class="text-[24px] text-[#00C7A3] font-normal text-center"> 
+            <p class="text-[20px] text-[#00C7A3] text-center"> 
                 หน้าหลัก
             </p>
-            <p class="text-[24px] text-[#606060] font-normal text-center"> 
+            <p class="text-[20px] text-[#606060] font-normal text-center"> 
                 โจทย์
             </p>
-            <p class="text-[24px] text-[#606060] font-normal text-center"> 
+            <p class="text-[20px] text-[#606060] font-normal text-center"> 
                 การแข่ง
             </p>
-            <p class="text-[24px] text-[#606060] font-normal text-center"> 
+            <p class="text-[20px] text-[#606060] font-normal text-center"> 
                 ชั้นเรียน
             </p>
-            <button v-if="!props.login_status" class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button v-if="props.login_status != 'authenticated'" class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[6px]">
                 Sing Up
             </button>
-            <button v-if="!props.login_status" @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button v-if="props.login_status  != 'authenticated'" @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
                 Log In
             </button>
-            <button v-if="props.login_status" @click="$emit('openUser')" class="flex items-center">
-                <div class="w-[44px] h-[44px] rounded-full bg-[#262626] flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'user']" class="text-[24px] text-white" />
+            <button v-if="props.login_status  == 'authenticated'" @click="$emit('openUser')" class="flex items-center">
+                <div class="w-[40px] h-[40px] rounded-full bg-[#262626] flex items-center justify-center overflow-hidden">
+                    <img :src="props.profile" class="w-full h-full object-cover" />
                 </div>
             </button>
         </div>
@@ -43,7 +43,8 @@
 
 <script setup>
 const props = defineProps({
-    login_status: Boolean
+    login_status: Boolean,
+    profile: String
 })
 
 </script>
