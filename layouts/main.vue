@@ -1,11 +1,12 @@
 <template>
     <div class="h-[100dvh] flex flex-col max-w-full" :class="show_login_modal ? 'overflow-hidden' : ''">
         <Navbar 
-            :login_status="status_login"
+            :login_status="status"
             @open-login="() => {show_login_modal = true;}"
             @open-user="() => {show_user_modal = !show_user_modal;}"
-        />
 
+            :profile="data?.profile_img"
+        />
             <div class="bg-[#FBFBFB]">
                 <slot>
                 </slot>
@@ -21,7 +22,7 @@
         </div>
 
         <div class="absolute w-fit h-fit top-20 xl:right-16  2xl:right-[96px] hidden xl:block">
-            <ModalUserData :show="show_user_modal" />
+            <ModalUserData :show="show_user_modal" :data="data" />
         </div>
     </div>
 </template>
@@ -44,4 +45,8 @@ const login = (username, password) => {
     console.log(username, password)
     status_login.value = true
 }
+
+///////////////////////// login status /////////////////////////
+
+const { status , data } = useAuth()
 </script>
