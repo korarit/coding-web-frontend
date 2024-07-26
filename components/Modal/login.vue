@@ -57,18 +57,18 @@
         </button>
         <p class="text-center text-sm 2xl:text-[20px] my-4 text-[#606060]">หรือเข้าสู่ระบบด้วย</p>
         <div class="flex justify-center space-x-4 mb-4">
-          <a href="#" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
+          <button class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'github']" class="text-[36px]" />
-          </a>
-          <a href="#" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
+          </button>
+          <button class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'facebook']" class="text-[36px]" />
-          </a>
-          <a href="#" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
+          </button>
+          <button @click="signIn('google')" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'google']" class="text-[36px]" />
-          </a>
-          <a href="#" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
+          </button>
+          <button class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'windows']" class="text-[36px]" />
-          </a>
+          </button>
         </div>
         <p class="text-center text-sm 2xl:text-[20px] text-[#606060] dark:text-[#FEFEFE]">
           ยังไม่มีบัญชีหรือ

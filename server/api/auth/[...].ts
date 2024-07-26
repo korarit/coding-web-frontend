@@ -11,6 +11,7 @@ export default NuxtAuthHandler({
     strategy: 'jwt',
   },
   providers: [
+    // @ts-expect-error Use .default here for it to work during SSR.
     CredentialsProvider.default({
       name: 'credentials',
       credentials: {
@@ -51,18 +52,22 @@ export default NuxtAuthHandler({
         }
       }
     }),
+    // @ts-expect-error Use .default here for it to work during SSR.
     GithubProvider.default({
       clientId: useRuntimeConfig().oauth.github.clientId,
       clientSecret: useRuntimeConfig().oauth.github.clientSecret,
     }),
+    // @ts-expect-error Use .default here for it to work during SSR.
     GoogleProvider.default({
-      clientId: useRuntimeConfig().oauth.google.clientId,
-      clientSecret: useRuntimeConfig().oauth.google.clientSecret,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    // @ts-expect-error Use .default here for it to work during SSR.
     FacebookProvider.default({
       clientId: useRuntimeConfig().oauth.facebook.clientId,
       clientSecret: useRuntimeConfig().oauth.facebook.clientSecret,
     }),
+    // @ts-expect-error Use .default here for it to work during SSR.
     AzureADProvider.default({
       clientId: useRuntimeConfig().oauth.azureAD.clientId,
       clientSecret: useRuntimeConfig().oauth.azureAD.clientSecret,
@@ -71,14 +76,28 @@ export default NuxtAuthHandler({
   ],
   callbacks: {
     async jwt({ token, user , account } : { token: any, user: any, account: any }) {
-      if (user) {
-        token.name = user.name;
-        token.email = user.email;
-        token.image = user.image;
-        token.sessionToken = user.sessionToken;
-        token.provider = account.provider;
-
-        console.log('provider iss : ', account.provider);
+      if (account) {
+        if (account.provider === 'credentials') {
+          if (user) {
+            token.sessionToken = user.sessionToken;
+          }
+        }else {
+          if (account) {
+            const provider:string = account.provider;
+            const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: account.access_token})
+            });
+            if (data_session.status >= 200 && data_session.status < 300) {
+              const data = await data_session.json();
+              // console.log('OAuth login successful:', data.login_token);
+              token.sessionToken = data.login_token;
+            }
+          }
+        }
       }
       return token;
     },
@@ -95,7 +114,7 @@ export default NuxtAuthHandler({
 
         if (data_session.status >= 200 && data_session.status < 300) {
           const data = await data_session.json();
-          console.log('Session fetch successful:', data);
+          // console.log('Session fetch successful:', data);
           return data;
         } else {
           console.error('Session fetch failed:', data_session.statusText);
