@@ -69,9 +69,9 @@ export default NuxtAuthHandler({
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     AzureADProvider.default({
-      clientId: useRuntimeConfig().oauth.azureAD.clientId,
-      clientSecret: useRuntimeConfig().oauth.azureAD.clientSecret,
-      tenantId: useRuntimeConfig().oauth.azureAD.tenantId,
+      clientId: process.env.AZURE_AD_CLIENT_ID,
+      clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+      tenantId: process.env.AZURE_AD_TENANT_ID,
     })
   ],
   callbacks: {
@@ -83,7 +83,7 @@ export default NuxtAuthHandler({
           }
         }else {
           if (account) {
-            const provider:string = account.provider;
+            const provider:string = account.provider.toLowerCase();
             const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
               method: 'POST',
               headers: {
@@ -93,7 +93,7 @@ export default NuxtAuthHandler({
             });
             if (data_session.status >= 200 && data_session.status < 300) {
               const data = await data_session.json();
-              // console.log('OAuth login successful:', data.login_token);
+              console.log('OAuth login successful:', data);
               token.sessionToken = data.login_token;
             }
           }
