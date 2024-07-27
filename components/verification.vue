@@ -3,7 +3,7 @@
     class="sm:w-[50dvh] sm:mx-auto md:w-[50dvh] xl:w-[65dvh] 2xl:w-[80dvh] md:mx-auto lg:w-[80dvh] lg:mx-0"
   >
     <h1
-      class="text-[#00c7A3] mb-10 text-[38px] leading-[48px] 2xl:text-[64px] xl:text-[60px] lg:text-[56px] md:text-[52px] md:mt-[70px] sm:text-[48px] dark:text-[#97E1CB]"
+      class="text-[#00c7A3] mb-10 text-[38px] leading-[48px] 2xl:text-[64px] xl:text-[60px] lg:text-[56px] md:text-[52px] md:mt-[70px] sm:text-[48px] dark:text-[#00C7A3]"
     >
       ยืนยันรหัส OTP
     </h1>
@@ -75,7 +75,7 @@
 
     <div>
       <button
-        class="bg-[#00C7A3] text-[#FEFEFE] drop-shadow-md w-full hover:bg-[rgb(25,156,128)] text-[20px] rounded-lg px-1/4 py-2 2xl:text-[32px] xl:text-[30px] lg:text-[28px] md:text-[24px] sm:text-[22px] dark:bg-[#97E1CB] dark:text-[#0F0F0F] dark:hover:bg-[#7FDBC1]"
+        class="bg-[#00C7A3] text-[#FEFEFE] drop-shadow-md w-full hover:bg-[rgb(25,156,128)] text-[20px] rounded-lg px-1/4 py-2 2xl:text-[32px] xl:text-[30px] lg:text-[28px] md:text-[24px] sm:text-[22px] dark:bg-[#3DD6BA] dark:text-[#0F0F0F] dark:hover:bg-[#00C7A3]"
       >
         ยืนยันรหัส OTP
       </button>
