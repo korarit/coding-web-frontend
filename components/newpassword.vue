@@ -1,7 +1,7 @@
 <template>
   <div class="w-auto h-fit">
     <h1
-      class="text-[#00c7A3] text-[38px] mb-10 leading-[48px] 2xl:text-[64px] xl:text-[60px] lg:text-[56px] md:text-[52px] md:mt-[70px] sm:text-[48px] dark:text-[#97E1CB]"
+      class="text-[#00c7A3] text-[38px] mb-10 leading-[48px] 2xl:text-[64px] xl:text-[60px] lg:text-[56px] md:text-[52px] md:mt-[70px] sm:text-[48px] dark:text-[#00C7A3]"
     >
       สร้างรหัสผ่าน
     </h1>
@@ -33,7 +33,7 @@
       </div>
       <div class="">
         <button
-          class="bg-[#00C7A3] text-[#FEFEFE] drop-shadow-md w-full hover:bg-[rgb(25,156,128)] text-[20px] rounded-lg px-18 py-1 2xl:text-[32px] xl:text-[30px] lg:text-[28px] md:text-[24px] sm:text-[22px] dark:bg-[#] dark:border-[#97E1CB] dark:text-[#0F0F0F] dark:hover:bg-[#7FDBC1]"
+          class="bg-[#00C7A3] text-[#FEFEFE] drop-shadow-md w-full hover:bg-[rgb(25,156,128)] text-[20px] rounded-lg px-18 py-1 2xl:text-[32px] xl:text-[30px] lg:text-[28px] md:text-[24px] sm:text-[22px] dark:bg-[#3DD6BA] dark:border-[#97E1CB] dark:text-[#0F0F0F] dark:hover:bg-[#00C7A3]"
         >
           ตั้งรหัสผ่านใหม่
         </button>
