@@ -66,7 +66,7 @@
           <button @click="signIn('google')" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'google']" class="text-[36px]" />
           </button>
-          <button class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
+          <button @click="signIn('azure-ad')" class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'windows']" class="text-[36px]" />
           </button>
         </div>
