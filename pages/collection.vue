@@ -1,68 +1,68 @@
 <template>
-  <NuxtLayout name="main">
+  <NuxtLayout name="defaultmain">
     <div
-      class="bg-[#FBFBFB] min-h-[calc(100dvh-270px)] p-6 sm:px-[50px] sm:mt-[5px] md:mt-[10px] md:px-[60px] lg:mt-[15px] lg:px-[70px] xl:mt-[20px] xl:px-[80px] 2xl:mt-[25px] 2xl:px-[96px]"
+      class=" min-h-[calc(100dvh-270px)] sm:px-[50px] md:px-[60px] lg:px-[70px] xl:px-[80px] pt-[64px] 2xl:px-[96px]"
     >
       <div class="relative min-h-[80px] h-fit w-full">
         <div
-          class="absolute z-0 top-1/2 -translate-y-1/2 w-full h-fit pr-[4px] flex gap-3 sm:gap-5 pb-4 items-center overflow-hidden"
+          class="absolute z-0 top-1/2 -translate-y-1/2 w-full h-fit pr-[4px] flex gap-3 md:gap-5 pb-4 items-center overflow-hidden"
         >
           <button
-            class="sm:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#00B191] text-[#FCFCFC] bg-[#00C7A3] hover:bg-[rgb(25,156,128)] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[3px] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:border-[#00B191]"
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#00B191] text-[#FCFCFC] bg-[#00C7A3] hover:bg-[rgb(25,156,128)] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[3px] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:border-[#00B191]"
           >
             <font-awesome-icon
               :icon="['fas', 'box-archive']"
-              class="text-[0px] text-[#FFFFFF] dark:text-[#0F0F0F] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] sm:mr-2"
+              class="text-[0px] text-[#FFFFFF] dark:text-[#0F0F0F] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2"
             />
             <p class="whitespace-nowrap">All Topics</p>
           </button>
 
           <button
-            class="w-[50%] sm:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[3px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[3px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
           >
             <font-awesome-icon
               :icon="['fas', 'code']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] mr-2"
+              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2"
             />
             Algorithm
           </button>
 
           <button
-            class="w-[50%] sm:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
           >
             <font-awesome-icon
               :icon="['fab', 'js']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] mr-2"
+              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2"
             />
             JavaScript
           </button>
 
           <button
-            class="w-[50%] sm:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
           >
             <font-awesome-icon
               :icon="['fas', 'person-running']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] mr-2"
+              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2"
             />
             Contest
           </button>
 
           <button
-            class="w-[50%] sm:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]"
           >
             <font-awesome-icon
               :icon="['fab', 'python']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] mr-2"
+              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2"
             />
             Python
           </button>
 
           <button
-            class="w-[50%] sm:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#00B191]"
+            class="w-[50%] sm:w-[30%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#00B191]"
           >
             <font-awesome-icon
               :icon="['fab', 'java']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] mr-2"
+              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2"
             />
             Java
           </button>
@@ -71,50 +71,52 @@
           class="absolute w-[104px] z-10 right-0 top-1/2 -translate-y-1/2 flex self-end min-h-full text-label-3 dark:text-dark-label-3"
         >
           <span
-            class="from-[#FAFAFA] min-h-full to-transparent dark:from-dark-paper w-16 bg-gradient-to-l"
+            class="from-[#FAFAFA] dark:from-[#0F0F0F] min-h-full to-transparent dark:from-dark-paper w-16 bg-gradient-to-l"
           >
           </span>
           <span
-            class="bg-[#FAFAFA] min-h-full dark:bg-dark-paper flex w-10 cursor-pointer items-center pl-1 font-normal text-[20px] text-[#606060] dark:text-dark-label-3"
+            class="bg-[#FAFAFA] dark:bg-[#0F0F0F] min-h-full dark:bg-dark-paper w-10 cursor-pointer pl-1 font-normal text-[20px] text-[#606060] dark:text-dark-label-3"
           >
-            >>
+            <div class="flex items-center h-[80%] dark:text-white">
+              >>
+            </div>
           </span>
         </div>
       </div>
 
-      <div class="pr-[4px] grid grid-cols-6 gap-5 items-center">
+      <div class="pr-[4px] grid grid-cols-6 gap-3 lg:gap-5 items-center">
         <button
-          class="col-span-2 sm:col-span-1 border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[15px] md:py-[12px] sm:text-[13px] sm:px-[1px] sm:py-[9px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+          class="col-span-2 sm:col-span-1 border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
         >
           ความยาก
           <font-awesome-icon
-            class="text-[#4F4F4F] dark:text-[#8A8A8A] text-[20px] 2xl:text-[32px] xl:text-[31px] lg:text-[30px] md:text-[22px] sm:text-[18px] pr-0.5"
+            class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
             :icon="['fas', 'caret-down']"
           />
         </button>
 
         <button
-          class="col-span-2 sm:col-span-1 border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+          class="col-span-2 sm:col-span-1 border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
         >
           สถานะ
           <font-awesome-icon
-            class="text-[#4F4F4F] dark:text-[#8A8A8A] text-[20px] 2xl:text-[32px] xl:text-[31px] lg:text-[30px] md:text-[29px] sm:text-[22px]"
+            class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
             :icon="['fas', 'caret-down']"
           />
         </button>
 
         <button
-          class="col-span-2 sm:col-span-1 border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+          class="col-span-2 sm:col-span-1 border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
         >
           tag
           <font-awesome-icon
-            class="text-[#4F4F4F] dark:text-[#8A8A8A] text-[20px] 2xl:text-[32px] xl:text-[31px] lg:text-[30px] md:text-[29px] sm:text-[22px]"
+            class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
             :icon="['fas', 'caret-down']"
           />
         </button>
         <div class="relative col-span-5 sm:col-span-2">
           <input
-            class="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md pl-12 2xl:text-[22px] xl:text-[21px] lg:text-[18px] md:text-[19px] sm:text-[15px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+            class="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md pl-12 2xl:text-[22px] xl:text-[21px] lg:text-[18px] md:text-[19px] sm:text-[15px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             type="search"
             name="search"
             placeholder="ค้นหา"
