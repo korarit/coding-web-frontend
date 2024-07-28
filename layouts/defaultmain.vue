@@ -7,7 +7,7 @@
 
             :profile="data?.profile_img"
         />
-            <div class="bg-[#FBFBFB]">
+            <div class="bg-[#FBFBFB] dark:bg-[#0F0F0F]">
                 <slot>
                 </slot>
             </div>
@@ -21,7 +21,7 @@
             />
         </div>
 
-        <div class="absolute w-fit h-fit top-20 xl:right-16  2xl:right-[96px] hidden xl:block">
+        <div class="absolute z-50 w-fit h-fit top-20 xl:right-16  2xl:right-[96px] hidden xl:block">
             <ModalUserData :show="show_user_modal" :data="data" />
         </div>
     </div>
