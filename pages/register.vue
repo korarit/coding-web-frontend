@@ -34,7 +34,7 @@
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
-                            class="w-full bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-white text-[24px] py-[2px] rounded text-md dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:active:bg-[#00C7A3]">
+                            class="w-full bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-white dark:text-[#0F0F0F] text-[24px] py-[2px] rounded text-md dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:active:bg-[#00C7A3]">
                             สมัคร
                         </button>
                     </div>
