@@ -54,8 +54,8 @@ export default NuxtAuthHandler({
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     GithubProvider.default({
-      clientId: useRuntimeConfig().oauth.github.clientId,
-      clientSecret: useRuntimeConfig().oauth.github.clientSecret,
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     GoogleProvider.default({
@@ -82,20 +82,18 @@ export default NuxtAuthHandler({
             token.sessionToken = user.sessionToken;
           }
         }else {
-          if (account) {
-            const provider:string = account.provider.toLowerCase();
-            const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
-              method: 'POST',
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: account.access_token})
-            });
-            if (data_session.status >= 200 && data_session.status < 300) {
-              const data = await data_session.json();
-              console.log('OAuth login successful:', data);
-              token.sessionToken = data.login_token;
-            }
+          const provider:string = account.provider.toLowerCase();
+          const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: account.access_token})
+          });
+          if (data_session.status >= 200 && data_session.status < 300) {
+            const data = await data_session.json();
+            // console.log('OAuth login successful:', data);
+            token.sessionToken = data.login_token;
           }
         }
       }
