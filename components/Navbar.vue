@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full bg-[#FEFEFE] border-b border-[#cecece] drop-shadow-md py-1 xl:py-1 2xl:py-2 flex justify-between px-4 xl:px-16 2xl:px-[96px]">
+    <div class="min-w-full bg-[#FEFEFE] border-b border-[#cecece] drop-shadow-md py-3 flex justify-between px-4 xl:px-16 2xl:px-[96px]">
 
         <!-- logo -->
         <div>
@@ -20,21 +20,21 @@
             <p class="text-[20px] text-[#606060] font-normal text-center"> 
                 ชั้นเรียน
             </p>
-            <button v-if="props.login_status != 'authenticated'" class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button v-if="props.login_status != 'authenticated'" class="rounded-md drop-shadow-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] text-[20px] text-white font-medium px-3 py-[4px]">
                 Sing Up
             </button>
-            <button v-if="props.login_status  != 'authenticated'" @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[6px]">
+            <button v-if="props.login_status  != 'authenticated'" @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] text-white font-medium px-3 py-[4px]">
                 Log In
             </button>
             <button v-if="props.login_status  == 'authenticated'" @click="$emit('openUser')" class="flex items-center">
-                <div class="w-[40px] h-[40px] rounded-full bg-[#262626] flex items-center justify-center overflow-hidden">
+                <div class="w-[42px] h-[42px] rounded-full bg-[#262626] flex items-center justify-center overflow-hidden">
                     <img :src="props.profile" class="w-full h-full object-cover" />
                 </div>
             </button>
         </div>
         <!-- mobile menu -->
         <div class="flex xl:hidden">
-            <button class="text-[40px] text-[#00C7A3] hover:text-[#199c80] active:text-[#199c80] font-medium px-3 flex items-center">
+            <button class="text-[42px] text-[#00C7A3] hover:text-[#199c80] active:text-[#199c80] font-medium px-3 flex items-center">
                 <font-awesome-icon :icon="['fas', 'bars']" />
             </button>
         </div>
@@ -43,7 +43,7 @@
 
 <script setup>
 const props = defineProps({
-    login_status: Boolean,
+    login_status: String,
     profile: String
 })
 
