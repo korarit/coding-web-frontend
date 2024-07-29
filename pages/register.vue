@@ -29,8 +29,8 @@
                         <input type="password" placeholder="Password Confrim"
                             class="w-full p-2 dark:bg-[#262626] border border-gray-300 rounded hover:border-gray-500 dark:border-[#626262] dark:text-white" />
                     </div>
-                    <div class="mb-4 flex items-center justify-center">
-                        <!-- Example of a ReCAPTCHA placeholder -->
+                    <div class="mb-4 flex justify-center">
+                        <NuxtTurnstile v-model="turnstile_token" />
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
@@ -84,5 +84,7 @@ onMounted(() => {
 })
 
 const {open_modal_login} = useLoginModalControl()
+
+const turnstile_token = ref<String | null>(null)
 
 </script>
