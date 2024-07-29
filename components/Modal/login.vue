@@ -167,7 +167,7 @@ const checkInput = async () => {
 
     const res = await signIn('credentials',login_data)
     console.log(res)
-    if(res?.error !== undefined || res?.error !== null || res?.error !== ''){
+    if(res?.error !== null){
       error.value = res?.error
       turnstile_ref.value?.reset()
     }else{
