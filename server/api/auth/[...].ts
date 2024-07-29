@@ -15,6 +15,7 @@ export default NuxtAuthHandler({
     CredentialsProvider.default({
       name: 'credentials',
       credentials: {
+        turnstile_token: { label: "Turnstile Token", type: "text" },
         type: { label: "Type", type: "text" },
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
@@ -24,10 +25,9 @@ export default NuxtAuthHandler({
           console.error('No credentials provided');
           return null;
         }
-        try {
           const response = await fetch(`${useRuntimeConfig().apiBase}/auth/login`, {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" , "Turnstile-Token": credentials.turnstile_token},
             body: JSON.stringify({
               type: credentials.type,
               username: credentials.username,
@@ -43,13 +43,10 @@ export default NuxtAuthHandler({
               sessionToken: data.login_token
             };
           } else {
-            console.error('Authentication failed:', response.statusText);
-            return null;
+            const data = await response.json();
+            // console.error('Authentication failed:', data);
+            throw new Error(data.message);
           }
-        } catch (error) {
-          console.error('Error during authorization:', error);
-          return null;
-        }
       }
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
@@ -61,11 +58,6 @@ export default NuxtAuthHandler({
     GoogleProvider.default({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-    // @ts-expect-error Use .default here for it to work during SSR.
-    FacebookProvider.default({
-      clientId: useRuntimeConfig().oauth.facebook.clientId,
-      clientSecret: useRuntimeConfig().oauth.facebook.clientSecret,
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     AzureADProvider.default({

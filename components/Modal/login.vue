@@ -10,18 +10,22 @@
     leave-to-class="opacity-0 translate-y-full"
   >
     <div v-show="show_modal" class="bg-white dark:bg-[#3D3D3D] dark:border-[#676767] p-6 rounded-lg shadow-lg w-[90dvw] sm:w-96 2xl:w-[24dvw]">
-      <div class="flex justify-between">
+      <div class="flex justify-between mb-4">
         <div>
           <h2 class="text-[26px] lg:text-[34px] xl:text-[32px] 2xl:text-[36px] text-[#00c7a3]">
             ยินดีต้อนรับกลับมา!
           </h2>
-          <p class="text-[22px] 2xl:text-[28px] text-[#606060] dark:text-[#FEFEFE] mb-4">เข้าสู่ระบบบัญชีของคุณ</p>
+          <p class="text-[22px] 2xl:text-[28px] text-[#606060] dark:text-[#FEFEFE]">เข้าสู่ระบบบัญชีของคุณ</p>
         </div>
         <button class="flex items-center justify-center w-[15%]" @click="closeModal">
           <font-awesome-icon :icon="['fas', 'xmark']"
             class="text-[34px] lg:text-[42px] xl:text-[40px] 2xl:text-[56px] text-[#606060] hover:text-[#000000] active:text-black dark:text-[#FEFEFE] dark:hover:text-[#b0b0b0] dark:active:text-black" />
         </button>
       </div>
+
+        <div v-if="error != null" class="text-red-500 text-[16px] 2xl:text-[20px] leading-5 mb-2">
+          {{ error }}
+        </div>
 
         <div class="mb-4">
           <label for="username" class="sr-only">Username / Email</label>
@@ -42,7 +46,7 @@
           />
           <p v-show="password_error" class="text-red-500 text-[12px] 2xl:text-[16px]">กรุณากรอกรหัสผ่าน</p>
         </div>
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between">
           <label class="flex items-center text-sm 2xl:text-[20px] text-gray-600 dark:text-[#FEFEFE]">
             <input type="checkbox" class="mr-2 h-4 w-4" />
             จดจำฉัน
@@ -50,6 +54,10 @@
           <p class="text-blue-500 hover:text-blue-700 text-sm 2xl:text-[20px]">
             <a href="#" class="underline underline-offset-2">ลืมรหัสผ่าน</a>?
           </p>
+        </div>
+
+        <div class="mt-5 mb-5 mx-auto w-fit">
+          <NuxtTurnstile ref="turnstile_ref" v-model="turnstile_token" />
         </div>
 
         <button @click="checkInput" class="w-full bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:active:bg-[#00C7A3] 2xl:text-[24px] text-white dark:text-[#0f0f0f] p-2 rounded">
@@ -110,6 +118,9 @@ const closeModal = () => {
 ///////////// check input //////////////
 const username = ref('')
 const username_error = ref(false)
+const turnstile_token = ref<string | null>(null)
+const turnstile_ref = ref()
+
 watch(username, (val) => {
   if (val !== '' && username_error.value === true) {
     username_error.value = false
@@ -125,8 +136,9 @@ watch(password, (val) => {
 })
 
 const { signIn } = useAuth()
+const error = ref<string | null | undefined>(null)
 const checkInput = async () => {
-  if (username.value === '' || password.value === '') {
+  if (username.value === '' || password.value === '' || turnstile_token === null) {
     if (username.value === '') {
       username_error.value = true
     }
@@ -146,13 +158,21 @@ const checkInput = async () => {
     }
 
     const login_data = {
+      turnstile_token: turnstile_token.value,
       type: type,
       username: username.value,
-      password: password.value
+      password: password.value,
+      redirect: false
     }
 
-    await signIn('credentials',login_data)
-    closeModal()
+    const res = await signIn('credentials',login_data)
+    console.log(res)
+    if(res?.error !== undefined || res?.error !== null || res?.error !== ''){
+      error.value = res?.error
+      turnstile_ref.value?.reset()
+    }else{
+      closeModal()
+    }
   }
 }
 
