@@ -14,24 +14,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
-    oauth:{
-      google:{
-        clientId: process.env.GOOGLE_CLIENT_ID || 'GOOGLE_ID',
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'GOOGLE_SECRET'
-      },
-      facebook:{
-        clientId: process.env.FACEBOOK_CLIENT_ID || 'FACEBOOK_ID',
-        clientSecret: process.env.FACEBOOK_CLIENT_SECRET || 'FACEBOOK_SECRET'
-      },
-      azureAD:{
-        clientId: process.env.AZURE_AD_CLIENT_ID || 'AZURE_AD_ID',
-        clientSecret: process.env.AZURE_AD_CLIENT_SECRET || 'AZURE_AD_SECRET',
-        tenantId: process.env.AZURE_AD_TENANT_ID || 'AZURE_AD_TENANT_ID'
-      },
-      github:{
-        clientId: process.env.GITHUB_CLIENT_ID || 'GITHUB_ID',
-        clientSecret: process.env.GITHUB_CLIENT_SECRET || 'GITHUB_SECRET'
-      }
+    turnstile:{
+      secretKey: process.env.TURNSTILE_SECRET_KEY
     }
   },
   
@@ -39,7 +23,8 @@ export default defineNuxtConfig({
     ["@nuxtjs/google-fonts",{families:{Kanit: [100,200,300,400,500,600,700,800,900]}}],
     "nuxt-monaco-editor",
     '@vueuse/nuxt',
-    "@sidebase/nuxt-auth"
+    "@sidebase/nuxt-auth",
+    "@nuxtjs/turnstile"
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],
@@ -54,5 +39,9 @@ export default defineNuxtConfig({
       defaultProvider: 'credentials',
       addDefaultCallbackUrl: true
     }
+  },
+
+  turnstile: { 
+    siteKey: process.env.TURNSTILE_SITE_KEY,
   }
 })
