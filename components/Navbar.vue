@@ -20,9 +20,9 @@
             <p class="text-[20px] text-[#606060] dark:text-[#FEFEFE] font-normal text-center"> 
                 ชั้นเรียน
             </p>
-            <button v-if="props.login_status != 'authenticated'" class="rounded-md drop-shadow-md bg-[#606060] dark:bg-[#FEFEFE] hover:bg-[#303030] dark:hover:bg-[#a0a0a0] active:bg-[#303030] dark:active:bg-[#a0a0a0] text-[20px] text-white dark:text-[#0F0F0F] font-medium px-3 py-[4px]">
+            <NuxtLink v-if="props.login_status != 'authenticated'" to="/register" class="rounded-md drop-shadow-md bg-[#606060] dark:bg-[#FEFEFE] hover:bg-[#303030] dark:hover:bg-[#a0a0a0] active:bg-[#303030] dark:active:bg-[#a0a0a0] text-[20px] text-white dark:text-[#0F0F0F] font-medium px-3 py-[4px]">
                 Sing Up
-            </button>
+            </NuxtLink>
             <button v-if="props.login_status  != 'authenticated'" @click="$emit('openLogin')" class="rounded-md drop-shadow-md bg-[#00C7A3] dark:bg-[#3DD6BA] hover:bg-[#199c80] dark:hover:bg-[#00C7A3] active:bg-[#199c80] dark:active:bg-[#00C7A3] text-[20px] text-white dark:text-[#0F0F0F] font-medium px-3 py-[4px]">
                 Log In
             </button>
@@ -42,6 +42,7 @@
 </template>
 
 <script setup>
+
 const props = defineProps({
     login_status: String,
     profile: String
