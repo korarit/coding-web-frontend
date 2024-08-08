@@ -108,7 +108,7 @@ export default NuxtAuthHandler({
           return data;
         } else {
           console.error('Session fetch failed:', data_session.statusText);
-          return session;
+          return null;
         }
       } catch (error) {
         console.error('Error during session fetch:', error);
