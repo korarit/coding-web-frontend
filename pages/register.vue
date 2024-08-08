@@ -2,12 +2,14 @@
     <NuxtLayout>
         <div class="flex justify-center h-fit  dark:bg-[#0F0F0F] bg-[#FBFBFB] max-w-[100%] pt-[32px] sm:py-[64px]">
             <div class="bg-white h-fit dark:bg-[#3D3D3D] p-6 border border-[#afafaf] dark:border-[#1B1B1B] rounded-lg shadow-lg w-[90dvw] sm:w-96">
-                <div class="w-[164px] h-[164px] mx-auto rounded-full bg-[#555555] flex items-center justify-center mb-6 relative overflow-hidden">
-                    <button class="absolute bottom-0 w-full h-[40px] bg-[#10101095] text-white text-[20px] font-medium flex items-center justify-center">
-                            Upload
-                    </button>
+                <div class="w-[164px] h-[164px] mx-auto rounded-full bg-[#555555] bg-cover bg-center flex items-center justify-center mb-6 relative overflow-hidden"
+                    :style="{backgroundImage : 'url(' + image_crop + ')'}"
+                >
+                    <label for="imageProfile" class="absolute cursor-pointer bottom-0 w-full h-[40px] bg-[#10101095] text-white text-[18px] font-medium flex items-center justify-center">
+                            อัพโหลด
+                    </label>
+                    <input id="imageProfile" type="file" hidden @change="profile_upload" />
                 </div>
-                <input type="file" class="hidden" />
                 <div class="flex flex-col">
                     <div class="mb-4 font-light">
                         <input type="text" placeholder="Username"
@@ -63,6 +65,15 @@
                 </div>
             </div>
         </div>
+
+        <div v-show="modal" class="absolute min-w-full h-[100dvh] top-0 left-0">
+            <ModalImageCrop 
+                :show="modal"
+                :image="image_for_crop" 
+                @close-modal="closeImageCrop" 
+                @image-output="CropImg"
+            />
+        </div>
     </NuxtLayout>
 </template>
 
@@ -83,6 +94,65 @@ onMounted(() => {
     }
 })
 
+const modal = ref(false)
+
+///////////////////// Image Crop ///////////////////////
+const {open_modal, close_modal} = useModalControl()
+const openImageCrop = () => {
+    modal.value = true
+    open_modal()
+}
+const closeImageCrop = () => {
+    if (modal.value) {
+        modal.value = false
+        close_modal()
+    }
+}
+
+
+const image_for_crop = ref<string>('');
+
+function profile_upload(event: any) {
+    if (!event.target) {
+        return;
+    }
+    const el = event.target as HTMLInputElement;
+    if (!el.files) {
+        return;
+    }
+    var file = el.files[0];
+    if (file) {
+        //check file type is image
+        if (file.type.split('/')[0] !== 'image') {
+            alert('Please select image file');
+            return;
+        }
+        if (image_for_crop.value) {
+            URL.revokeObjectURL(image_for_crop.value);
+        }
+        const blob = URL.createObjectURL(file);
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            image_for_crop.value = blob;
+            //เปิด modal ตัดรูป หลังจากเลือกรูป
+            if (image_for_crop.value !== '') {
+                openImageCrop();
+            }
+            //console.log(this.profile_img);
+        };
+        reader.readAsArrayBuffer(file);
+    }
+}
+
+const image_crop = ref<string>('');
+const profile_img_blob = ref<Blob | null>(null);
+function CropImg(blob: Blob) {
+    image_crop.value = URL.createObjectURL(blob);
+    profile_img_blob.value = blob;
+}
+
+
+///////////////////// Login modal control ///////////////////////
 const {open_modal_login} = useLoginModalControl()
 
 const turnstile_token = ref<String | null>(null)
