@@ -6,6 +6,8 @@
             @open-user="() => {show_user_modal = !show_user_modal;}"
 
             :profile="data?.profile_img"
+            :fullname="data?.name[0]"
+            :page_name="props.page_name"
         />
             <div class="bg-[#FBFBFB] dark:bg-[#0F0F0F]">
                 <slot>
@@ -34,6 +36,9 @@ body {
 }
 </style>
 <script setup>
+const props = defineProps({
+    page_name: String
+})
 
 ///////////////////////// modal control /////////////////////////
 const show_user_modal = ref(false)
