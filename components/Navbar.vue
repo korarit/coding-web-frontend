@@ -8,18 +8,35 @@
 
         <!-- menu -->
         <div class="items-center w-fit gap-x-5 hidden xl:flex">
-            <p class="text-[20px] text-[#00C7A3] dark:text-[#3DD6BA] text-center"> 
+            <NuxtLink 
+                to="/"
+                class="text-[20px] text-center" 
+                :class="props.page_name === 'หน้าหลัก' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
+            >
                 หน้าหลัก
-            </p>
-            <p class="text-[20px] text-[#606060] dark:text-[#FEFEFE] font-normal text-center"> 
+            </NuxtLink>
+            <NuxtLink 
+                to="/collection"
+                class="text-[20px] text-center" 
+                :class="props.page_name === 'โจทย์' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
+            >
                 โจทย์
-            </p>
-            <p class="text-[20px] text-[#606060] dark:text-[#FEFEFE] font-normal text-center"> 
+            </NuxtLink>
+            <NuxtLink 
+                to="/"
+                class="text-[20px] text-center" 
+                :class="props.page_name === 'การแข่ง' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
+            > 
                 การแข่ง
-            </p>
-            <p class="text-[20px] text-[#606060] dark:text-[#FEFEFE] font-normal text-center"> 
+            </NuxtLink>
+            <NuxtLink 
+                to="/"
+                class="text-[20px] text-center" 
+                :class="props.page_name === 'ชั้นเรียน' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
+            > 
                 ชั้นเรียน
-            </p>
+            </NuxtLink>
+
             <NuxtLink v-if="props.login_status != 'authenticated'" to="/register" class="rounded-md drop-shadow-md bg-[#606060] dark:bg-[#FEFEFE] hover:bg-[#303030] dark:hover:bg-[#a0a0a0] active:bg-[#303030] dark:active:bg-[#a0a0a0] text-[20px] text-white dark:text-[#0F0F0F] font-medium px-3 py-[4px]">
                 Sing Up
             </NuxtLink>
@@ -28,7 +45,8 @@
             </button>
             <button v-if="props.login_status  == 'authenticated'" @click="$emit('openUser')" class="flex items-center">
                 <div class="w-[42px] h-[42px] rounded-full bg-[#262626] flex items-center justify-center overflow-hidden">
-                    <img :src="props.profile" class="w-full h-full object-cover" />
+                    <img v-if="props.profile !== null" :src="props.profile" class="w-full h-full object-cover" />
+                    <p v-else class="text-[32px] text-[#FEFEFE]">{{ props.fullname }}</p>
                 </div>
             </button>
         </div>
@@ -43,9 +61,13 @@
 
 <script setup>
 
+
 const props = defineProps({
     login_status: String,
-    profile: String
+    profile: String,
+    fullname: String,
+
+    page_name: String
 })
 
 </script>
