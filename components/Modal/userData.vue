@@ -11,7 +11,8 @@
         <div class="flex flex-col space-y-3 w-fit min-w-[270px]">
             <div class="flex space-x-3 items-center">
                 <div class="w-[64px] h-[64px] rounded-full bg-[#00C7A3] overflow-hidden flex items-center justify-center">
-                    <img :src="data?.profile_img" class="w-full h-full object-cover" />
+                    <img v-if="data?.profile_img != null" :src="data?.profile_img" class="w-full h-full object-cover" />
+                    <p v-else class="text-[40px] text-[#FEFEFE]">{{ data?.name[0] }}</p>
                 </div>
                 <p class="text-[20px] text-[#262626] font-medium">{{ data?.name }}</p>
             </div>
