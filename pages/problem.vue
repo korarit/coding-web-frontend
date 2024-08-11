@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="defaultmain">
+    <NuxtLayout name="defaultmain" page_name="">
       <div :class="`min-h-[calc(100dvh-65px)] h-fit max-w-[100%] ${isFullscreen ? 'pt-[48px] sm:h-[64px]' : 'pt-[32px] sm:pt-[64px]'} flex flex-col`" id="main_screen">
         <div class="min-h-full h-fit px-4 xl:px-16 2xl:px-[96px] gap-x-5 gap-y-8 flex-grow">
           <!-- Your content here -->

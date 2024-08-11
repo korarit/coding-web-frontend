@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="defaultmain">
+  <NuxtLayout name="defaultmain" page_name="โจทย์">
     <div
       class=" min-h-[calc(100dvh-270px)] sm:px-[50px] md:px-[60px] lg:px-[70px] xl:px-[80px] pt-[64px] 2xl:px-[96px]"
     >
