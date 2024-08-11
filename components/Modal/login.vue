@@ -51,9 +51,9 @@
             <input type="checkbox" class="mr-2 h-4 w-4" />
             จดจำฉัน
           </label>
-          <p class="text-blue-500 hover:text-blue-700 text-sm 2xl:text-[20px]">
-            <a href="#" class="underline underline-offset-2">ลืมรหัสผ่าน</a>?
-          </p>
+          <NuxtLink to="/forget-password" @click="closeModal" class="text-blue-500 hover:text-blue-700 text-sm 2xl:text-[20px]">
+            <span class="underline underline-offset-2">ลืมรหัสผ่าน</span>?
+          </NuxtLink>
         </div>
 
         <div class="mt-5 mb-5 mx-auto w-fit">
