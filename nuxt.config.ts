@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
     turnstile:{
       secretKey: process.env.TURNSTILE_SECRET_KEY
+    },
+    public:{
+      backendApi: process.env.API_BASE_URL || 'http://localhost:3000'
     }
   },
   
@@ -24,7 +27,8 @@ export default defineNuxtConfig({
     "nuxt-monaco-editor",
     '@vueuse/nuxt',
     "@sidebase/nuxt-auth",
-    "@nuxtjs/turnstile"
+    "@nuxtjs/turnstile",
+    "dayjs-nuxt"
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],
@@ -43,5 +47,11 @@ export default defineNuxtConfig({
 
   turnstile: { 
     siteKey: process.env.TURNSTILE_SITE_KEY,
-  }
+  },
+  dayjs: {
+    externalPlugins: [{
+      name: 'timezone',
+      package: 'dayjs/plugin/timezone',
+    }]
+  },
 })
