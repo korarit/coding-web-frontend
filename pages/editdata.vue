@@ -7,10 +7,10 @@
         <div class="flex items-center justify-center mb-4">
           <div class="relative">
             <div
-              class="w-[15dvh] h-[15dvh] xl:w-[25dvh] xl:h-[25dvh] 2xl:w-[22dvh] 2xl:h-[22dvh] sm:w-[20dvh] sm:h-[20dvh] lg:w-[22dvh] lg:h-[22dvh] rounded-full bg-[#d9d9d9] flex items-center justify-center mb-4 relative overflow-hidden"
+              class="w-[14dvh] h-[14dvh] xl:w-[20dvh] xl:h-[20dvh] 2xl:w-[20dvh] 2xl:h-[20dvh] sm:w-[16dvh] sm:h-[16dvh] lg:w-[18dvh] lg:h-[18dvh] rounded-full bg-[#d9d9d9] flex items-center justify-center mb-4 relative overflow-hidden"
             >
               <div
-                class="absolute bottom-0 w-full h-8 bg-[#10101095] text-white flex items-center justify-center"
+                class="absolute bottom-0 w-full xl:h-[5dvh] 2xl:h-[5dvh] sm:h-[4dvh] lg:h-[4dvh] 2xl:text-[28px] xl:text-[26px] lg:text-[24px] md:text-[22px] sm:text-[20px] h-8 bg-[#10101095] text-white flex items-center justify-center"
               >
                 Upload
               </div>
