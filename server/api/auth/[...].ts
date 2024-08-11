@@ -37,14 +37,50 @@ export default NuxtAuthHandler({
           if (response.status == 200) {
             const data = await response.json();
             return {
-              name: data.name,
-              email: data.email,
-              image: data.image,
               sessionToken: data.login_token
             };
           } else {
             const data = await response.json();
             // console.error('Authentication failed:', data);
+            throw new Error(data.message);
+          }
+      }
+    }),
+    // @ts-expect-error Use .default here for it to work during SSR.
+    CredentialsProvider.default({
+      id: 'register',
+      name: 'register',
+      credentials: {
+        email: { label: "email", type: "text" },
+        password: { label: "Password", type: "password" },
+        otp: { label: "OTP", type: "text" },
+        otp_code: { label: "OTP Code", type: "text" }
+      },
+      async authorize(credentials : any) {
+        if (!credentials) {
+          console.error('No credentials provided');
+          return null;
+        }
+
+          const response = await fetch(`${useRuntimeConfig().apiBase}/auth/register/login`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+              otp: credentials.otp,
+              otp_code: credentials.otp_code
+            })
+          });
+          if (response.status == 200) {
+            const data = await response.json();
+            console.log('Register successful:', data);
+            return {
+              sessionToken: data.login_token
+            };
+          } else {
+            const data = await response.json();
+            console.error('Authentication failed:', data);
             throw new Error(data.message);
           }
       }
@@ -69,7 +105,7 @@ export default NuxtAuthHandler({
   callbacks: {
     async jwt({ token, user , account } : { token: any, user: any, account: any }) {
       if (account) {
-        if (account.provider === 'credentials') {
+        if (account.provider === 'credentials' || account.provider === 'register') {
           if (user) {
             token.sessionToken = user.sessionToken;
           }
