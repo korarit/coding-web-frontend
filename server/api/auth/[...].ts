@@ -141,7 +141,10 @@ export default NuxtAuthHandler({
         if (data_session.status >= 200 && data_session.status < 300) {
           const data = await data_session.json();
           // console.log('Session fetch successful:', data);
-          return data;
+          return {
+            ...data,
+            sessionToken: token.sessionToken,
+          };
         } else {
           console.error('Session fetch failed:', data_session.statusText);
           return null;
