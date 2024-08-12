@@ -16,12 +16,12 @@
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-x-10 gap-y-4 mx-auto w-full sm:w-fit mt-6 md:mt-8 xl:mt-12">
-                        <button class="rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md h-full sm:px-12  text-[24px] md:text-[28px] xl:text-[40px] text-[#FEFEFE] font-medium">
+                        <NuxtLink to="/register" class="rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md h-full sm:px-12  text-[24px] md:text-[28px] xl:text-[40px] text-[#FEFEFE] font-medium">
                             เข้าร่วม
-                        </button>
-                        <button class="rounded-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] drop-shadow-md h-full sm:px-12 text-[24px] md:text-[28px] xl:text-[40px] text-[#FEFEFE] font-medium">
+                        </NuxtLink>
+                        <NuxtLink to="/collection" class="rounded-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] drop-shadow-md h-full sm:px-12 text-[24px] md:text-[28px] xl:text-[40px] text-[#FEFEFE] font-medium">
                             ดูโจทย์
-                        </button>
+                        </NuxtLink>
                     </div>
                 </div>
 
@@ -125,9 +125,9 @@
                                 <p class="text-[32px] md:text-[28px] xl:text-[32px] text-[#606060] font-medium">คน</p>
                             </div>
                             <div class="w-fit h-fit mx-auto mt-4 xl:mt-10">
-                                <button class="py-1 px-12 rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md text-[40px] text-[#FEFEFE] font-medium">
+                                <NuxtLink to="/register" class="py-1 px-12 rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md text-[40px] text-[#FEFEFE] font-medium">
                                     เข้าร่วมกับเรา
-                                </button>
+                                </NuxtLink>
                             </div>
                         </div>
                     </div>
@@ -144,4 +144,12 @@
 definePageMeta({
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/'}
 })
+
+const {open_modal_login} = useLoginModalControl()
+const {open_modal} = useModalControl()
+
+const openLogin = () => {
+    open_modal_login()
+    open_modal()
+}
 </script>
