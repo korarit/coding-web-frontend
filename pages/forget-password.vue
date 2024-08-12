@@ -31,15 +31,18 @@
             v-else-if="step === 2"
             :otp_code="otp_code"
             :expire="expire_otp"
-            v-model="otp"
             :error="otp_error"
 
             @check-otp="checkOTP"
           />
           <ForgetPassword 
             v-else-if="step === 3"
+            :error="setPasswordError"
 
             @reset-password="resetPassword"
+          />
+          <ForgetLogin 
+            v-else-if="step === 4"
           />
 
         </div>
@@ -49,8 +52,20 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/'}
+})
+// หากมีการเข้าสู่ระบบแล้ว ให้กลับไปหน้าหลัก
+const {status} = useAuth()
+const router = useRouter()
+onMounted(() => {
+    if (status.value === 'authenticated') {
+        router.push('/')
+    }
+})
+
 const config = useRuntimeConfig()
-const step = ref(3)
+const step = ref(1)
 
 const email = ref('')
 const turnstile_token = ref('')
@@ -83,7 +98,6 @@ const checkEmail = async () => {
 }
 
 
-const otp = ref('')
 const otp_code = ref('')
 const expire_otp = ref<number>(0)
 const otp_error = ref('')
@@ -91,11 +105,6 @@ const otp_error = ref('')
 const getOTP = async () => {
   if (email.value === '') {
     email_error.value = 'กรุณากรอก Email'
-    return
-  }
-
-  if (!email.value.match(/^[a-zA-Z0-9@.-]*$/)) {
-    email_error.value = 'รูปแบบ Email ไม่ถูกต้อง'
     return
   }
 
@@ -120,8 +129,10 @@ const getOTP = async () => {
   }
 }
 
-const checkOTP = async () => {
-  if (otp.value === '') {
+const otp_correct = ref<string>('')
+const checkOTP = async (otp: string) => {
+  console.log('test', otp)
+  if (otp === '') {
     otp_error.value = 'กรุณากรอกรหัส OTP'
     return
   }
@@ -133,7 +144,7 @@ const checkOTP = async () => {
     },
     body: JSON.stringify({
       'receiver': email.value,
-      'otp': otp.value,
+      'otp': otp,
       'code': otp_code.value,
       'use_for': 'forget'
     })
@@ -143,32 +154,37 @@ const checkOTP = async () => {
     const data = await res.json()
     console.log(data)
     step.value = 3
+    otp_correct.value = otp
   } else {
-    otp_error.value = 'รหัส OTP ไม่ถูกต้อง'
+    if (res.status === 400) {
+      otp_error.value = 'รหัส OTP ไม่ถูกต้อง'
+    } else {
+      otp_error.value = 'ไม่สามารถยืนยัน OTP ได้'
+    }
   }
 }
 
 
-const new_password = ref('')
-
-const resetPassword = async () => {
+const setPasswordError = ref('')
+const resetPassword = async (new_password: string) => {
   const res = await fetch(config.public.backendApi + '/auth/forget', {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       'email': email.value,
-      'password': new_password.value
+      'otp': otp_correct.value,
+      'otp_code': otp_code.value,
+      'new_password': new_password
     })
   })
 
   if (res.status === 200) {
-    const data = await res.json()
-    console.log(data)
+    //login after reset password
     step.value = 4
   } else {
-    otp_error.value = 'ไม่สามารถเปลี่ยนรหัสผ่านได้'
+    setPasswordError.value = 'ไม่สามารถเปลี่ยนรหัสผ่านได้'
   }
 }
 
