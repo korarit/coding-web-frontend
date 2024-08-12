@@ -153,6 +153,7 @@
                 :otp_code="otp_code"
                 :otp_expire="otpExpire"
                 :error="otpError"
+                :can_request="false"
 
                 @close-modal="closeOtp"
                 @check-otp="Register"

@@ -30,7 +30,7 @@
 
                 <InputOtp 
                     :count_input="4" 
-                    class_container="flex w-full space-x-[6%] h-[80px]"
+                    class_container="mb-2 flex w-full space-x-[6%] h-[80px]"
                     class_input="border w-full min-h-full rounded-md border-[#c2c2c2] shadow-inner text-[30px] text-center 2xl:text-[40px] xl:text-[38px] lg:text-[36px] md:text-[34px] sm:text-[32px] font-normal	 dark:bg-[#282828] dark:border-[#101010] dark:text-[#BEBEBE]"
                     class_container_line="absolute w-full px-4 bottom-4 -translate-x-1/2 left-1/2 lg:-right-1/2 xl:-right-1/2 md:-right-1/2 sm:-right-1/2"
                     class_line="h-[1px] bg-[#606060] w-full dark:border-[#FEFEFE]"
@@ -39,9 +39,15 @@
                     :error_status="error_status"
                 />
 
+                <div class="flex items-center justify-between">
+                    <p v-if="error_status === true" class="text-red-500 text-[16px] 2xl:text-[20px] leading-5">{{ props.error }}</p>
+
+                    <p v-if="time_request > 0" class="text-[16px] 2xl:text-[20px] leading-5">ขอรหัส OTP ได้ใน {{ time_request_minute }}:{{ time_request_second }}</p>
+                    <p v-else @click="requestOtp" class="text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3]">ขอรหัส OTP ใหม่</p>
+                </div>
+
             </div>
 
-            <p v-if="error_status === true" class="text-red-500 text-[16px] 2xl:text-[20px] leading-5 mb-2">{{ props.error }}</p>
 
             <button @click="sendOtp()" class="w-full rounded-lg bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md py-1">
                 
@@ -72,6 +78,7 @@ const props = defineProps<{
     show: boolean
     otp_code: String|null
     otp_expire: Number|null
+    can_request: Boolean
 
     error: String|null
 }>()
@@ -80,7 +87,11 @@ const show_modal = ref<boolean>(true)
 const OTPloading = ref<boolean>(false)
 
 const minute = ref(0)
-const second = ref(0)  
+const second = ref(0)
+
+const time_request = ref(900)
+const time_request_minute = ref(0)
+const time_request_second = ref(0)
 watch(() => props.show, (val) => {
     show_modal.value = val
 
@@ -104,9 +115,46 @@ watch(() => props.show, (val) => {
             closeModal()
         }
     }, 1000);
+
+    if (props.can_request === true) {
+        const refreshRequestIntervalId = setInterval(() => {
+            if (time_request.value <= 0) {
+                clearInterval(refreshRequestIntervalId)
+            }
+
+            time_request_minute.value = Math.floor(time_request.value / 60)
+            time_request_second.value = time_request.value % 60
+
+            time_request.value -= 1
+        }, 1000)
+    }
+})
+
+// update time when otp_expire change value
+watch(() => props.otp_code, (val) => {
+    if (val === null || props.can_request === false) {
+        return
+    }
+    // calculate time millisec to min and sec (countdown)
+    const refreshIntervalId = setInterval(() => {
+        if (props.otp_expire === null) {
+            clearInterval(refreshIntervalId)
+            return
+        }
+        const now_time = dayjs().tz('Asia/Bangkok').valueOf()
+        const calculate = Number(props.otp_expire) - Number(now_time)
+
+        // calculate minute and second from millisec
+        minute.value = Math.floor((calculate % (1000 * 60 * 60)) / (1000 * 60))
+        second.value = Math.floor((calculate % (1000 * 60)) / 1000)
+        if (calculate <= 0) {
+            clearInterval(refreshIntervalId)
+            closeModal()
+        }
+    }, 1000);
 })
   
-const emit = defineEmits(['closeModal', 'checkOtp'])
+const emit = defineEmits(['closeModal', 'checkOtp', 'requestOtp'])
 const closeModal = () => {
     show_modal.value = false
     OTPloading.value = false
@@ -121,11 +169,19 @@ const sendOtp = async () => {
     // Array of otp to one string
     if (OTPData.value.length === 4) {
         OTPloading.value = true
-        await emit('checkOtp', OTPData.value)
+        emit('checkOtp', OTPData.value)
     }
 
     console.log(OTPData.value.length)
     
+}
+
+const requestOtp = async () => {
+    if (time_request.value > 0) {
+        return
+    }
+    time_request.value = 900
+    emit('requestOtp')
 }
 
 //check error
