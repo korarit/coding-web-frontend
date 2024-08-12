@@ -12,19 +12,19 @@
             <div class="flex space-x-3 items-center">
                 <div class="w-[64px] h-[64px] rounded-full bg-[#00C7A3] overflow-hidden flex items-center justify-center">
                     <img v-if="data?.profile_img != null" :src="data?.profile_img" class="w-full h-full object-cover" />
-                    <p v-else class="text-[40px] text-[#FEFEFE]">{{ data?.name[0] }}</p>
+                    <p v-else class="text-[40px] text-[#FEFEFE]">{{ data?.name[0].toUpperCase() }}</p>
                 </div>
                 <p class="text-[20px] text-[#262626] font-medium">{{ data?.name }}</p>
             </div>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
-            <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
+            <NuxtLink to="/user" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
                 <div class="w-[64px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'gear']" class="text-[32px] " />
                 </div>
                 <p class="text-[20px] font-light">ตั้งค่าของผู้ใช้</p>
-            </button>
+            </NuxtLink>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
