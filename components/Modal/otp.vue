@@ -9,7 +9,7 @@
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 translate-y-full"
         >
-        <div v-show="show_modal" class="bg-white dark:bg-[#3D3D3D] dark:border-[#676767] p-6 rounded-lg shadow-lg w-[90dvw] sm:w-96 2xl:w-[24dvw]">
+        <div v-show="show_modal" class="bg-white dark:bg-[#3D3D3D] dark:border-[#676767] p-6 rounded-lg shadow-lg w-[90dvw] sm:w-[480px]  2xl:w-[24dvw]">
             
             <div class="flex items-center justify-between w-full">
                 <p class="text-[28px] leading-6 text-[#00C7A3]">ยืนยันรหัส OTP</p>
@@ -22,7 +22,9 @@
                 </button>
             </div>
 
-            <div class="mt-7 mb-10 flex flex-col">
+            <p v-if="error_status === true" class="text-red-500 text-[20px] leading-5 mt-1">{{ props.error }}</p>
+
+            <div class="mb-8 flex flex-col" :class="error_status === true ? 'mt-1' : 'mt-7'">
                 <div class="flex items-center justify-between mb-3">
                     <p class="text-[20px] leading-5 text-[#606060]">Ref: {{ props.otp_code }}</p>
                     <p class="text-[20px] leading-5 text-[#00C7A3]">{{ minute }}:{{ second }}</p>
@@ -30,7 +32,7 @@
 
                 <InputOtp 
                     :count_input="4" 
-                    class_container="mb-2 flex w-full space-x-[6%] h-[80px]"
+                    class_container="mb-3 flex w-full space-x-[6%]  sm:h-[100px] h-[20dvw]"
                     class_input="border w-full min-h-full rounded-md border-[#c2c2c2] shadow-inner text-[30px] text-center 2xl:text-[40px] xl:text-[38px] lg:text-[36px] md:text-[34px] sm:text-[32px] font-normal	 dark:bg-[#282828] dark:border-[#101010] dark:text-[#BEBEBE]"
                     class_container_line="absolute w-full px-4 bottom-4 -translate-x-1/2 left-1/2 lg:-right-1/2 xl:-right-1/2 md:-right-1/2 sm:-right-1/2"
                     class_line="h-[1px] bg-[#606060] w-full dark:border-[#FEFEFE]"
@@ -39,17 +41,20 @@
                     :error_status="error_status"
                 />
 
-                <div class="flex items-center justify-between">
-                    <p v-if="error_status === true" class="text-red-500 text-[16px] 2xl:text-[20px] leading-5">{{ props.error }}</p>
+                <div class="w-full flex items-center leading-5" :class="error_status === true ? 'justify-between' : 'justify-end'">
 
-                    <p v-if="time_request > 0 && props.can_request" class="text-[16px] 2xl:text-[20px] leading-5">ขอรหัส OTP ได้ใน {{ time_request_minute }}:{{ time_request_second }}</p>
-                    <p v-else-if="time_request <= 0 && props.can_request" @click="requestOtp" class="text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3]">ขอรหัส OTP ใหม่</p>
+                    <p v-if="time_request > 0 && props.can_request" class="text-[20px] leading-5">
+                        <span class="text-[#606060] dark:text-[#FEFEFE] ">ขอรหัส OTP ใหม่ได้ใน </span>
+                        <span class="text-[#00C7A3]">{{ time_request_minute }}:{{ time_request_second }}</span>
+                    </p>
+
+                    <p v-else-if="time_request <= 0 && props.can_request" @click="requestOtp" class="text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3] dark:bg-[#3DD6BA]">ขอรหัส OTP ใหม่</p>
                 </div>
 
             </div>
 
 
-            <button @click="sendOtp()" class="w-full rounded-lg bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md py-1">
+            <button @click="sendOtp()" class="w-full rounded-lg bg-[#00C7A3] dark:bg-[#3DD6BA] hover:bg-[#199c80] active:bg-[#199c80] dark:hover:bg-[#00C7A3] dark:active:bg-[#00C7A3] drop-shadow-md py-1">
                 
                 <span v-if="!OTPloading" class="text-[24px] text-[#FEFEFE]">ยืนยันรหัส OTP</span>
                 <div v-else class="mx-auto py-1 w-fit h-fit">
@@ -89,7 +94,7 @@ const OTPloading = ref<boolean>(false)
 const minute = ref(0)
 const second = ref(0)
 
-const time_request = ref(900)
+const time_request = ref(120)
 const time_request_minute = ref(0)
 const time_request_second = ref(0)
 watch(() => props.show, (val) => {
@@ -124,10 +129,11 @@ watch(() => props.show, (val) => {
                 clearInterval(refreshRequestIntervalId)
             }
 
+            time_request.value -= 1
+
             time_request_minute.value = Math.floor(time_request.value / 60)
             time_request_second.value = time_request.value % 60
 
-            time_request.value -= 1
         }, 1000)
     }
 })
@@ -137,6 +143,14 @@ watch(() => props.otp_code, (val) => {
     if (val === null || props.can_request === false) {
         return
     }
+
+    // reset
+    OTPData.value = ''
+    OTPloading.value = false
+    time_request.value = 120
+    time_request_minute.value = 0
+    time_request_second.value = 0
+
     // calculate time millisec to min and sec (countdown)
     const refreshIntervalId = setInterval(() => {
         if (props.otp_expire === null) {
@@ -154,6 +168,22 @@ watch(() => props.otp_code, (val) => {
             closeModal()
         }
     }, 1000);
+
+
+    if (props.can_request === true) {
+        const refreshRequestIntervalId = setInterval(() => {
+            if (time_request.value <= 0) {
+                clearInterval(refreshRequestIntervalId)
+            }
+
+            time_request.value -= 1
+
+            time_request_minute.value = Math.floor(time_request.value / 60)
+            time_request_second.value = time_request.value % 60
+
+        }, 1000)
+    }
+
 })
   
 const emit = defineEmits(['closeModal', 'checkOtp', 'requestOtp'])
@@ -182,7 +212,12 @@ const requestOtp = async () => {
     if (time_request.value > 0) {
         return
     }
+
+    // reset time request
     time_request.value = 900
+    time_request_minute.value = 0
+    time_request_second.value = 0
+
     emit('requestOtp')
 }
 
