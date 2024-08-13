@@ -48,6 +48,7 @@ const props = defineProps<{
     edit_form: string
     have_wait: boolean
     wait: boolean
+    reset: boolean
 
     value: string | number
     error: string
@@ -72,6 +73,10 @@ const cancelEdit = () => {
 }
 
 const update = () => {
+    if (new_input.value === old_input.value) {
+        open_edit.value = false
+        return
+    }
     emit('update', props.edit_form, new_input.value)
     loading_status.value = true
     if (props.have_wait) {
@@ -90,5 +95,13 @@ watch(() => props.wait, (val) => {
     if(val === false){
         open_edit.value = false
     }
+
+
 });
+
+watch(() => props.reset, (val) => {
+    if (val) {
+        new_input.value = old_input.value
+    }
+})
 </script>
