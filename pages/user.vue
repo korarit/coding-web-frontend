@@ -42,6 +42,7 @@
                     error="" 
                     :have_wait="false"
                     :wait="false"
+                    :reset="false"
                     :value="user_data.Username" 
                     edit_form="username"
 
@@ -54,6 +55,7 @@
                     error="" 
                     :have_wait="false"
                     :wait="false"
+                    :reset="false"
                     :value="user_data.Name" 
                     edit_form="name"
 
@@ -68,10 +70,11 @@
 
                     :have_wait="true"
                     :wait="wait_email_change"
+                    :reset="reset_email_change"
                     :value="user_data.Email" 
                     edit_form="email"
 
-                    @update="requestOTPForChangeEmail"
+                    @update="openOtpForChangeEmail"
                 />
 
                 <div class="grid grid-cols-3 gap-4 mb-5 sm:grid sm:grid-cols-5 sm:gap-6 sm:mb-6">
@@ -156,8 +159,9 @@
                 :otp_code="otp_code_for_email"
                 :otp_expire="otp_expire_for_email"
                 :error="otpErrorEmail"
-                :can_request="false"
+                :can_request="true"
 
+                @request-otp="requestOTPForChangeEmail"
                 @close-modal="closeOtpForChangeEmail"
                 @check-otp="ChangeEmail"
             />
@@ -166,6 +170,8 @@
 </template>
 
 <script setup lang="ts">
+import { set } from '@vueuse/core';
+
 
 definePageMeta({
     auth: { unauthenticatedOnly: false, navigateAuthenticatedTo: '/' }
@@ -345,7 +351,8 @@ const wait_email_change = ref<boolean>(false)
 
 const otp_code_for_email = ref('')
 const otp_expire_for_email = ref(0)
-const requestOTPForChangeEmail = async (form_name: string, new_data: string) => {
+
+const requestOTPForChangeEmail = async () => {
     const user_session: any = data.value
     const res = await fetch(config.public.backendApi + '/auth/user/otp_email', {
         method: 'POST',
@@ -357,15 +364,21 @@ const requestOTPForChangeEmail = async (form_name: string, new_data: string) => 
         const data = await res.json()
         otp_code_for_email.value = data.OTPCode
         otp_expire_for_email.value = data.ExpireTime
-
-
-        new_email.value = new_data
-
-        //open modal otp
-        openModalOtpEmail.value = true
-        wait_email_change.value = true
-        open_modal()
+        return true
     }
+
+    return false
+}
+
+const openOtpForChangeEmail = async (form_name: string, new_data: string) => {
+        const status = await requestOTPForChangeEmail()
+
+        if (status) {
+            new_email.value = new_data
+            openModalOtpEmail.value = true
+            wait_email_change.value = true
+            open_modal()
+        }
 }
 
 const ChangeEmail = async (otp: string) => {
@@ -393,11 +406,19 @@ const ChangeEmail = async (otp: string) => {
     }
 }
 
+const reset_email_change = ref(false)
 const closeOtpForChangeEmail = () => {
     if (openModalOtpEmail.value) {
         openModalOtpEmail.value = false
         wait_email_change.value = false
+
         close_modal()
+
+        //reset value for input email when close modal otp (not send otp to check)
+        reset_email_change.value = true
+        setTimeout(() => {
+            reset_email_change.value = false
+        }, 5)
     }
 }
 
