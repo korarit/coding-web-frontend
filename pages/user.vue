@@ -40,6 +40,8 @@
                     title="Username" 
                     placeholder="Username" 
                     error="" 
+                    :have_wait="false"
+                    :wait="false"
                     :value="user_data.Username" 
                     edit_form="username"
 
@@ -50,6 +52,8 @@
                     title="Full-Name" 
                     placeholder="ชื่อ-นามสกุล" 
                     error="" 
+                    :have_wait="false"
+                    :wait="false"
                     :value="user_data.Name" 
                     edit_form="name"
 
@@ -61,6 +65,9 @@
                     title="Email" 
                     placeholder="Email" 
                     error="" 
+
+                    :have_wait="true"
+                    :wait="wait_email_change"
                     :value="user_data.Email" 
                     edit_form="email"
 
@@ -139,6 +146,20 @@
                 :image="image_for_crop" 
                 @close-modal="closeImageCrop" 
                 @image-output="CropImg"
+            />
+        </div>
+
+        <!-- Modal OTP -->
+        <div v-show="openModalOtpEmail" class="absolute min-w-full h-[100dvh] top-0 left-0">
+            <ModalOtp 
+                :show="openModalOtpEmail"
+                :otp_code="otp_code_for_email"
+                :otp_expire="otp_expire_for_email"
+                :error="otpErrorEmail"
+                :can_request="false"
+
+                @close-modal="closeOtpForChangeEmail"
+                @check-otp="ChangeEmail"
             />
         </div>
     </NuxtLayout>
@@ -242,7 +263,7 @@ const oauthRemoveConnect = async (connect_status: boolean ,provider: string) => 
 
 ///////////////////// modal control ///////////////////////
 const openModalCropImage = ref(false)
-const openModalOtp = ref(false)
+const openModalOtpEmail = ref(false)
 const {open_modal, close_modal} = useModalControl()
 
 ///////////////////// Image Crop ///////////////////////
@@ -317,6 +338,11 @@ async function CropImg(blob: Blob) {
 /////////////////// Change Email ///////////////////////
 const new_email = ref('')
 
+
+// Error For OTP OF Change Email
+const otpErrorEmail = ref<string|null>(null)
+const wait_email_change = ref<boolean>(false)
+
 const otp_code_for_email = ref('')
 const otp_expire_for_email = ref(0)
 const requestOTPForChangeEmail = async (form_name: string, new_data: string) => {
@@ -336,7 +362,8 @@ const requestOTPForChangeEmail = async (form_name: string, new_data: string) => 
         new_email.value = new_data
 
         //open modal otp
-        openModalOtp.value = true
+        openModalOtpEmail.value = true
+        wait_email_change.value = true
         open_modal()
     }
 }
@@ -346,6 +373,7 @@ const ChangeEmail = async (otp: string) => {
     const res = await fetch(config.public.backendApi + '/auth/user/email', {
         method: 'PATCH',
         headers: {
+            'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + user_session.sessionToken
         },
         body: JSON.stringify({
@@ -356,6 +384,21 @@ const ChangeEmail = async (otp: string) => {
     })
     if (res.status === 200) {
         user_data.value.Email = new_email.value
+        openModalOtpEmail.value = false
+        wait_email_change.value = false
+    }else{
+        if(res.status === 400){
+            otpErrorEmail.value = "OTP ไม่ถูกต้อง"
+        }
     }
 }
+
+const closeOtpForChangeEmail = () => {
+    if (openModalOtpEmail.value) {
+        openModalOtpEmail.value = false
+        wait_email_change.value = false
+        close_modal()
+    }
+}
+
 </script>

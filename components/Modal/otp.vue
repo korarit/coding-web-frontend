@@ -42,8 +42,8 @@
                 <div class="flex items-center justify-between">
                     <p v-if="error_status === true" class="text-red-500 text-[16px] 2xl:text-[20px] leading-5">{{ props.error }}</p>
 
-                    <p v-if="time_request > 0" class="text-[16px] 2xl:text-[20px] leading-5">ขอรหัส OTP ได้ใน {{ time_request_minute }}:{{ time_request_second }}</p>
-                    <p v-else @click="requestOtp" class="text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3]">ขอรหัส OTP ใหม่</p>
+                    <p v-if="time_request > 0 && props.can_request" class="text-[16px] 2xl:text-[20px] leading-5">ขอรหัส OTP ได้ใน {{ time_request_minute }}:{{ time_request_second }}</p>
+                    <p v-else-if="time_request <= 0 && props.can_request" @click="requestOtp" class="text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3]">ขอรหัส OTP ใหม่</p>
                 </div>
 
             </div>
@@ -94,6 +94,8 @@ const time_request_minute = ref(0)
 const time_request_second = ref(0)
 watch(() => props.show, (val) => {
     show_modal.value = val
+    OTPData.value = ''
+    OTPloading.value = false
 
     if (props.otp_expire === null) {
         return
