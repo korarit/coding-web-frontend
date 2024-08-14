@@ -73,6 +73,9 @@ const cancelEdit = () => {
 }
 
 const update = () => {
+    if (new_input.value === '' || new_input.value === null) {
+        return
+    }
     if (new_input.value === old_input.value) {
         open_edit.value = false
         return
