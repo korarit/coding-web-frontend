@@ -148,7 +148,8 @@
             />
         </div>
         <div v-show="openModalOtp" class="absolute min-w-full h-[100dvh] top-0 left-0">
-            <ModalOtp 
+            <ModalOtp
+                message="กรุณากรอกรหัส OTP ที่ส่งไปยังอีเมลที่คุณลงทะเบียน"
                 :show="openModalOtp"
                 :otp_code="otp_code"
                 :otp_expire="otpExpire"
@@ -279,7 +280,8 @@ const openOtp = async () => {
         body: JSON.stringify({
             'type': 'email',
             'use_for': 'register',
-            'receiver': register_data.value.email
+            'receiver': register_data.value.email,
+            'subject': 'OTP สำหรับการสมัครสมาชิก ของเว็บไซต์ Coding With ME'
         })
     })
     if (request.status === 200) {
