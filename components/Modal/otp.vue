@@ -22,11 +22,18 @@
                 </button>
             </div>
 
-            <p v-if="error_status === true" class="text-red-500 text-[20px] leading-5 mt-1">{{ props.error }}</p>
+            <p v-if="props.message !== ''" class="text-[20px] leading-5 text-[#606060] dark:text-[#FEFEFE] mt-3">{{ props.message }}</p>
+            <p  v-if="error_status === true" 
+                class="text-red-500 text-[20px] leading-5 mt-3"
+                :class="props.message !== '' ? 'mt-3' : 'mt-1'"
+            >
+                {{ props.error }}
+            </p>
 
-            <div class="mb-8 flex flex-col" :class="error_status === true ? 'mt-1' : 'mt-7'">
+
+            <div class="mb-8 flex flex-col" :class="error_status === true ? 'mt-2' : 'mt-7'">
                 <div class="flex items-center justify-between mb-3">
-                    <p class="text-[20px] leading-5 text-[#606060]">Ref: {{ props.otp_code }}</p>
+                    <p class="text-[20px] leading-5 text-[#606060] dark:text-[#FEFEFE]">Ref: {{ props.otp_code }}</p>
                     <p class="text-[20px] leading-5 text-[#00C7A3]">{{ minute }}:{{ second }}</p>
                 </div>
 
@@ -48,7 +55,7 @@
                         <span class="text-[#00C7A3]">{{ time_request_minute }}:{{ time_request_second }}</span>
                     </p>
 
-                    <p v-else-if="time_request <= 0 && props.can_request" @click="requestOtp" class="text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3] dark:bg-[#3DD6BA]">ขอรหัส OTP ใหม่</p>
+                    <p v-else-if="time_request <= 0 && props.can_request" @click="requestOtp" class="cursor-pointer text-[16px] 2xl:text-[20px] leading-5 underline text-[#00C7A3] dark:bg-[#3DD6BA]">ขอรหัส OTP ใหม่</p>
                 </div>
 
             </div>
@@ -80,6 +87,7 @@
 const dayjs = useDayjs()
   
 const props = defineProps<{
+    message: string
     show: boolean
     otp_code: String|null
     otp_expire: Number|null
