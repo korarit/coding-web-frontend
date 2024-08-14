@@ -77,22 +77,19 @@
                     @update="openOtpForChangeEmail"
                 />
 
-                <div class="grid grid-cols-3 gap-4 mb-5 sm:grid sm:grid-cols-5 sm:gap-6 sm:mb-6">
-                    <b
-                        class="col-span-3 text-[20px] sm:col-span-1 w-fit flex items-center text-[#1A1A1A] dark:text-[#FEFEFE] 2xl:text-[23px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[15px]">
-                        Password
-                    </b>
+                <InputPasswordEdit 
+                    title="Password" 
+                    placeholder="Password"
+                    placeholder_confirm="Confirm Password" 
+                    error="" 
 
-                    <div class="col-span-2 sm:col-span-3">
-                        <input type="password" value="12345789" disabled placeholder="รหัสผ่าน"
-                            class="w-full border-2 p-2 sm:disabled:bg-white sm:dark:disabled:bg-[#3D3D3D] border-[#C2C2C2] text-[14px] text-[#1F1F1F] placeholder-[#1F1F1F] dark:placeholder-[#FEFEFE] dark:text-[#FEFEFE] rounded-lg hover:border-gray-500 dark:bg-[#262626] dark:border-[#626262] dark:hover:border-[#CFCFCF] 2xl:text-[22px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[14px]" />
-                    </div>
+                    :have_wait="true"
+                    :wait="wait_password_change"
+                    :reset="reset_password_change"
+                    edit_form="password"
 
-                    <button
-                        class="bg-[#00C7A3] hover:bg-[rgb(25,156,128)] text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] shadow-lg rounded-lg drop-shadow-md 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[16px] sm:text-[14px]">
-                        แก้ไข
-                    </button>
-                </div>
+                    @update="openOtpForChangePassword"
+                />
 
                 <hr class="border-1 mb-5 text-[#9D9D9D] sm:mb-6" />
 
@@ -152,25 +149,41 @@
             />
         </div>
 
-        <!-- Modal OTP -->
+        <!-- Modal OTP For Change Email-->
         <div v-show="openModalOtpEmail" class="absolute min-w-full h-[100dvh] top-0 left-0">
             <ModalOtp 
+                message="รหัส OTP ได้ถูกส่งไปยังอีเมลเก่าก่อนเปลี่ยนของคุณ"
                 :show="openModalOtpEmail"
                 :otp_code="otp_code_for_email"
                 :otp_expire="otp_expire_for_email"
                 :error="otpErrorEmail"
                 :can_request="true"
 
-                @request-otp="requestOTPForChangeEmail"
+                @request-otp="getOTPForChangeEmail"
                 @close-modal="closeOtpForChangeEmail"
                 @check-otp="ChangeEmail"
+            />
+        </div>
+
+        <!-- Modal OTP For Change Password-->
+        <div v-show="openModalOtpPassword" class="absolute min-w-full h-[100dvh] top-0 left-0">
+            <ModalOtp 
+                message="รหัส OTP ได้ถูกส่งไปยัง Email ของคุณ"
+                :show="openModalOtpPassword"
+                :otp_code="otp_code_for_password"
+                :otp_expire="otp_expire_for_password"
+                :error="otpErrorEmail"
+                :can_request="true"
+
+                @request-otp="getOTPForChangePassword"
+                @close-modal="closeModalOTPPassword"
+                @check-otp="ChangePassword"
             />
         </div>
     </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import { set } from '@vueuse/core';
 
 
 definePageMeta({
@@ -352,7 +365,7 @@ const wait_email_change = ref<boolean>(false)
 const otp_code_for_email = ref('')
 const otp_expire_for_email = ref(0)
 
-const requestOTPForChangeEmail = async () => {
+const getOTPForChangeEmail = async () => {
     const user_session: any = data.value
     const res = await fetch(config.public.backendApi + '/auth/user/otp_email', {
         method: 'POST',
@@ -371,7 +384,7 @@ const requestOTPForChangeEmail = async () => {
 }
 
 const openOtpForChangeEmail = async (form_name: string, new_data: string) => {
-        const status = await requestOTPForChangeEmail()
+        const status = await getOTPForChangeEmail()
 
         if (status) {
             new_email.value = new_data
@@ -399,6 +412,8 @@ const ChangeEmail = async (otp: string) => {
         user_data.value.Email = new_email.value
         openModalOtpEmail.value = false
         wait_email_change.value = false
+
+        close_modal()
     }else{
         if(res.status === 400){
             otpErrorEmail.value = "OTP ไม่ถูกต้อง"
@@ -422,4 +437,84 @@ const closeOtpForChangeEmail = () => {
     }
 }
 
+
+/////////////////// Change Password ///////////////////////
+
+const new_password = ref('')
+const wait_password_change = ref(false)
+const reset_password_change = ref(false)
+const openModalOtpPassword = ref(false)
+
+const otp_code_for_password = ref('')
+const otp_expire_for_password = ref(0)
+
+
+const getOTPForChangePassword = async () => {
+    const user_session: any = data.value
+    const res = await fetch(config.public.backendApi + '/auth/user/otp_password', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + user_session.sessionToken
+        }
+    })
+    if (res.status === 200) {
+        const data = await res.json()
+        otp_code_for_password.value = data.OTPCode
+        otp_expire_for_password.value = data.ExpireTime
+        return true
+    }
+
+    return false
+}
+
+const openOtpForChangePassword = async (password: string) => {
+        const status = await getOTPForChangePassword()
+
+        if (status) {
+            //set new password
+            new_password.value = password
+            //open modal otp
+            openModalOtpPassword.value = true
+
+            //set wait for loading
+            wait_password_change.value = true
+            open_modal()
+        }
+}
+
+const ChangePassword = async (otp: string) => {
+    const user_session: any = data.value
+    const res = await fetch(config.public.backendApi + '/auth/user/password', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + user_session.sessionToken
+        },
+        body: JSON.stringify({
+            new_password: new_password.value,
+            otp: otp,
+            otp_code: otp_code_for_password.value
+        })  
+    })
+    if (res.status === 200) {
+        openModalOtpPassword.value = false
+        wait_password_change.value = false
+        close_modal()
+    }
+}
+
+const closeModalOTPPassword = () => {
+        if (openModalOtpPassword.value) {
+            openModalOtpPassword.value = false
+            wait_password_change.value = false
+
+            close_modal()
+
+            //reset value for input email when close modal otp (not send otp to check)
+            reset_password_change.value = true
+            setTimeout(() => {
+                reset_password_change.value = false
+            }, 5)
+        }
+}
 </script>
