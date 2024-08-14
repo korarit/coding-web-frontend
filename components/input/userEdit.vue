@@ -25,7 +25,7 @@
             </span>
 
             <div v-else class="mx-auto py-1 w-fit h-fit">
-                <svg class=" animate-spin -ml-1 mr-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                <svg class=" animate-spin -ml-1 sm:h-4 sm:w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor"
