@@ -80,7 +80,7 @@
             class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'github']" class="text-[36px]" />
           </button>
-          <button
+          <button @click="signIn('facebook')"
             class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'facebook']" class="text-[36px]" />
           </button>

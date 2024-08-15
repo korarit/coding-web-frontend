@@ -127,7 +127,7 @@
                         <button @click="signIn('google')" class="text-gray-600 hover:text-black active:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
                             <font-awesome-icon :icon="['fab', 'google']" class="text-[36px]" />
                         </button>
-                        <button href="#" class="text-gray-600 hover:text-black active:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
+                        <button @click="signIn('facebook')" href="#" class="text-gray-600 hover:text-black active:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
                             <font-awesome-icon :icon="['fab', 'facebook']" class="text-[36px]" />
                         </button>
                         <button @click="signIn('azure-ad')" class="text-gray-600 hover:text-black active:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
