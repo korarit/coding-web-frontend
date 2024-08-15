@@ -100,6 +100,11 @@ export default NuxtAuthHandler({
       clientId: process.env.AZURE_AD_CLIENT_ID,
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
       tenantId: process.env.AZURE_AD_TENANT_ID,
+    }),
+    // @ts-expect-error Use .default here for it to work during SSR.
+    FacebookProvider.default({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     })
   ],
   callbacks: {
@@ -122,6 +127,9 @@ export default NuxtAuthHandler({
             const data = await data_session.json();
             // console.log('OAuth login successful:', data);
             token.sessionToken = data.login_token;
+          } else {
+            console.error('OAuth login failed:', await data_session.json());
+            return null;
           }
         }
       }
