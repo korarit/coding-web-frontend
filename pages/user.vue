@@ -60,33 +60,73 @@
                 <div class="grid grid-cols-2 gap-6 sm:grid sm:grid-cols-4 sm:gap-6 mb-12">
                     <button @click="oauthRemoveConnect(user_thired_party.google, 'google')"
                         :class="user_thired_party.google ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
-                        class="col-span-2 py-0.5 sm:py-1 text-8 shadow-xl text-[#FFFFFF] dark:text-[#FFFFFF] dark:bg-[#E41E31] dark:hover:bg-[#D41E30] rounded-xl flex items-center justify-center 2xl:text-[17px] xl:text-[16px] lg:text-[15px] md:text-[13px] sm:text-[12px]">
-                        <font-awesome-icon :icon="['fab', 'google']"
-                            class="fa-2x text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        class="col-span-2 py-2 text-8 shadow-xl text-[#FFFFFF] dark:text-[#FFFFFF] dark:bg-[#E41E31] dark:hover:bg-[#D41E30] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
+                        <font-awesome-icon v-if="!wait_remove_oauth.google" :icon="['fab', 'google']" class="text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        <div v-else class="mr-2 w-fit h-fit">
+                            <svg class=" animate-spin -ml-1 xl:h-8 xl:w-8 h-7 w-7   text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>
+                        
                         {{ user_thired_party.google ? 'ยกเลิกเชื่อมต่อ' : 'เชื่อมกับ' }} google
                     </button>
 
                     <button @click="oauthRemoveConnect(user_thired_party.github, 'github')"
                         :class="user_thired_party.github ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
-                        class="col-span-2 py-1 sm:py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] rounded-xl flex items-center justify-center 2xl:text-[17px] xl:text-[16px] lg:text-[15px] md:text-[13px] sm:text-[12px]">
-                        <font-awesome-icon :icon="['fab', 'github']"
-                            class="fa-2x text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        class="col-span-2 py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
+                        
+                        <font-awesome-icon v-if="!wait_remove_oauth.github" :icon="['fab', 'github']" class="text-[28px] xl:text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        <div v-else class="mr-2 w-fit h-fit">
+                            <svg class=" animate-spin -ml-1 xl:h-8 xl:w-8 h-7 w-7   text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>
                         {{ user_thired_party.github ? 'ยกเลิกเชื่อมต่อ' : 'เชื่อมกับ' }} github
+                    
                     </button>
                     <button @click="oauthRemoveConnect(user_thired_party.facebook, 'facebook')"
                         :class="user_thired_party.facebook ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
-                        class="col-span-2 py-1 sm:py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] rounded-xl flex items-center justify-center 2xl:text-[17px] xl:text-[16px] lg:text-[15px] md:text-[13px] sm:text-[12px]">
-                        <font-awesome-icon :icon="['fab', 'facebook']"
-                            class="fa-2x text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        class="col-span-2 py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
+                        
+                        <font-awesome-icon v-if="!wait_remove_oauth.facebook" :icon="['fab', 'facebook']" class="text-[28px] xl:text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        <div v-else class="mr-2 w-fit h-fit">
+                            <svg class=" animate-spin -ml-1 xl:h-8 xl:w-8 h-7 w-7   text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>                        
                         {{ user_thired_party.facebook ? 'ยกเลิกเชื่อมต่อ' : 'เชื่อมกับ' }} facebook
                     </button>
 
                     <button @click="oauthRemoveConnect(user_thired_party.azure_ad, 'azure_ad')"
                         :class="user_thired_party.azure_ad ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
-                        class="col-span-2 py-1 sm:py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] rounded-xl flex items-center justify-center 2xl:text-[17px] xl:text-[16px] lg:text-[15px] md:text-[13px] sm:text-[12px]">
-                        <font-awesome-icon :icon="['fab', 'microsoft']"
-                            class="fa-2x text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        class="col-span-2 py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
 
+                        <font-awesome-icon v-if="!wait_remove_oauth.azure_ad" :icon="['fab', 'microsoft']" class="text-[28px] xl:text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
+                        <div v-else class="mr-2 w-fit h-fit">
+                            <svg class=" animate-spin -ml-1 lg:h-8 lg:w-8 h-7 w-7   text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>
                         {{ user_thired_party.azure_ad ? 'ยกเลิกเชื่อมต่อ' : 'เชื่อมกับ' }} Microsoft
                     </button>
                 </div>
@@ -218,27 +258,6 @@ const changeUserData = async (form_name: string, new_data: string) => {
         },
         body: form_data
     })
-}
-
-const oauthRemoveConnect = async (connect_status: boolean, provider: string) => {
-
-    if (connect_status) {
-
-        //กรณีที่เชื่อมต่ออยู่ แล้วต้องการยกเลิกการเชื่อมต่อ
-
-        if (!user_thired_party.value[provider]) {
-            return
-        }
-
-        if (user_data.value.ThirdParty.length === 1 && user_data.value.Email === null) {
-            alert('กรุณาเพิ่ม Email ก่อน หรือ เชื่อมกับ Thired Party อื่น ๆ')
-            return
-        }
-
-    } else {
-        //กรณีที่ยังไม่เชื่อมต่อ แล้วต้องการเชื่อมต่อ
-        alert('รออัพเดทในเวอร์ชั่นถัดไป')
-    }
 }
 
 
@@ -585,6 +604,56 @@ const DeleteAccount = async (otp: string) => {
     if (res.status === 400) {
         otpErrorDelAcc.value = "OTP ไม่ถูกต้อง"
         wait_acc_delete.value = false
+    }
+}
+
+
+///////////////////////////// connect oauth social login /////////////////////////////
+const wait_remove_oauth = ref({
+    google: false,
+    github: false,
+    facebook: false,
+    azure_ad: false
+} as { [key: string]: boolean })
+
+const oauthRemoveConnect = async (connect_status: boolean, provider: string) => {
+    const user_session: any = data.value
+
+    if (wait_remove_oauth.value[provider]) {
+        return
+    }
+
+    if (connect_status) {
+
+        //กรณีที่เชื่อมต่ออยู่ แล้วต้องการยกเลิกการเชื่อมต่อ
+
+        if (!user_thired_party.value[provider]) {
+            return
+        }
+
+        if (user_data.value.ThirdParty.length === 1 && user_data.value.Email === null) {
+            alert('กรุณาเพิ่ม Email ก่อน หรือ เชื่อมกับ Thired Party อื่น ๆ')
+            return
+        }
+
+        wait_remove_oauth.value[provider] = true
+        const res = await fetch(config.public.backendApi + '/auth/oauth/connect/' + provider, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + user_session.sessionToken
+            }
+        })
+        if (res.status === 200) {
+            user_thired_party.value[provider] = false
+        }
+        wait_remove_oauth.value[provider] = false
+
+
+    } else {
+        //กรณีที่ยังไม่เชื่อมต่อ แล้วต้องการเชื่อมต่อ
+        window.location.href = config.public.backendApi + '/auth/oauth/connect/' + provider 
+        + '?redirect=' + window.location.origin + '/user' + '&access_token=' + user_session.sessionToken
     }
 }
 
