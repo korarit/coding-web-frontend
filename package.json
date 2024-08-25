@@ -44,7 +44,6 @@
     "next-auth": "^4.21.1",
     "nuxt": "^3.12.3",
     "nuxt-monaco-editor": "^1.2.9",
-    "nuxt-tiptap-editor": "^1.2.1",
     "sass": "^1.77.8",
     "splitpanes": "^3.1.5",
     "vue": "latest",

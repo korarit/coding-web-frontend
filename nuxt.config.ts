@@ -29,7 +29,6 @@ export default defineNuxtConfig({
     "@sidebase/nuxt-auth",
     "@nuxtjs/turnstile",
     "dayjs-nuxt",
-    'nuxt-tiptap-editor',
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],
@@ -55,7 +54,4 @@ export default defineNuxtConfig({
       package: 'dayjs/plugin/timezone',
     }]
   },
-  tiptap:{
-    prefix: 'Tiptap',
-  }
 })
