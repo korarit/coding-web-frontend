@@ -25,6 +25,7 @@ import LangData from '~/assets/json/editor_lang.json'
 
   const setLangEditor = (lang) => {
     datamodal.value = {
+      id: lang.id,
       lang: lang.lang,
       name: lang.name,
       version: lang.version[0]

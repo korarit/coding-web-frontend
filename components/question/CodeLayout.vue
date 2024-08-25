@@ -70,14 +70,36 @@
             <p class="text-[14px] text-[#6B6B6B] dark:text-[#b6b6b6]">Line {{ currentLine }} Col {{ currentColumn }}</p>
 
             <div class="flex gap-x-2">
-                <button
-                    class=" bg-[#606060] dark:bg-[#FEFEFE] hover:bg-[#303030] dark:hover:bg-[#7b7b7b] py-1 px-4 text-[#FEFEFE] dark:hover:text-[#FEFEFE] dark:text-[#0F0F0F] text-[16px] font-medium  drop-shadow-md rounded">
-                    Run
-                </button>
+                <div>
+                    <button
+                        @click="testCode()"
+                        class=" bg-[#606060] dark:bg-[#FEFEFE] hover:bg-[#303030] dark:hover:bg-[#7b7b7b] py-1 px-4  drop-shadow-md rounded">
+                        <span v-if="!testLoading" class="text-[#FEFEFE] dark:hover:text-[#FEFEFE] dark:text-[#0F0F0F] text-[16px] font-medium" >
+                            Run
+                        </span>
+                        <div v-else class="mx-auto py-[1.154px] px-1 w-fit h-fit">
+                            <svg  class=" animate-spin -ml-1 h-[20px] w-[20px] text-white dark:text-[#0F0F0F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                    </button>    
+                </div>
+                
+
 
                 <button
-                    class=" bg-[#00C7A3] dark:bg-[#3DD6BA] hover:bg-[#199c80] dark:hover:bg-[#00C7A3] py-1 px-4 text-[#FEFEFE] dark:text-[#0F0F0F] text-[16px] font-medium  drop-shadow-md rounded">
-                    Summit
+                    @click="submitCode()"
+                    class=" bg-[#00C7A3] dark:bg-[#3DD6BA] hover:bg-[#199c80] dark:hover:bg-[#00C7A3] py-1 px-4 drop-shadow-md rounded">
+                    <span v-if="!submitLoading" class="text-[#FEFEFE] dark:hover:text-[#FEFEFE] dark:text-[#0F0F0F] text-[16px] font-medium" >
+                            Submit
+                    </span>
+                    <div v-else class="mx-auto py-[1.154px] px-1 w-fit h-fit">
+                        <svg  class=" animate-spin -ml-1 h-[20px] w-[20px] text-white dark:text-[#0F0F0F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
                 </button>
             </div>
         </div>
@@ -90,16 +112,14 @@
 const props = defineProps<{
     paneEditor: number
     isVerticalRightMode: boolean
-    LanguageEditor: any
     EditorHidden: boolean
     statusShowTitle: boolean
     isFullscreen: boolean
 }>()
 
-const LanguageEditor = ref(props.LanguageEditor)
-const isLangExpanded = defineModel<boolean>('isLangExpanded')
+const isLangExpanded = ref<boolean>(false)
 const submission_status_id = defineModel('submission_status_id')
-const emit = defineEmits(['expandButtonShow','setHeightEditor','fullScreen'])
+const emit = defineEmits(['expandButtonShow','setHeightEditor','fullScreen','testCode','submitCode','clearResultSubmit'])
 
 ///////////////////////////////// control pane left width /////////////////////////////////
 const ShowDiscription = ref<boolean>(true);
@@ -165,5 +185,51 @@ onBeforeMount(() => {
     });
 })
 
-const codeSave = ref<string>('')
+///////////////////////////// control dropdown language /////////////////////////////////
+const dropdownRefLang = ref<any>(null);
+const closeDropdown = (event: any) => {
+  if (dropdownRefLang.value && !dropdownRefLang.value.contains(event.target)) {
+    isLangExpanded.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', closeDropdown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeDropdown)
+})
+
+//////////////////////// Editor //////////////////////////
+const LanguageEditor = ref({
+    id: 1,
+    lang: "python",
+    name: "Python 3",
+    version: "3.12.0"
+});
+watch(LanguageEditor, ()=> {
+    isLangExpanded.value = false;
+    selectLanguageId.value = LanguageEditor.value.id
+    console.log(LanguageEditor.value.id)
+})
+
+///////////////////////////// control code /////////////////////////////////
+const selectLanguageId = defineModel<number>('selectLanguageId')
+const codeSave = defineModel<string>('codeSave')
+
+const testLoading = defineModel<boolean>('testLoading')
+const submitLoading = defineModel<boolean>('submitLoading')
+
+function testCode() {
+    if (testLoading.value) return
+    if (submitLoading.value) return
+    emit('testCode', codeSave)
+}
+
+function submitCode() {
+    if (testLoading.value) return
+    if (submitLoading.value) return
+    emit('submitCode', codeSave)
+}
 </script>

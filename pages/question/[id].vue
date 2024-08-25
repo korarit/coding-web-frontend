@@ -8,8 +8,6 @@
                     <QuestionLeftLayout 
                         :paneLeftWidth="paneLeftWidth"
                         :isVerticalLeftMode="isVerticalLeftMode"
-                        :LanguageListName="LanguageListName"
-                        :submission_status="submission_status"
                         :Desciption="DesciptionQuestion"
 
                         v-model:submission_status_id="submission_status_id"
@@ -25,13 +23,21 @@
                         <QuestionCodeLayout 
                             :paneEditor="paneEditor"
                             :isVerticalRightMode="isVerticalRightMode"
-                            :LanguageEditor="LanguageEditor"
                             :EditorHidden="EditorHidden"
                             :statusShowTitle="statusShowTitle[0]"
                             :isFullscreen="isFullscreen"
 
-                            v-model:is-lang-expanded="isLangExpanded"
+
+                            v-model:submit-loading="submitLoading"
+                            v-model:test-loading="testLoading"
+
+                            v-model:select-language-id="SelectionLanguageId"
+                            v-model:code-save="codeSave"
                             v-model:submission_status_id="submission_status_id"
+
+                            @test-code="TestCode"
+                            @submit-code="SubmitCode"
+
                             @expandButtonShow="expandButtonShow"
                             @set-height-editor="setHeightEditor"
                             @full-screen="fullScreen"
@@ -46,6 +52,18 @@
                             :TestHidden="TestHidden"
                             :statusShowTitle="statusShowTitle[1]"
 
+                            :TestCaseCount="CountTestCase"
+
+                            :resultType="resultTestType"
+                            :resultTest="resultTest"
+                            :resultSubmit="resultSubmit"
+
+                            v-model:submit-loading="submitLoading"
+                            v-model:test-loading="testLoading"
+
+                            v-model:test-input="TestInput"
+                            v-model:test-output="TestExpected"
+
                             v-model:ShowTestCase="ShowTestCase"
                             @expandButtonShow="expandButtonShow"
                             @set-height-test="setHeightTest"
@@ -59,9 +77,8 @@
       </div>
     </NuxtLayout>
   </template>
-<script setup>
-import submission_status from '~/assets/json/submission_status.json'
-import EditorLang from '~/assets/json/editor_lang.json';
+<script setup lang="ts">
+const dayjs = useDayjs()
 
 definePageMeta({
     auth: { unauthenticatedOnly: false, navigateAuthenticatedTo: '/' }
@@ -70,39 +87,30 @@ definePageMeta({
 const { status, data} = useAuth()
 const route = useRoute()
 
-//get list of language name
-const LanguageListName = ref([]);
-LanguageListName.value.push('ภาษา');
-EditorLang.filter((data) => {
-    LanguageListName.value.push(data.name);
-})
-
-const isLangExpanded = ref(false);
-
-const isVerticalLeftMode = ref(false);
-const isVerticalRightMode = ref(false);
+const isVerticalLeftMode = ref<boolean>(false);
+const isVerticalRightMode = ref<boolean>(false);
 
 
-const paneLeftWidth = ref(50);
-const paneLeftWidthOld = ref(0);
-const paneRightWidth = ref(50);
-const paneRightWidthOld = ref(0);
+const paneLeftWidth = ref<number>(50);
+const paneLeftWidthOld = ref<number>(0);
+const paneRightWidth = ref<number>(50);
+const paneRightWidthOld = ref<number>(0);
 
 
-const paneEditorOld = ref(0);
-const paneTestOld = ref(0);
+const paneEditorOld = ref<number>(0);
+const paneTestOld = ref<number>(0);
 
-const paneEditor = ref(58);
-const EditorHidden = ref(false);
+const paneEditor = ref<number>(58);
+const EditorHidden = ref<boolean>(false);
 
-const paneTest = ref(42);
-const TestHidden = ref(false);
+const paneTest = ref<number>(42);
+const TestHidden = ref<boolean>(false);
 const statusShowTitle = ref([
     true, // Editor
     true, // Test Case
 ]);
 
-const resizedHeight = (sizes) => {
+const resizedHeight = (sizes:any) => {
     nextTick(() => {
     //change height of pane
 
@@ -127,7 +135,7 @@ const resizedHeight = (sizes) => {
     });
 }
 
-function expandButtonShow(show, status) {
+function expandButtonShow(show: number, status: boolean) {
     //hide expand button
     if(paneRightWidth.value > 6 || paneRightWidthOld.value > 6){
         return;
@@ -144,7 +152,7 @@ function expandButtonShow(show, status) {
 
 }
 
-function setHeightEditor(value) {
+function setHeightEditor(value: number | null) {
     nextTick(() => {
         if(value != null && paneEditorOld.value == 0 && paneTestOld.value == 0){
             paneEditorOld.value = paneEditor.value;
@@ -172,7 +180,7 @@ function setHeightEditor(value) {
     });
 }
 
-function setHeightTest(value) {
+function setHeightTest(value: number | null) {
     nextTick(() => {
     if(value != null && paneEditorOld.value == 0 && paneTestOld.value == 0){
         paneEditorOld.value = paneEditor.value;
@@ -225,7 +233,7 @@ watch(paneRightWidth, (value) => {
 
 });
 
-const onResizedWidth = (sizes) => {
+const onResizedWidth = (sizes:any) => {
   nextTick(() => {
     if (sizes && sizes.length > 0) {
 
@@ -245,7 +253,7 @@ const onResizedWidth = (sizes) => {
 };
 
 
-function setWidthPaneLeft(value) {
+function setWidthPaneLeft(value : number | null) {
     nextTick(() => {
     if(value != null && paneLeftWidthOld.value == 0 && paneRightWidthOld.value == 0){
         paneLeftWidthOld.value = paneLeftWidth.value;
@@ -292,53 +300,65 @@ function fullScreen() {
 }
 
 
+////////////////////////// Login Model Control //////////////////////////////////
+const {open_modal_login} = useLoginModalControl()
+const {open_modal} = useModalControl()
 
-
-
-//////////////////////// Editor //////////////////////////
-const LanguageEditor = ref({
-    lang: "python",
-    name: "Python 3",
-    version: "3.9.1"
-});
-watch(LanguageEditor, ()=> {
-    isLangExpanded.value = false;
-})
-
-const dropdownRefLang = ref(null);
-const closeDropdown = (event) => {
-  if (dropdownRefLang.value && !dropdownRefLang.value.contains(event.target)) {
-    isLangExpanded.value = false
-  }
+const openLogin = () =>{
+    open_modal()
+    open_modal_login()
 }
 
-onMounted(() => {
-  document.addEventListener('click', closeDropdown)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown)
-})
-
-
 //////////////////////// Discription And Submission //////////////////////////
-const ShowDiscription = ref(true);
 
 // submission status table select
-const submission_type_id = ref(0);
-const submission_status_id = ref(0);
+const submission_type_id = ref<number>(0);
+const submission_status_id = ref<number>(0);
 
 
 
 //////////////////////// Test case , Test Result //////////////////////////
-const ShowTestCase = ref(true);
+const ShowTestCase = ref<boolean>(true);
 
+const SelectionLanguageId = ref<number>(1)
+
+const resultTestType = ref<string>('')
 
 ////////////////////////////////// Summit Code ////////////////////////////////////
-async function SummitCode() {
-    const user_session = data.value
+const config = useRuntimeConfig();
+const codeSave = ref<string>('')
 
-    const response = await fetch(config.public.backendApi + '/question/summit', {
+const resultSubmit = ref<resultOfSubmit[]>([])
+
+type resultOfSubmit = {
+    status:string
+    memory_usage:number
+    time_usage:number
+    input:string
+    expected:string
+    args:string[]
+    error:string
+    code_output:string
+    code_error:string
+}
+
+const submitLoading = ref<boolean>(false)
+async function SubmitCode() {
+
+    if(status.value != 'authenticated'){
+        openLogin()
+        return
+    }
+
+    resultTestType.value = 'submit'
+    submitLoading.value = true
+
+    //clear result
+    resultSubmit.value = []
+
+    const user_session:any = data.value
+    const now_time = dayjs().tz('Asia/Bangkok').valueOf()
+    const response = await fetch(config.public.backendApi + '/question/submit/'+now_time, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/event-stream;charset=UTF-8',
@@ -346,20 +366,95 @@ async function SummitCode() {
             'Authorization': 'Bearer ' + user_session.sessionToken
         },
         body: JSON.stringify({
-            code: codeSave.value,
-            language_id: LanguageEditor.value.lang,
-            question_id: route.params.id,
+            code: String(codeSave.value),
+            language_id: SelectionLanguageId.value,
+            question_id: Number(route.params.id),
         })
     })
+    if (response.body == null) {
+        console.log('Summit Fail')
+        return
+    }
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader()
+    while (true) {
+        const {value, done} = await reader.read();
+        if (done) {
+            submitLoading.value = false
+            break;
+        };
+        console.log(value)
+        const json:resultOfSubmit = JSON.parse(value.split('data: ')[1])
+        resultSubmit.value.push(json)
+    }
+}
+
+
+//////////////////////////////// Code Test //////////////////////////////////////
+
+const TestInput = ref<string>('')
+const TestExpected = ref<string>('')
+
+type resultOfTest = {
+    status:string
+    memory_usage:number
+    time_usage:number
+    input:string
+    args:string[]
+    error:string
+    code_output:string
+    code_error:string
+}
+const resultTest = ref<resultOfTest|null>(null)
+const testLoading = ref<boolean>(false)
+async function TestCode() {
+
+    if(status.value != 'authenticated'){
+        openLogin()
+        return
+    }
+
+    resultTestType.value = 'test'
+    testLoading.value = true
+
+    const user_session:any = data.value
+    const now_time = dayjs().tz('Asia/Bangkok').valueOf()
+    const response = await fetch(config.public.backendApi + '/question/test/'+now_time, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/event-stream;charset=UTF-8',
+            'Accept': 'text/event-stream',
+            'Authorization': 'Bearer ' + user_session.sessionToken
+        },
+        body: JSON.stringify({
+            code: String(codeSave.value),
+            language_id: SelectionLanguageId.value,
+            question_id: Number(route.params.id),
+            input: TestInput.value,
+            expected: String(TestExpected.value),
+            args: ["1"]
+        })
+    })
+      
+    if (response.body === null) {
+        return
+    } else {
+        console.log('Test Fail')
+    }
     const reader = response.body.pipeThrough(new TextDecoderStream()).getReader()
     while (true) {
         const {value, done} = await reader.read();
         if (done) break;
-        console.log('Received', value);
+        
+        //string to json
+        const json:resultOfTest = JSON.parse(value.split('data: ')[1])
+        resultTest.value = json
+        testLoading.value = false
     }
 }
 
-const DesciptionQuestion = ref('')
+
+const DesciptionQuestion = ref<string>('')
+const CountTestCase = ref<number>(0)
 const getQuestionData = async () => {
     const config = useRuntimeConfig();
     const request = await fetch( config.public.backendApi + '/question/data/'+route.params.id, {
@@ -369,10 +464,11 @@ const getQuestionData = async () => {
         }})
     if (request.status === 200) {
         const data = await request.json()
-        console.log(data.data.description)
+        console.log(data.data)
 
         //set Discription
         DesciptionQuestion.value = await data.data.description
+        CountTestCase.value = await data.data.test_count
     }
 } 
 

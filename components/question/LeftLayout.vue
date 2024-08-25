@@ -88,14 +88,16 @@ import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
 import Italic from '@tiptap/extension-italic';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import StarterKit from '@tiptap/starter-kit'
 import { generateHTML } from '@tiptap/html'
 
+
+import submission_status from '~/assets/json/submission_status.json'
+import EditorLang from '~/assets/json/editor_lang.json';
 
 const props = defineProps<{
     paneLeftWidth: number
     isVerticalLeftMode: boolean
-    submission_status: any
-    LanguageListName: any
     Desciption: string
 }>()
 
@@ -115,7 +117,21 @@ const DiscriptionHTML = ref<string>('')
 
 watch(() => props.Desciption, (val) => {
     const DesciptionJson = JSON.parse(val)
-    DiscriptionHTML.value = generateHTML(DesciptionJson,[Youtube.configure({controls: false,nocookie: true}),Document,Paragraph,Text,Underline,TextAlign.configure({types: ['heading', 'paragraph'],}),Heading,HardBreak,Strike,CodeBlock,Code,Blockquote,Bold,BulletList,OrderedList,ListItem,Italic,HorizontalRule,TiptapStarterKit])
+    DiscriptionHTML.value = generateHTML(DesciptionJson,[Youtube.configure({controls: false,nocookie: true}),Document,Paragraph,Text,Underline,TextAlign.configure({types: ['heading', 'paragraph'],}),Heading,HardBreak,Strike,CodeBlock,Code,Blockquote,Bold,BulletList,OrderedList,ListItem,Italic,HorizontalRule,StarterKit])
+})
+
+
+
+
+
+
+
+/////////////////////// DropdownCheckSelect ///////////////////////
+//get list of language name
+const LanguageListName = ref<any>([]);
+LanguageListName.value.push('ภาษา');
+EditorLang.filter((data) => {
+    LanguageListName.value.push(data.name);
 })
 </script>
 
