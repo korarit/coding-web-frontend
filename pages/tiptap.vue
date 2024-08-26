@@ -220,10 +220,11 @@ import ListItem from '@tiptap/extension-list-item';
 import Italic from '@tiptap/extension-italic';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import { useEditor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
 
 const editor = ref(useEditor({
     content: "",
-    extensions: [Youtube.configure({controls: false,nocookie: true}),Document,Paragraph,Text,Underline,TextAlign.configure({types: ['heading', 'paragraph'],}),Heading,HardBreak,Strike,CodeBlock,Code,Blockquote,Bold,BulletList,OrderedList,ListItem,Italic,HorizontalRule,TiptapStarterKit],
+    extensions: [Youtube.configure({controls: false,nocookie: true}),Document,Paragraph,Text,Underline,TextAlign.configure({types: ['heading', 'paragraph'],}),Heading,HardBreak,Strike,CodeBlock,Code,Blockquote,Bold,BulletList,OrderedList,ListItem,Italic,HorizontalRule,StarterKit],
 }));
 
 const json = ref<string>("");
