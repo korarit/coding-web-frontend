@@ -112,13 +112,13 @@
             <!-- ผลลัพท์การทดสอบ code -->
             <div class="flex flex-col gap-y-2 p-3" v-if="resultType == 'test' && resultTest != null">
                 <p v-if="resultTest.status == 'success'" class="text-[32px] leading-9 text-green-500">Success</p>
-                <p v-else class="text-[24px] leading-7 text-red-500 capitalize">{{ resultTest.status }}</p>
+                <p v-else class="text-[32px] leading-7 text-red-500 capitalize">{{ resultTest.status }}</p>
 
                 <!-- ถ้า code error -->
                 <div v-if="resultTest.status == 'code error'" class="w-full h-fit px-2 py-1 rounded-md bg-[#ffe5e5] text-[16px] text-red-500 my-3 ">{{ resultTest.code_error }}</div>
 
                 <p class="text-[20px] leading-5">Input</p>
-                <div class="w-full rounded bg-gray-200 px-2 py-1">
+                <div class="w-full h-fit rounded bg-gray-200 px-2 py-1">
                     <p v-if="resultTest.input != ''" class="text-[16px]">{{ resultTest.input }}</p>
                     <p v-else class="text-[16px]">&nbsp;</p>
                 </div>
@@ -139,20 +139,57 @@
             <!-- ผลลัพท์การส่ง code -->
             <div class="flex flex-col px-3 divide-y divide-gray-300" v-else-if="resultType == 'submit' && TestCaseCount != 0">
                 <!-- รายการ Testcase ที่ทดสอบ -->
-                 <div class="w-full flex justify-between py-5" v-for="i in TestCaseCount">
-                    <p class="text-[24px] leading-5">Test Case {{ i }}</p>
+                <div class="w-full flex flex-col" v-for="i in TestCaseCount">
+                    <div class="w-full flex justify-between" :class="ShowTestResult[i-1] ? 'pt-5' : 'py-5'">
+                        <p class="text-[24px] leading-5">Test Case {{ i }}</p>
 
-                    <div v-if="resultSubmit[i-1] == undefined" class="py-[1.154px] px-1 w-fit h-fit">
-                        <svg  class=" animate-spin -ml-1 h-[20px] w-[20px] text-[#303030] dark:text-[#FEFEFE]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                        <div v-if="resultSubmit[i-1] == undefined" class="py-[1.154px] px-1 w-fit h-fit">
+                            <svg  class=" animate-spin -ml-1 h-[20px] w-[20px] text-[#303030] dark:text-[#FEFEFE]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <div v-else class="flex items-center gap-x-2">
+                            <p v-if="resultSubmit[i-1].status == 'success'" class="text-[18px] leading-5 text-green-500 capitalize">{{ resultSubmit[i-1].status }}</p>
+                            <p v-else class="text-[18px] leading-5 text-red-500 capitalize">{{ resultSubmit[i-1].status }}</p>
+                            <p class="text-[20px] text-[#5e5d5d] leading-3" @click="ShowTestResult[i-1] = !ShowTestResult[i-1]">
+                                <font-awesome-icon :icon="['fas', 'chevron-down']" class="transition duration-500" :class="ShowTestResult[i-1] ? 'rotate-180' : 'rotate-0'" />
+                            </p>
+                        </div>
                     </div>
-                    <div v-else>
-                        <p v-if="resultSubmit[i-1].status == 'success'" class="text-[16px] leading-5 text-green-500 capitalize">{{ resultSubmit[i-1].status }}</p>
-                        <p v-else class="text-[16px] leading-5 text-red-500 capitalize">{{ resultSubmit[i-1].status }}</p>
+                    <div class="w-full flex flex-col gap-y-3 mt-4 mb-5" v-if="resultSubmit[i-1] != undefined && ShowTestResult[i-1]">
+                        <p v-if="resultSubmit[i-1].status == 'success'" class="text-[22px] leading-5 text-green-500">Success</p>
+                        <p v-else class="text-[22px] leading-7 text-red-500 capitalize">{{ resultSubmit[i-1].status }}</p>
+
+                        <!-- ถ้า code error -->
+                        <div v-if="resultSubmit[i-1].status == 'code error'" class="w-full h-fit px-2 py-1 rounded-md bg-[#ffe5e5] text-[16px] text-red-500 my-3 ">{{ resultSubmit[i-1].code_error }}</div>
+
+                        <div>
+                            <p class="text-[16px] leading-4">Input</p>
+                            <div class="w-full rounded bg-gray-200 px-2 py-1 mt-1">
+                                <p v-if="resultSubmit[i-1].input != ''" class="text-[16px]">{{ resultSubmit[i-1].input }}</p>
+                                <p v-else class="text-[16px]">&nbsp;</p>
+                            </div>   
+                        </div>
+                        
+
+                        <div v-if="resultSubmit[i-1].status != 'code error'">
+                            <p class="text-[16px] leading-4">Output</p>
+                            <div class="w-full rounded bg-gray-200 px-2 py-1 mt-1">
+                                <p v-if="resultSubmit[i-1].code_output != ''" class="text-[16px]">{{ resultSubmit[i-1].code_output }}</p>
+                                <p v-else class="text-[16px]">&nbsp;</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-[16px] leading-4">Expexted</p>
+                            <div class="w-full rounded bg-gray-200 px-2 py-1 mt-1">
+                                <p v-if="resultSubmit[i-1].expected != ''" class="text-[16px]">{{ resultSubmit[i-1].expected }}</p>
+                                <p v-else class="text-[16px]">&nbsp;</p>
+                            </div>
+                        </div>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
 
@@ -296,9 +333,18 @@ watch(() => submitLoading.value, (val) => {
 })
 
 ////////////////////////////// control test case /////////////////////////////////
-
+const ShowTestResult = ref<boolean[]>([])
 
 watch(() => props.TestCaseCount, (val) => {
-    console.log(val)
+    if (ShowTestResult.value.length > 0) {
+        ShowTestResult.value = []
+    }
+
+    if (val == 0) {
+        return
+    }
+    for (let i = 0; i < val; i++) {
+        ShowTestResult.value.push(false)
+    }
 })
 </script>
