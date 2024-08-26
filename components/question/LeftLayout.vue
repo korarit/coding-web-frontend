@@ -44,17 +44,17 @@
         <div v-else class="flex-auto flex flex-col w-full h-full">
             <div class="flex-none w-full px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
                 <DropdownCheckSelect
-                    customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[212px]"
+                    customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[160px]"
                     v-model="submission_type_id" :list_data="submission_status" />
                 <DropdownCheckSelect
                     customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[164px]"
                     v-model="submission_status_id" :list_data="LanguageListName" />
 
-                <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-12">
-                    <p class="text-[18px] font-light leading-5">Runtime</p>
+                <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-[64px]">
+                    <p class="text-[18px] font-light leading-5">เวลา</p>
                 </div>
                 <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-12">
-                    <p class="text-[18px] font-light leading-5">Memory</p>
+                    <p class="text-[18px] font-light leading-5">หน่วยความจำ</p>
                 </div>
             </div>
 
