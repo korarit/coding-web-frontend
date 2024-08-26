@@ -2,9 +2,5 @@
     "สถานะ",
     "ผ่าน",
     "คำตอบผิด",
-    "Out of Memory",
-    "เวลาเกิน",
-    "Runtime Error",
-    "Compile Error",
-    "Internal Error"
+    "error"
 ]
