@@ -118,7 +118,6 @@ const props = defineProps<{
 }>()
 
 const isLangExpanded = ref<boolean>(false)
-const submission_status_id = defineModel('submission_status_id')
 const emit = defineEmits(['expandButtonShow','setHeightEditor','fullScreen','testCode','submitCode','clearResultSubmit'])
 
 ///////////////////////////////// control pane left width /////////////////////////////////
