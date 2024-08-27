@@ -51,10 +51,12 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['select'])
 const selectId = (id) => {
     idselect.value = id
     datamodal.value = id
 
+    emit('select')
     setTimeout(() => {
         dropdown_status.value = false
     }, 250)
