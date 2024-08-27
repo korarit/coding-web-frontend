@@ -1,6 +1,18 @@
 [
-    "สถานะ",
-    "ผ่าน",
-    "คำตอบผิด",
-    "error"
+    {
+        "name": "สถานะ",
+        "eng": "status"
+    },
+    {
+        "name": "ผ่าน",
+        "eng": "success"
+    },
+    {
+        "name": "คำตอบผิด",
+        "eng": "wrong"
+    },
+    {
+        "name": "error",
+        "eng": "error"
+    }
 ]
