@@ -1,71 +1,95 @@
 <template>
-    <div class="flex flex-col w-full h-full bg-[#FFFFFF] dark:bg-[#262626] border border-[#B0B0B0] dark:border-[#545454] rounded-md overflow-hidden drop-shadow-md">
-        <div :class="`flex-none w-full bg-[#F6F6F6] dark:bg-[#3D3D3D] border-b border-[#B0B0B0] dark:border-[#545454]  flex ${isVerticalLeftMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
-            <div class="flex h-fit items-center gap-[2px] w-full">
-                <button class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'xmark']" class="text-[28px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
-                </button>
-                <button @click="ShowDiscription = true"
-                    :class="`hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md ${isVerticalLeftMode ? 'h-fit py-2' : 'h-8 px-2'} flex items-center gap-2`">
-                    <font-awesome-icon :icon="['fas', 'file-lines']" class="text-[20px] text-[#00C7A3]" />
-                    <span
-                        :class="`text-[16px] ${ShowDiscription ? 'text-[#000000] dark:text-[#E6E6E6] font-medium' : 'text-[#6B6B6B] dark:text-[#c8c8c8] font-light'}`">Description</span>
-                </button>
+  <div
+    class="flex flex-col w-full h-full bg-[#FFFFFF] dark:bg-[#262626] border border-[#B0B0B0] dark:border-[#545454] rounded-md overflow-hidden drop-shadow-md">
+    <div
+      :class="`flex-none w-full bg-[#F6F6F6] dark:bg-[#3D3D3D] border-b border-[#B0B0B0] dark:border-[#545454]  flex ${isVerticalLeftMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
+      <div class="flex h-fit items-center gap-[2px] w-full">
+        <button class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
+          <font-awesome-icon :icon="['fas', 'xmark']" class="text-[28px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
+        </button>
+        <button @click="ShowDiscription = true"
+          :class="`hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md ${isVerticalLeftMode ? 'h-fit py-2' : 'h-8 px-2'} flex items-center gap-2`">
+          <font-awesome-icon :icon="['fas', 'file-lines']" class="text-[20px] text-[#00C7A3]" />
+          <span
+            :class="`text-[16px] ${ShowDiscription ? 'text-[#000000] dark:text-[#E6E6E6] font-medium' : 'text-[#6B6B6B] dark:text-[#c8c8c8] font-light'}`">Description</span>
+        </button>
 
-                <div :class="`${isVerticalLeftMode ? 'h-[1px] w-[20px]' : 'h-5 w-[1px] '} bg-[#B0B0B0]`"></div>
+        <div :class="`${isVerticalLeftMode ? 'h-[1px] w-[20px]' : 'h-5 w-[1px] '} bg-[#B0B0B0]`"></div>
 
-                <button @click="ShowDiscription = false"
-                    :class="`hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md ${isVerticalLeftMode ? 'h-fit py-2' : 'h-8 px-2'} flex items-center gap-2`">
-                    <font-awesome-icon :icon="['fas', 'clock-rotate-left']" class="text-[20px] text-[#FFDA7A]" />
-                    <span
-                        :class="`text-[16px] ${!ShowDiscription ? 'text-[#000000] dark:text-[#E6E6E6] font-medium' : 'text-[#6B6B6B] dark:text-[#c8c8c8] font-light'}`">Submissions</span>
-                </button>
-            </div>
+        <button @click="ShowDiscription = false"
+          :class="`hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md ${isVerticalLeftMode ? 'h-fit py-2' : 'h-8 px-2'} flex items-center gap-2`">
+          <font-awesome-icon :icon="['fas', 'clock-rotate-left']" class="text-[20px] text-[#FFDA7A]" />
+          <span
+            :class="`text-[16px] ${!ShowDiscription ? 'text-[#000000] dark:text-[#E6E6E6] font-medium' : 'text-[#6B6B6B] dark:text-[#c8c8c8] font-light'}`">Submissions</span>
+        </button>
+      </div>
 
-            <div class="flex items-center gap-[4px]">
-                <button class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'share']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
-                </button>
-                <button @click="setWidthPaneLeft(0)" v-show="paneLeftWidth > 1.5"
-                    class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'chevron-left']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
-                </button>
-                <button @click="setWidthPaneLeft(null)" v-show="paneLeftWidth < 1.5"
-                    class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'chevron-right']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
-                </button>
-            </div>
-
-        </div>
-
-        <!-- Discription Box -->
-        <div v-if="ShowDiscription" class="flex-auto w-full h-full px-2 pt-4 dark:text-white DiscriptionHTML" v-html="DiscriptionHTML">
-        </div>
-        <div v-else class="flex-auto flex flex-col w-full h-full">
-            <div class="flex-none w-full px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
-                <DropdownCheckSelect
-                    customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[160px]"
-                    v-model="submission_type_id" :list_data="submission_status" />
-                <DropdownCheckSelect
-                    customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[164px]"
-                    v-model="submission_status_id" :list_data="LanguageListName" />
-
-                <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-[64px]">
-                    <p class="text-[18px] font-light leading-5">เวลา</p>
-                </div>
-                <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] pr-12">
-                    <p class="text-[18px] font-light leading-5">หน่วยความจำ</p>
-                </div>
-            </div>
-
-            <div class="flex-auto w-full">
-                <div class="w-full h-full flex items-center justify-center">
-                    <p class="text-[20px] font-light text-[#303030]">ไม่มีข้อมูลการส่ง</p>
-                </div>
-            </div>
-        </div>
+      <div class="flex items-center gap-[4px]">
+        <button class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
+          <font-awesome-icon :icon="['fas', 'share']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
+        </button>
+        <button @click="setWidthPaneLeft(0)" v-show="paneLeftWidth > 1.5"
+          class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
+          <font-awesome-icon :icon="['fas', 'chevron-left']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
+        </button>
+        <button @click="setWidthPaneLeft(null)" v-show="paneLeftWidth < 1.5"
+          class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
+          <font-awesome-icon :icon="['fas', 'chevron-right']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
+        </button>
+      </div>
 
     </div>
+
+    <!-- Discription Box -->
+    <div v-if="ShowDiscription" class="flex-auto w-full h-full px-2 pt-4 dark:text-white DiscriptionHTML"
+      v-html="DiscriptionHTML">
+    </div>
+    <div v-else class="flex-auto flex flex-col w-full h-full">
+      <div class="flex-none min-w-fit px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
+        <DropdownCheckSelect customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[160px]"
+          v-model="selectIndexType" :list_data="TypeListName" @select="filterSubmit" />
+        <DropdownCheckSelect customclass="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[164px]"
+          v-model="selectIndexLang" :list_data="LanguageListName" @select="filterSubmit" />
+
+        <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[100px]">
+          <p class="text-[18px] font-light leading-5">เวลา (Sec)</p>
+        </div>
+        <div class="flex items-center gap-x-2 text-[#616161] hover:text-[#353535] w-[140px]">
+          <p class="text-[18px] font-light leading-5">หน่วยความจำ (KB)</p>
+        </div>
+      </div>
+
+      <div v-if="ListFilter == null" class="flex-auto w-full">
+        <div class="w-full h-full flex items-center justify-center">
+          <p class="text-[20px] font-light text-[#303030]">ไม่มีข้อมูลการส่ง</p>
+        </div>
+      </div>
+      <div v-else class="flex-auto w-full flex flex-col divide-y divide-gray-300 overflow-y-auto">
+        <div class="px-3 py-2 min-w-fit flex gap-x-3" v-for="data in ListFilter">
+
+          <div class="w-[160px]">
+            <p v-if="data.status == 'success'" class="text-[16px] font-light text-green-500 capitalize">{{ data.status
+              }}</p>
+            <p v-else class="text-[16px] font-light text-red-500 capitalize">{{ data.status }}</p>
+          </div>
+          <div class="w-[164px] font-light text-gray-600">
+            {{ data.lang_name }}
+          </div>
+          <div class="w-[100px] font-light text-gray-600">
+            <p v-if="data.time_usage != null">{{ Number(data.time_usage / 1000) }}</p>
+            <p v-else>-</p>
+          </div>
+          <div class="w-[100px] font-light text-gray-600">
+            <p v-if="data.memory_usage != null">{{ data.memory_usage }}</p>
+            <p v-else>-</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -95,44 +119,92 @@ import { generateHTML } from '@tiptap/html'
 import submission_status from '~/assets/json/submission_status.json'
 import EditorLang from '~/assets/json/editor_lang.json';
 
+
+type submitData = {
+  status: string,
+  question_id: number,
+  lang_id: number
+  lang_name: string
+  memory_usage: number | null,
+  time_usage: number | null,
+
+}
 const props = defineProps<{
-    paneLeftWidth: number
-    isVerticalLeftMode: boolean
-    Desciption: string
+  submitList: submitData[] | null
+  paneLeftWidth: number
+  isVerticalLeftMode: boolean
+  Desciption: string
 }>()
 
 const submission_type_id = defineModel('submission_type_id')
-const submission_status_id = defineModel('submission_status_id')
 const emit = defineEmits(['setWidthPaneLeft'])
 
 ///////////////////////////////// control pane left width /////////////////////////////////
 const ShowDiscription = ref<boolean>(true);
 
 function setWidthPaneLeft(width: number | null) {
-    emit('setWidthPaneLeft', width)
+  emit('setWidthPaneLeft', width)
 }
 
 
 const DiscriptionHTML = ref<string>('')
 
 watch(() => props.Desciption, (val) => {
-    const DesciptionJson = JSON.parse(val)
-    DiscriptionHTML.value = generateHTML(DesciptionJson,[Youtube.configure({controls: false,nocookie: true}),Document,Paragraph,Text,Underline,TextAlign.configure({types: ['heading', 'paragraph'],}),Heading,HardBreak,Strike,CodeBlock,Code,Blockquote,Bold,BulletList,OrderedList,ListItem,Italic,HorizontalRule,StarterKit])
+  const DesciptionJson = JSON.parse(val)
+  DiscriptionHTML.value = generateHTML(DesciptionJson, [Youtube.configure({ controls: false, nocookie: true }), Document, Paragraph, Text, Underline, TextAlign.configure({ types: ['heading', 'paragraph'], }), Heading, HardBreak, Strike, CodeBlock, Code, Blockquote, Bold, BulletList, OrderedList, ListItem, Italic, HorizontalRule, StarterKit])
 })
-
-
-
-
-
-
 
 /////////////////////// DropdownCheckSelect ///////////////////////
 //get list of language name
 const LanguageListName = ref<any>([]);
 LanguageListName.value.push('ภาษา');
 EditorLang.filter((data) => {
-    LanguageListName.value.push(data.name);
+  LanguageListName.value.push(data.name);
 })
+
+//get list of submission status
+const TypeListName = ref<any>([]);
+submission_status.filter((data) => {
+  TypeListName.value.push(data.name);
+})
+
+
+const ListFilter = ref<submitData[]|null>(null)
+
+///////////////////////////////// filter submit Lang /////////////////////////////////
+const selectIndexType = ref<number>(0)
+const selectIndexLang = ref<number>(0)
+const filterSubmit = () => {
+  //index to lang name
+  const lang_name: string = LanguageListName.value[selectIndexLang.value]
+  const submit_select = submission_status[selectIndexType.value].eng;
+
+  if (!props.submitList) {
+    return
+  }
+  if (selectIndexLang.value != 0 && selectIndexType.value != 0) {
+    ListFilter.value = props.submitList.filter((data) => {
+      return data.lang_name.toLowerCase() == lang_name.toLowerCase() && data.status.toLowerCase() == submit_select.toLowerCase()
+    })
+  } else if (selectIndexLang.value == 0 && selectIndexType.value != 0) {
+    ListFilter.value = props.submitList.filter((data) => {
+      return data.status.toLowerCase() == submit_select.toLowerCase()
+    })
+  } else if (selectIndexLang.value != 0 && selectIndexType.value == 0) {
+    ListFilter.value = props.submitList.filter((data) => {
+      return data.lang_name.toLowerCase() == lang_name.toLowerCase()
+    })
+  } else {
+    ListFilter.value = props.submitList
+  }
+}
+
+watch(() => props.submitList, (val) => {
+  if (val) {
+    ListFilter.value = val
+  }
+})
+
 </script>
 
 <style lang="scss">
@@ -141,6 +213,7 @@ EditorLang.filter((data) => {
   :first-child {
     margin-top: 0;
   }
+
   blockquote {
     border-left: 3px solid var(--gray-3);
     margin: 1.5rem 0;
@@ -188,12 +261,14 @@ EditorLang.filter((data) => {
     font-size: 2.4rem;
   }
 
-  h4{
+  h4 {
     font-size: 2.2rem;
   }
+
   h5 {
     font-size: 2rem;
   }
+
   h6 {
     font-size: 1.8rem;
   }
