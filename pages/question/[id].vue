@@ -6,11 +6,11 @@
             <splitpanes @resized="onResizedWidth" :style="`${isFullscreen ? 'height: calc(100dvh - 100px)' : 'height: calc(100dvh - 195px)'}`">
                 <pane :size="paneLeftWidth" class="min-w-9 rounded-md overflow-hidden drop-shadow-md pane-discription">
                     <QuestionLeftLayout 
+                        :submitList="ListSubmit"
                         :paneLeftWidth="paneLeftWidth"
                         :isVerticalLeftMode="isVerticalLeftMode"
                         :Desciption="DesciptionQuestion"
 
-                        v-model:submission_status_id="submission_status_id"
                         v-model:submission_type_id="submission_type_id"
 
                         @set-width-pane-left="setWidthPaneLeft"
@@ -33,7 +33,6 @@
 
                             v-model:select-language-id="SelectionLanguageId"
                             v-model:code-save="codeSave"
-                            v-model:submission_status_id="submission_status_id"
 
                             @test-code="TestCode"
                             @submit-code="SubmitCode"
@@ -313,7 +312,6 @@ const openLogin = () =>{
 
 // submission status table select
 const submission_type_id = ref<number>(0);
-const submission_status_id = ref<number>(0);
 
 
 
@@ -446,6 +444,7 @@ async function TestCode() {
         if (done) break;
         
         //string to json
+        console.log(JSON.parse(value.split('data: ')[1]))
         const json:resultOfTest = JSON.parse(value.split('data: ')[1])
         resultTest.value = json
         testLoading.value = false
@@ -475,6 +474,32 @@ const getQuestionData = async () => {
 onMounted(async () => {
     await getQuestionData();
 })
+
+/////////////////////////////// Get Submit History //////////////////////////////
+const ListSubmit = ref<any|null>(null)
+const getSubmitHistory = async () =>{
+    const user_session:any= data.value
+    const config = useRuntimeConfig();
+    const request = await fetch( config.public.backendApi + '/question/data/'+route.params.id+'/history', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + user_session.sessionToken
+        }})
+    if (request.status === 200) {
+        const data = await request.json()
+        console.log(data.data)
+        ListSubmit.value = data.data.submit_list
+    }
+}
+
+
+onMounted(async () => {
+    if(status.value == 'authenticated'){
+        await getSubmitHistory();
+    }
+})
+
 </script>
 <style>
 .splitpanes--vertical > .splitpanes__splitter {
