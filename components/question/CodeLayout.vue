@@ -62,7 +62,7 @@
 
         <!-- Editor -->
         <div class="flex-auto w-full p-1 overflow-hidden min-h-0">
-            <MonacoEditor ref="editorRef" :options="{ minimap: { enabled: false }, theme: EditorMode }" v-model="codeSave"
+            <MonacoEditor ref="editorRef" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false }" v-model="codeSave"
                 :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " />
         </div>
 
