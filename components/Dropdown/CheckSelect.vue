@@ -1,14 +1,14 @@
 <template>
-    <div class="relative w-fit" ref="dropdownRef">
+    <div class="relative w-full" ref="dropdownRef">
         <button 
             @click="dropdown_status = !dropdown_status"
             :class="props.customclass"
         >
-            <p class="text-[18px] font-light leading-5">{{ props.list_data[idselect] }}</p>
+            <p>{{ props.list_data[idselect] }}</p>
 
             <font-awesome-icon 
-                :icon="['fas', 'chevron-down']" class="text-[18px] h-4 transition duration-300"
-                :class="dropdown_status ? 'rotate-180' : 'rotate-0'" 
+                :icon="['fas', props.icon]"
+                :class="dropdown_status ? iconClass+' transition duration-300 rotate-180' : iconClass+' transition duration-300 rotate-0'" 
             />
         </button>
 
@@ -18,14 +18,14 @@
             leave-class="translate-y-0 scale-y-100 opacity-100" leave-to-class="-translate-y-1/2 scale-y-0 opacity-0"
         >
             <div v-if="dropdown_status" tabindex="1"
-                class="absolute z-20 left-0 right-0 mt-1 w-full bg-white border border-[#8c8c8c] divide-y rounded-md shadow-lg overflow-hidden">
+                class="absolute z-20 left-0 right-0 mt-2 w-full bg-white dark:bg-[#3d3d3d] border border-[#8c8c8c] dark:border-[#686868] divide-y rounded-md shadow-lg overflow-hidden">
                  <div class="py-2 flex gap-2 w-full">
-                        <div class="grid grid-cols-1 gap-y-2 h-[200px] overflow-auto w-full px-2">
-                        <button v-for="(data, index) in props.list_data" @click="selectId(index)" class="hover:bg-[#e0e0e0] w-full rounded-md py-2 px-2 flex items-center justify-between">
-                            <p class="text-[16px] w-fit text-left text-[#262626] leading-5 mr-6">{{ data }}</p>
+                    <div class="grid grid-cols-1 gap-y-2 h-[200px] overflow-auto w-full px-2">
+                        <button v-for="(data, index) in props.list_data" @click="selectId(index)" class="hover:bg-[#e0e0e0] dark:hover:bg-[#5a5a5a] w-full rounded-md py-2 px-2 flex items-center justify-between">
+                            <p class="text-[16px] w-fit text-left text-[#262626] dark:text-[#FEFEFE] leading-5 mr-6">{{ data }}</p>
                             <font-awesome-icon :icon="['fas', 'check']" class="text-[#00C7A3] text-[18px]" v-if="index == idselect" />
                         </button>
-                        </div>
+                    </div>
                 </div>  
             </div>
         </transition>
@@ -34,6 +34,7 @@
 
 
 <script setup>
+
 
 //set v-model
 const datamodal = defineModel()
@@ -48,6 +49,14 @@ const props = defineProps({
     customclass: {
         type: String,
         default: ''
+    },
+    icon: {
+        type: String,
+        default: 'chevron-down'
+    },
+    iconClass: {
+        type: String,
+        default: 'text-[18px] h-4'
     }
 })
 
