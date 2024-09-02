@@ -3,8 +3,8 @@
 
     <div class="grid grid-rows-4 grid-flow-col">
       <div class="relative flex items-center" v-for="(data, index) in LangData">
-        <button @click="setLangEditor(data)" class="hover:bg-[#e0e0e0] w-[128px] rounded-md py-2 px-2 mx-2">
-          <p class="text-[16px] text-left text-[#262626] leading-4">{{ data.name }}</p>
+        <button @click="setLangEditor(data)" class="hover:bg-[#e0e0e0] dark:hover:bg-[#5a5a5a] w-[128px] rounded-md py-2 px-2 mx-2">
+          <p class="text-[16px] text-left text-[#262626] dark:text-[#FEFEFE] leading-4">{{ data.name }}</p>
         </button>
         <div v-if="index < 8" class="absolute inset-y-0 right-0 w-px">
           <div class="w-px bg-gray-400 h-full"></div>
