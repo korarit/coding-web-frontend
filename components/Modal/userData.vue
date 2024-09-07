@@ -8,9 +8,9 @@
         leave-to-class="opacity-0 -translate-y-1"
     >
     <div v-show="show_modal" class="w-fit h-fit p-3 bg-[#ffffff] rounded-lg border border-[#C1C1C1] drop-shadow-md">
-        <div class="flex flex-col space-y-3 w-fit min-w-[270px]">
+        <div class="flex flex-col space-y-2 w-fit min-w-[220px]">
             <div class="flex space-x-3 items-center">
-                <div class="w-[64px] h-[64px] rounded-full bg-[#00C7A3] overflow-hidden flex items-center justify-center">
+                <div class="w-[48px] h-[48px] rounded-full bg-[#00C7A3] overflow-hidden flex items-center justify-center">
                     <img v-if="data?.profile_img != null" :src="data?.profile_img" class="w-full h-full object-cover" />
                     <p v-else class="text-[40px] text-[#FEFEFE]">{{ data?.name[0].toUpperCase() }}</p>
                 </div>
@@ -20,46 +20,46 @@
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
             <NuxtLink to="/user" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
-                <div class="w-[64px] h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'gear']" class="text-[32px] " />
+                <div class="w-[48px] h-fit flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'gear']" class="text-[28px] " />
                 </div>
-                <p class="text-[20px] font-light">ตั้งค่าของผู้ใช้</p>
+                <p class="text-[18px] font-light">ตั้งค่าของผู้ใช้</p>
             </NuxtLink>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
             <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
-                <div class="w-[64px] h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'circle-question']" class="text-[32px] " />
+                <div class="w-[48px] h-fit flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'circle-question']" class="text-[28px] " />
                 </div>
-                <p class="text-[20px] font-light">บันทึกการทำโจทย์</p>
+                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
             </button>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
             <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
-                <div class="w-[64px] h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'book-bookmark']" class="text-[32px] " />
+                <div class="w-[48px] h-fit flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'book-bookmark']" class="text-[28px] " />
                 </div>
-                <p class="text-[20px] font-light">โจทย์ที่บันทึกไว้</p>
+                <p class="text-[18px] font-light">โจทย์ที่บันทึกไว้</p>
             </button>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
             <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
-                <div class="w-[64px] h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'award']" class="text-[32px] " />
+                <div class="w-[48px] h-fit flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'award']" class="text-[28px] " />
                 </div>
-                <p class="text-[20px] font-light">ลำดับภายในเว็บไซต์</p>
+                <p class="text-[18px] font-light">ลำดับภายในเว็บไซต์</p>
             </button>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
             <button @click="signOut" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
-                <div class="w-[64px] h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-[32px] " />
+                <div class="w-[48px] h-fit flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-[28px] " />
                 </div>
-                <p class="text-[20px] font-light">ออกจากระบบ</p>
+                <p class="text-[18px] font-light">ออกจากระบบ</p>
             </button>
         </div>
     </div>
