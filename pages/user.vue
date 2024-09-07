@@ -55,6 +55,17 @@
                     error="" :have_wait="true" :wait="wait_password_change" :reset="reset_password_change"
                     edit_form="password" @update="openOtpForChangePassword" />
 
+                <hr class="border-1 text-[#9D9D9D]" />
+
+                <div class="my-4 flex justify-between">
+                    <p class="text-[20px] sm:text-[20px] font-light">เปิด Profile ให้คนอื่น ๆ สามารถดูประวัติการทำได้</p>
+
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer" v-model="status_profile">
+                        <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#00C7A3]"></div>
+                    </label>
+                </div>
+
                 <hr class="border-1 mb-5 text-[#9D9D9D] sm:mb-6" />
 
                 <div class="grid grid-cols-2 gap-6 sm:grid sm:grid-cols-4 sm:gap-6 mb-12">
@@ -209,7 +220,7 @@ const user_thired_party = ref({
     github: false,
     facebook: false,
     azure_ad: false
-} as { [key: string]: boolean })
+} as { [key: string]: boolean })    
 
 
 // get user data from api
@@ -218,6 +229,7 @@ onMounted(async () => {
 })
 
 const config = useRuntimeConfig()
+const status_profile = ref(false)
 const load_user_data = async () => {
     // get user data from api
 
@@ -233,6 +245,11 @@ const load_user_data = async () => {
         const data = await res.json()
         user_data.value = data
         console.log(user_data.value)
+
+        //check profile show
+        if (user_data.value.ProfileShow == "true") {
+            status_profile.value = true
+        }
 
         // check thired party
         for (const key in user_thired_party.value) {
@@ -258,7 +275,29 @@ const changeUserData = async (form_name: string, new_data: string) => {
         },
         body: form_data
     })
+
+    if (res.status >= 300) {
+        return false
+    }
+
+    return true
 }
+
+////////////////////// change profile show ///////////////////////
+watch(() => status_profile.value, async (val) => {
+    console.log(val)
+    if (user_data.value === null) {
+        return
+    }
+
+    const status_str = val ? 'true' : 'false'
+
+    //change profile show
+    const status_change = await changeUserData('profile_show', status_str)
+    if (status_change) {
+        user_data.value.ProfileShow = status_str
+    }
+})
 
 
 ///////////////////// modal control ///////////////////////
