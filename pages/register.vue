@@ -213,7 +213,7 @@ const closeImageCrop = () => {
 
 const image_for_crop = ref<string>('');
 
-function profile_upload(event: any) {
+function profile_upload(event: Event) {
     if (!event.target) {
         return;
     }
