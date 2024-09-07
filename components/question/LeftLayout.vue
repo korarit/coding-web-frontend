@@ -119,6 +119,10 @@ import ListItem from '@tiptap/extension-list-item';
 import Italic from '@tiptap/extension-italic';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import StarterKit from '@tiptap/starter-kit'
+
+import Image from '@tiptap/extension-image'
+import ImageResize from 'tiptap-extension-resize-image';
+import Dropcursor from '@tiptap/extension-dropcursor'
 import { generateHTML } from '@tiptap/html'
 
 
@@ -151,14 +155,6 @@ const ShowDiscription = ref<boolean>(true);
 function setWidthPaneLeft(width: number | null) {
   emit('setWidthPaneLeft', width)
 }
-
-
-const DiscriptionHTML = ref<string>('')
-
-watch(() => props.Desciption, (val) => {
-  const DesciptionJson = JSON.parse(val)
-  DiscriptionHTML.value = generateHTML(DesciptionJson, [Youtube.configure({ controls: false, nocookie: true }), Document, Paragraph, Text, Underline, TextAlign.configure({ types: ['heading', 'paragraph'], }), Heading, HardBreak, Strike, CodeBlock, Code, Blockquote, Bold, BulletList, OrderedList, ListItem, Italic, HorizontalRule, StarterKit])
-})
 
 /////////////////////// DropdownCheckSelect ///////////////////////
 //get list of language name
@@ -211,11 +207,42 @@ watch(() => props.submitList, (val) => {
   }
 })
 
+
+
+
+///////////////////////////////// Control description  /////////////////////////////////
+async function processNodeHasImage(node: any) {
+  if (node.type === 'image' && node.attrs.src !== null && !node.attrs.src.includes('question')) {
+    node.attrs.src = "https://pub-3d57d68059384f598b7ac0875ccf93db.r2.dev/question/" + node.attrs.src
+  }
+
+  if (node.content) {
+    // วนซ้ำไปใน content ที่ซ้อนอยู่
+    for (const childNode of node.content) {
+      await processNodeHasImage(childNode);
+    }
+  }
+}
+
+const DiscriptionHTML = ref<string>('')
+
+watch(() => props.Desciption, async (val) => {
+
+  const DesciptionJson = JSON.parse(val)
+  await processNodeHasImage(DesciptionJson);
+
+  DiscriptionHTML.value = generateHTML(DesciptionJson, [Youtube.configure({ controls: false, nocookie: true }), Document, Paragraph, Text, Underline, TextAlign.configure({ types: ['heading', 'paragraph'], }), Heading, HardBreak, Strike, CodeBlock, Code, Blockquote, Bold, BulletList, OrderedList, ListItem, Italic, HorizontalRule, StarterKit, Image.configure({ allowBase64: true }), ImageResize, Dropcursor])
+})
+
 </script>
 
 <style lang="scss">
 /* Basic editor styles */
-.DiscriptionHTML {
+.tiptap {
+  outline: none;
+}
+
+.tiptap {
   :first-child {
     margin-top: 0;
   }
@@ -229,6 +256,7 @@ watch(() => props.submitList, (val) => {
   /* List styles */
   ul,
   ol {
+
     padding: 0 1rem;
     margin: 1.25rem 1rem 1.25rem 0.4rem;
 
@@ -236,6 +264,14 @@ watch(() => props.submitList, (val) => {
       margin-top: 0.25em;
       margin-bottom: 0.25em;
     }
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style-type: disc;
   }
 
   /* Heading styles */
@@ -281,7 +317,7 @@ watch(() => props.submitList, (val) => {
 
   /* Code and preformatted text styles */
   code {
-    background-color: var(--purple-light);
+    background-color: #767676;
     border-radius: 0.4rem;
     color: var(--black);
     font-size: 0.85rem;
@@ -289,12 +325,12 @@ watch(() => props.submitList, (val) => {
   }
 
   pre {
-    background: var(--black);
+    background: #a5a5a5;
     border-radius: 0.5rem;
     color: var(--white);
     font-family: 'JetBrainsMono', monospace;
-    margin: 1.5rem 0;
-    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
 
     code {
       background: none;
@@ -305,9 +341,9 @@ watch(() => props.submitList, (val) => {
   }
 
   blockquote {
-    border-left: 3px solid var(--gray-3);
+    border-left: 3px solid #dddddd;
     margin: 1.5rem 0;
-    padding-left: 1rem;
+    padding-left: 0.75rem;
   }
 
   hr {
