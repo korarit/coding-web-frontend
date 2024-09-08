@@ -1,7 +1,7 @@
 <template>
     <div class="relative w-full" ref="dropdownRef">
         <button 
-            @click="dropdown_status = !dropdown_status"
+            @click="setDropdownStatus"
             :class="props.customclass"
         >
             <p>{{ props.list_data[idselect] }}</p>
@@ -57,6 +57,10 @@ const props = defineProps({
     iconClass: {
         type: String,
         default: 'text-[18px] h-4'
+    },
+    off: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -73,6 +77,11 @@ const selectId = (id) => {
 
 const dropdown_status = ref(false)
 const dropdownRef = ref(null)
+
+const setDropdownStatus = () => {
+    if (props.off) return
+    dropdown_status.value = !dropdown_status.value
+}
 
 onClickOutside(dropdownRef, () => {
   dropdown_status.value = false
