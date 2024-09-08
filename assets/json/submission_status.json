@@ -4,15 +4,15 @@
         "eng": "status"
     },
     {
-        "name": "ผ่าน",
-        "eng": "success"
+        "name": "ยังไม่เคยทำ",
+        "eng": "not_do"
     },
     {
-        "name": "คำตอบผิด",
-        "eng": "wrong"
+        "name": "ยังไม่สำเร็จ",
+        "eng": "have_do_not_success"
     },
     {
-        "name": "error",
-        "eng": "error"
+        "name": "สำเร็จ",
+        "eng": "have_success"
     }
 ]
