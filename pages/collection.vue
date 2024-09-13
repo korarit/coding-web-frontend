@@ -86,7 +86,9 @@
 
       <div class="pr-[4px] grid grid-cols-6 gap-3 lg:gap-5 items-center">
         <div class="col-span-2 lg:col-span-1">
-          <DropdownCheckSelect customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+          <DropdownCheckSelect 
+            block-class="w-full"
+            customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexLevel" 
             :list_data="LevelListName" 
             icon="caret-down"
@@ -95,7 +97,9 @@
           />
         </div>
         <div class="col-span-2 lg:col-span-1">
-          <DropdownCheckSelect customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+          <DropdownCheckSelect
+            block-class="w-full" 
+            customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexStatus" 
             :list_data="StatusListName" 
             :off="status == 'authenticated' ? false : true"
@@ -106,7 +110,9 @@
         </div>
 
         <div class="col-span-2 lg:col-span-1">
-          <DropdownCheckSelect customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+          <DropdownCheckSelect
+            block-class="w-full" 
+            customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexTopic" 
             :list_data="TopicListName" 
             icon="caret-down"
@@ -277,6 +283,9 @@ const load_question = async () => {
     })
     const data_res = await response.json()
     const list_data = data_res.data.question_list
+
+    console.log(list_data)
+    
     save_question.value = list_data
     list_question.value = list_data
 
@@ -292,6 +301,19 @@ const load_question = async () => {
 
 }
 
+const load_questionByStatus = async (status: string) => {
+  const config = useRuntimeConfig()
+  const user_session: any = data.value
+  const response = await fetch(config.public.backendApi + '/question/list/user?select=' + status, {
+    headers: {
+      'Authorization': 'Bearer ' + user_session.sessionToken
+    }
+  })
+  const res_json = await response.json()
+  save_question.value = res_json.data.question_list
+  return res_json.data.question_list
+}
+
 onMounted(async () => {
   await load_level()
   await load_topic()
@@ -302,36 +324,51 @@ onMounted(async () => {
 
 const fitterData = async () => {
   if (selectIndexLevel.value != 0 && selectIndexStatus.value != 0 && selectIndexTopic.value != 0) {
-    list_question.value = Object.values(save_question.value).filter((data:any) => {
-      return data.level_id == LevelData.value[selectIndexLevel.value - 1].id && data.status == submission_status[selectIndexStatus.value - 1].eng && data.topic_id == TopicData.value[selectIndexTopic.value - 1].id
+
+    //get question by status
+    const res_list_question = await load_questionByStatus(submission_status[selectIndexStatus.value].eng)
+
+    list_question.value = Object.values(res_list_question).filter((data:any) => {
+      return data.level_id == LevelData.value[selectIndexLevel.value - 1].id && data.topic_id == TopicData.value[selectIndexTopic.value - 1].id
     })
   } else if (selectIndexLevel.value != 0 && selectIndexStatus.value != 0) {
-    list_question.value = Object.values(save_question.value).filter((data:any) => {
-      return data.level_id == LevelData.value[selectIndexLevel.value - 1].id && data.status == submission_status[selectIndexStatus.value - 1].eng
+
+    //get question by status
+    const res_list_question = await load_questionByStatus(submission_status[selectIndexStatus.value].eng)
+
+    list_question.value = Object.values(res_list_question).filter((data:any) => {
+      return data.level_id == LevelData.value[selectIndexLevel.value - 1].id
     })
   } else if (selectIndexLevel.value != 0 && selectIndexTopic.value != 0) {
-    console.log('test')
     list_question.value = Object.values(save_question.value).filter((data:any) => {
       return data.level_id == LevelData.value[selectIndexLevel.value - 1].id && data.topic_id == TopicData.value[selectIndexTopic.value - 1].id
     })
   } else if (selectIndexStatus.value != 0 && selectIndexTopic.value != 0) {
-    list_question.value = Object.values(save_question.value).filter((data:any) => {
-      return data.status == submission_status[selectIndexStatus.value - 1].eng && data.topic_id == TopicData.value[selectIndexTopic.value - 1].id
+
+    //get question by status
+    const res_list_question = await load_questionByStatus(submission_status[selectIndexStatus.value].eng)
+
+    list_question.value = Object.values(res_list_question).filter((data:any) => {
+      return data.topic_id == TopicData.value[selectIndexTopic.value - 1].id
     })
   } else if (selectIndexLevel.value != 0) {
     list_question.value = Object.values(save_question.value).filter((data:any) => {
       return data.level_id == LevelData.value[selectIndexLevel.value - 1].id
     })
   } else if (selectIndexStatus.value != 0) {
-    list_question.value = Object.values(save_question.value).filter((data:any) => {
-      return data.status == submission_status[selectIndexStatus.value - 1].eng
-    })
+
+    //get question by status
+    const res_list_question = await load_questionByStatus(submission_status[selectIndexStatus.value].eng)
+
+    list_question.value = res_list_question
+
   } else if (selectIndexTopic.value != 0) {
     list_question.value = Object.values(save_question.value).filter((data:any) => {
       return data.topic_id == TopicData.value[selectIndexTopic.value - 1].id
     })
   } else {
-    list_question.value = save_question.value
+
+    await load_question()
   }
 }
 
