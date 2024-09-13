@@ -14,6 +14,7 @@
     <div class="grid grid-cols-6 gap-5 items-center my-10">
       <div class="col-span-2 sm:col-span-1">
         <DropdownCheckSelect
+          block-class="w-full"
           customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
           v-model="selectIndexLevel" :list_data="LevelListName" icon="caret-down"
           icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
@@ -22,6 +23,7 @@
 
       <div class="col-span-2 sm:col-span-1">
         <DropdownCheckSelect
+          block-class="w-full"
           customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
           v-model="selectIndexStatus" :list_data="StatusListName" icon="caret-down"
           icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
@@ -30,6 +32,7 @@
 
       <div class="col-span-2 sm:col-span-1">
         <DropdownCheckSelect
+          block-class="w-full"
           customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
           v-model="selectIndexLevel" :list_data="LevelListName" icon="caret-down"
           icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
