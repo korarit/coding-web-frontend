@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-full" ref="dropdownRef">
+    <div :class="`relative ${props.blockClass}`" ref="dropdownRef">
         <button 
             @click="setDropdownStatus"
             :class="props.customclass"
@@ -61,6 +61,10 @@ const props = defineProps({
     off: {
         type: Boolean,
         default: false
+    },
+    blockClass: {
+        type: String,
+        default: 'w-fit'
     }
 })
 
