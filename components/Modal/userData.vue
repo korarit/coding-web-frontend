@@ -41,7 +41,7 @@
                 <div class="w-[48px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'book-bookmark']" class="text-[28px] " />
                 </div>
-                <p class="text-[18px] font-light">โจทย์ที่บันทึกไว้</p>
+                <p class="text-[18px] font-light">โจทย์ที่ถูกใจไว้</p>
             </button>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
