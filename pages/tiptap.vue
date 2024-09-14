@@ -91,7 +91,7 @@
       <button @click="getJSON()">Get JSON</button>
     </div>
 
-    <div class="p-2 w-full min-h-9  mb-4 text-black">
+    <div class="p-2 w-full h-fit  mb-4 text-black">
       <EditorContent :editor="editor" />
     </div>
 
