@@ -105,7 +105,7 @@
               />
             </svg>
             <span
-              class="absolute inset-0 flex items-center justify-center font-semibold text-lg dark:text-[#fefefe]"
+              class="absolute inset-0 flex items-center justify-center font-semibold text-lg dark:text-[#fefef1]"
               >10000</span
             >
           </div>
