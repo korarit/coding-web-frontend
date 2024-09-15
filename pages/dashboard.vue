@@ -134,7 +134,7 @@
             <tr
               v-for="index in 9"
               :key="index"
-              class="bg-white border-b dark:border-[#0f0f0f] hover:bg-gray-50 dark:bg-[#262626] dark:text-[#fefefe] dark:hover:bg-[#343434]"
+              class="bg-white border-b dark:border-[#0f0f0f] hover:bg-gray-500 dark:bg-[#262626] dark:text-[#fefefe] dark:hover:bg-[#343434]"
             >
               <td class="border px-4 py-2 text-center">{{ index }}</td>
               <td class="border px-4 py-2">
