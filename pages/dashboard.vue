@@ -2,7 +2,7 @@
   <div class="p-8 dark:bg-[#0F0F0F]">
     <div class="flex justify-center space-x-16 mb-8 max-w-full">
       <div
-        class="flex-col items-center justify-center bg-white shadow-lg rounded-xl p-4 flex w-56 h-60 dark:bg-[#2E2E2E]"
+        class="flex-col items-center justify-center bg-white shadow-lg rounded-xl p-4 flex w-56 h-60 dark:bg-[#262626]"
       >
         <h3 class="text-black text-base font-bold mb-2 dark:text-[#fefefe]">
           ผู้สมัครทั้งหมด
@@ -134,7 +134,7 @@
             <tr
               v-for="index in 9"
               :key="index"
-              class="bg-white border-b dark:border-[#0f0f0f] hover:bg-gray-50 dark:bg-[#3D3D3D] dark:text-[#fefefe] dark:hover:bg-[#343434]"
+              class="bg-white border-b dark:border-[#0f0f0f] hover:bg-gray-50 dark:bg-[#262626] dark:text-[#fefefe] dark:hover:bg-[#343434]"
             >
               <td class="border px-4 py-2 text-center">{{ index }}</td>
               <td class="border px-4 py-2">
