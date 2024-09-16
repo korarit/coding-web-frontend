@@ -164,6 +164,13 @@ const editor = ref(useEditor({
 
 }));
 
+const model = defineModel()
+model.value = editor.value;
+
+watch(() => editor.value, (value) => {
+    model.value = value;
+}, { immediate: true });
+
 const AddFontSize = () => {
     selectedFontSize.value++
     editor.value?.chain().focus().setFontSize(selectedFontSize.value+'px').run()
