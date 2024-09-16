@@ -85,6 +85,23 @@
 <script setup lang="ts">
 import submission_status  from '~/assets/json/submission_status.json'
 
+//////////////////////////////////// Auth  ////////////////////////////////////
+
+definePageMeta({
+    auth: true
+})
+const { status, data } = useAuth()
+
+const router = useRouter()
+onMounted(() => {
+    if (status.value === 'authenticated' && data.value) {
+        let user_session: any = data.value;
+        if (user_session?.type_level < 2) {
+            router.push('/')
+        }
+    }
+})
+//////////////////////////////////// Data  ////////////////////////////////////
 const selectIndexLevel = ref<number>(0);
 const LevelListName = ref<any>([]);
 const LevelData = ref<any>([]);
