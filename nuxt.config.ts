@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   css: ['~/assets/css/golbal.css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    'vue-sweetalert-icons/dist/style.css'
   ],
 
   postcss: {
@@ -29,6 +30,7 @@ export default defineNuxtConfig({
     "@sidebase/nuxt-auth",
     "@nuxtjs/turnstile",
     "dayjs-nuxt",
+    "@hypernym/nuxt-gsap",
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],
