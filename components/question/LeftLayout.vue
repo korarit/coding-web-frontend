@@ -4,14 +4,13 @@
     <div
       :class="`flex-none w-full bg-[#F6F6F6] dark:bg-[#3D3D3D] border-b border-[#B0B0B0] dark:border-[#545454]  flex ${isVerticalLeftMode ? 'h-full justify-between vertical-mode' : 'h-9 items-center justify-between px-1'}`">
       <div class="flex h-fit items-center gap-[2px] w-full">
-        <button class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
+        <NuxtLink :to="linkBack" class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
           <font-awesome-icon :icon="['fas', 'xmark']" class="text-[28px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
-        </button>
+        </NuxtLink>
         <button @click="ShowDiscription = true"
           :class="`hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md ${isVerticalLeftMode ? 'h-fit py-2' : 'h-8 px-2'} flex items-center gap-2`">
           <font-awesome-icon :icon="['fas', 'file-lines']" class="text-[20px] text-[#00C7A3]" />
-          <span
-            :class="`text-[16px] ${ShowDiscription ? 'text-[#000000] dark:text-[#E6E6E6] font-medium' : 'text-[#6B6B6B] dark:text-[#c8c8c8] font-light'}`">Description</span>
+          <span :class="`text-[16px] ${ShowDiscription ? 'text-[#000000] dark:text-[#E6E6E6] font-medium' : 'text-[#6B6B6B] dark:text-[#c8c8c8] font-light'}`">Description</span>
         </button>
 
         <div :class="`${isVerticalLeftMode ? 'h-[1px] w-[20px]' : 'h-5 w-[1px] '} bg-[#B0B0B0]`"></div>
@@ -140,6 +139,7 @@ type submitData = {
 
 }
 const props = defineProps<{
+  linkBack: string
   submitList: submitData[] | null
   paneLeftWidth: number
   isVerticalLeftMode: boolean

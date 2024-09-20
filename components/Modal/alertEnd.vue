@@ -7,14 +7,13 @@
       <div v-show="show_modal" class="bg-white dark:bg-[#3D3D3D] dark:border-[#676767] p-6 rounded-lg shadow-lg w-[90dvw] sm:w-96 xl:w-[32dvw]">
         
         <div class="flex w-full flex-col sapce-y-4">
-          <sweetalert-icons v-if="succuess" icon="success" />
-          <sweetalert-icons v-else icon="error" />
+          <sweetalert-icons :icon="icon" />
 
           <p class="text-[20px] text-center">{{ props.message }}</p>
 
-          <div v-if="succuess" class="flex space-x-3 w-fit mt-6 mx-auto">
+          <div v-if="icon == 'success'" class="flex space-x-3 w-fit mt-6 mx-auto">
             <NuxtLink :href="linkToMain" class="w-fit bg-[#00C7A3] hover:bg-[#35bca3] text-white text-center px-3 py-2 rounded-lg">กลับหน้าหลัก</NuxtLink>
-            <NuxtLink :href="linkToEdit" class="w-fit bg-red-500 hover:bg-red-700 text-white text-center px-3 py-2 rounded-lg">แก้ไขโจทย์</NuxtLink>
+            <NuxtLink :href="$props.linkToEdit" class="w-fit bg-red-500 hover:bg-red-700 text-white text-center px-3 py-2 rounded-lg">แก้ไขโจทย์</NuxtLink>
           </div>
           <div v-else class="flex space-x-3 w-fit mt-6 mx-auto">
             <button @click="closeModal" class="w-fit bg-[#00C7A3] hover:bg-[#35bca3] text-white px-3 py-2 rounded-lg">แก้ไขโจทย์</button>
@@ -39,7 +38,7 @@
 const props = defineProps({
   show: Boolean,
   message: String,
-  succuess: Boolean,
+  icon: String,
 
   linkToEdit: String,
   linkToMain: String

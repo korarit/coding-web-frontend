@@ -1,249 +1,277 @@
 <template>
     <NuxtLayout name="dashboard">
-        <h1 class="text-4xl underline font-bold mb-6 dark:text-[#FEFEFE]">ข้อมูลของโจทย์</h1>
-    
-        <div class="border-t border-x border-gray-600 pt-10 px-12 pb-8 rounded-t-lg h-fit">
-            <div class="flex w-full space-x-4 mb-6">
-                <div class="flex w-fit items-center space-x-2">
-                    <p class=" text-[#202020] dark:text-[#FEFEFE] text-[20px] font-medium">หัวข้อของโจทย์</p>
-                    <DropdownCheckSelect 
-                        block-class="w-fit"
-                        customclass="w-[160px] border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[20px] lg:text-[16px] md:text-[16px] sm:text-[16px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
-                        v-model="selectIndexTopic" 
-                        :list_data="TopicListName" 
-                        icon="caret-down"
-                        icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
-                    />
+        <div v-show="loading_all" class="flex justify-between items-center h-full">
+            <div class="mx-auto flex items-center">
+                <svg class=" animate-spin -ml-1 mr-4 h-12 w-12 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+                <p class="text-[28px]">
+                Loading . . .
+                </p>
+            </div>
+        </div>
+        <div v-show="error_code != null && !loading_all" class="flex-auto h-full flex justify-center items-center">
+            <div class="mx-auto flex items-center space-x-4">
+                <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[72px] text-red-600" />
+                <p class="text-[28px]">
+                    เกิดข้อผิดพลาด HTTP {{ error_code }}
+                </p>
+            </div>
+        </div>
+        <div v-show="!loading_all && error_code == null" class="flex flex-col">
+
+            <h1 class="text-4xl underline font-bold mb-6 dark:text-[#FEFEFE]">ข้อมูลของโจทย์</h1>
+
+            <div class="border-t border-x border-gray-600 pt-10 px-12 my-12 pb-8 rounded-t-lg h-fit">
+
+                <div class="flex w-full space-x-4 mb-6">
+                    <div class="flex w-fit items-center space-x-2">
+                        <p class=" text-[#202020] dark:text-[#FEFEFE] text-[20px] font-medium">หัวข้อของโจทย์</p>
+                        <DropdownCheckSelect 
+                            block-class="w-fit"
+                            customclass="w-[160px] border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[20px] lg:text-[16px] md:text-[16px] sm:text-[16px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+                            v-model="selectIndexTopic" 
+                            :list_data="TopicListName" 
+                            icon="caret-down"
+                            icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
+                        />
+                    </div>
+            
+                    <div class="flex items-center space-x-2">
+                        <label for="difficulty" class="block text-[#202020] dark:text-[#FEFEFE] text-[20px] font-medium">ระดับความยาก</label>
+                        <DropdownCheckSelect 
+                            block-class="w-fit"
+                            customclass="w-[160px] border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[20px] lg:text-[16px] md:text-[16px] sm:text-[16px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+                            v-model="selectIndexLevel" 
+                            :list_data="LevelListName" 
+                            icon="caret-down"
+                            icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
+                        />
+                    </div>
                 </div>
         
-                <div class="flex items-center space-x-2">
-                    <label for="difficulty" class="block text-[#202020] dark:text-[#FEFEFE] text-[20px] font-medium">ระดับความยาก</label>
-                    <DropdownCheckSelect 
-                        block-class="w-fit"
-                        customclass="w-[160px] border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[20px] lg:text-[16px] md:text-[16px] sm:text-[16px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
-                        v-model="selectIndexLevel" 
-                        :list_data="LevelListName" 
-                        icon="caret-down"
-                        icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
-                    />
-                </div>
-            </div>
-    
-            <div class="mb-6">
-            <input
-                type="text"
-                v-model="problemName"
-                placeholder="ชื่อโจทย์"
-                class="dark:bg-[#2E2E2E] border dark:border-[#282828] border-gray-300 text-[20px] placeholder:text-[#8C8C8C] dark:placeholder:text-[#A9A9A9] rounded-lg w-full px-3 py-2 focus:outline-none"
-            />
-            </div>
-    
-            <!-- แถบเครื่องมือสีเขียว -->
-            <div class="mb-6">
-                <RichText v-model="textEditor" />
-            </div>
-
-            <!-- LLM Promt -->
-            <div class="flex items-center space-x-2" :class="isLLMChecked ? 'mb-1' : 'mb-6'">
-                <label for="llm" class="dark:text-[#FEFEFE] text-[20px]">LLM Prompt เงื่อนไขของโจทย์สำหรับตรวจสอบ Code </label>
+                <div class="mb-6">
                 <input
-                    type="checkbox"
-                    v-model="isLLMChecked"
-                    class="h-[20px] w-[20px] border border-gray-300 rounded-lg"
-                />
-            </div>
-            <div v-if="isLLMChecked" class="mb-6">
-                <textarea
-                    rows="4"
-                    v-model="llmPrompt"
-                    class="w-full min-h-[60px] dark:bg-[#2E2E2E] border dark:border-[#282828] border-gray-300 text-[20px] placeholder:text-[#8C8C8C] dark:placeholder:text-[#A9A9A9] shadow-inner shadow-black/5 rounded-lg px-3 py-2 focus:outline-none resize-none"
-                    placeholder="LLM Prompt"
-                ></textarea>
-            </div>
-    
-            <div class="flex h-fit items-center justify-between mb-4">
-                <h2 class="dark:text-[#FEFEFE] text-[24px] font-semibold ">สร้าง Test Case</h2>
-                <div class="flex items-center space-x-2">
-                <label for="countTestCase" class="dark:text-[#FEFEFE] text-[16px]">จำนวนการ Test</label>
-                <input @change="checkTestConut" min="1" type="number" class="rounded-md border border-gray-200 p-2 text-[16px] leading-5 w-[100px] focus:outline-none" v-model="countTestCases" />
-                <button
-                    v-if="selectIndexTestType === 0"
-                    @click="addTestCase"
-                    class="dark:bg-[#3DD6BA] bg-[#00C7A3] border border-[#199c80] dark:border-[#066C5A] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] leading-5 text-white dark:text-[#0F0F0F] py-2 px-6 rounded-lg"
-                >
-                    เพิ่ม Test Case
-                </button>
-                <DropdownCheckSelect 
-                    block-class="w-fit h-full"
-                    customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[20px] lg:text-[16px] md:text-[16px] sm:text-[16px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
-                    v-model="selectIndexTestType" 
-                    :list_data="['Random', 'Code Generate']" 
-                    icon="caret-down"
-                    icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
+                    type="text"
+                    v-model="problemName"
+                    placeholder="ชื่อโจทย์"
+                    class="dark:bg-[#2E2E2E] border dark:border-[#282828] border-gray-300 text-[20px] placeholder:text-[#8C8C8C] dark:placeholder:text-[#A9A9A9] rounded-lg w-full px-3 py-2 focus:outline-none"
                 />
                 </div>
-            </div>
+        
+                <!-- แถบเครื่องมือสีเขียว -->
+                <div class="mb-6">
+                    <RichText v-model="textEditor" />
+                </div>
 
-            <div v-if="selectIndexTestType != 0" class="">
-                <div
-                    class=" w-full h-fit border overflow-hidden rounded-lg bg-[#FEFEFE] dark:border-[#2E2E2E]"
-                >
-                    <!-- Header with green background and "ลบ" button -->
-                    <div class="flex items-center justify-between dark:text-[#FEFEFE] bg-[#E4F3F1]  dark:bg-[#262626] py-2 px-4">
-                        <h2 class="text-[20px] leading-5 font-semibold">
-                            Test Case 
-                        </h2>
-                    </div>
+                <!-- LLM Promt -->
+                <div class="flex items-center space-x-2" :class="isLLMChecked ? 'mb-1' : 'mb-6'">
+                    <label for="llm" class="dark:text-[#FEFEFE] text-[20px]">LLM Prompt เงื่อนไขของโจทย์สำหรับตรวจสอบ Code </label>
+                    <input
+                        type="checkbox"
+                        v-model="isLLMChecked"
+                        class="h-[20px] w-[20px] border border-gray-300 rounded-lg"
+                    />
+                </div>
+                <div v-if="isLLMChecked" class="mb-6">
+                    <textarea
+                        rows="4"
+                        v-model="llmPrompt"
+                        class="w-full min-h-[60px] dark:bg-[#2E2E2E] border dark:border-[#282828] border-gray-300 text-[20px] placeholder:text-[#8C8C8C] dark:placeholder:text-[#A9A9A9] shadow-inner shadow-black/5 rounded-lg px-3 py-2 focus:outline-none resize-none"
+                        placeholder="LLM Prompt"
+                    ></textarea>
+                </div>
         
-                    <!-- Form section -->
-                    <div class="flex h-fit px-6 pt-4 pb-6 space-x-8 dark:bg-[#3D3D3D]">
-                        <!-- Input Fields Section -->
-                        <div class="w-[50%]">
-                            <div class="flex items-center justify-between mb-2">
-                                <p class="dark:text-[#FEFEFE] text-[18px]">Code สำหรับสร้าง Input</p>
-                                <DropdownCheckSelect 
-                                    block-class="w-fit h-full"
-                                    customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
-                                    v-model="selectIndexLangGenInput" 
-                                    :list_data="LangListName" 
-                                    height-list="160px"
-                                    icon="caret-down"
-                                    icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
-                                />
-                            </div>
-                            <div class="w-full h-[240px]  bg-[#FEFEFE] dark:bg-[#2E2E2E] border border-gray-300 dark:border-[#1D1D1D] rounded-lg overflow-hidden">
-                                <MonacoEditor ref="editorInput" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false, lineNumbersMinChars: 4, lineDecorationsWidth: 3  }" v-model="codeGenInput"
-                                :lang="LangData[selectIndexLangGenInput]['lang']" class="h-full border-[#000000] " />
-                            </div>
-                        </div>
-                            
-                        <!-- Textarea Section -->
-                        <div class="w-[50%]">
-                            <div class="flex items-center justify-between mb-2">
-                                <p class="dark:text-[#FEFEFE] text-[18px]">Code สำหรับสร้าง Output</p>
-                                <DropdownCheckSelect 
-                                    block-class="w-fit h-full"
-                                    customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
-                                    v-model="selectIndexLangGenOutput" 
-                                    :list_data="LangListName" 
-                                    height-list="160px"
-                                    icon="caret-down"
-                                    icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
-                                />
-                            </div>
-                            <div class="w-full h-[240px]  bg-[#FEFEFE] dark:bg-[#2E2E2E] border border-gray-300 dark:border-[#1D1D1D] rounded-lg overflow-hidden">
-                                <MonacoEditor ref="editorOutput" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false, lineNumbersMinChars: 4, lineDecorationsWidth: 3  }" v-model="codeGenOutput"
-                                    :lang="LangData[selectIndexLangGenOutput]['lang']" class="h-full border-[#000000] " />
-                            </div>
-                        </div>
+                <div class="flex h-fit items-center justify-between mb-4">
+                    <h2 class="dark:text-[#FEFEFE] text-[24px] font-semibold ">สร้าง Test Case</h2>
+                    <div class="flex items-center space-x-2">
+                    <label for="countTestCase" class="dark:text-[#FEFEFE] text-[16px]">จำนวนการ Test</label>
+                    <input @change="checkTestConut" min="1" type="number" class="rounded-md border border-gray-200 p-2 text-[16px] leading-5 w-[100px] focus:outline-none" v-model="countTestCases" />
+                    <button
+                        v-if="selectIndexTestType === 0"
+                        @click="addTestCase"
+                        class="dark:bg-[#3DD6BA] bg-[#00C7A3] border border-[#199c80] dark:border-[#066C5A] hover:bg-[#199c80] active:bg-[#199c80] text-[20px] leading-5 text-white dark:text-[#0F0F0F] py-2 px-6 rounded-lg"
+                    >
+                        เพิ่ม Test Case
+                    </button>
+                    <DropdownCheckSelect 
+                        block-class="w-fit h-full"
+                        customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[20px] lg:text-[16px] md:text-[16px] sm:text-[16px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+                        v-model="selectIndexTestType" 
+                        :list_data="['Random', 'Code Generate']" 
+                        icon="caret-down"
+                        icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
+                    />
                     </div>
                 </div>
-            </div>
-            <!-- Test Case Random Section -->
-            <div v-else class="flex flex-col space-y-6 ">
-                <div
-                    v-for="(testCase, testCaseIndex) in testCases"
-                    :key="testCaseIndex"
-                    class=" w-full border overflow-hidden rounded-lg dark:border-[#2E2E2E]"
-                >
-                    <!-- Header with green background and "ลบ" button -->
-                    <div class="flex items-center justify-between dark:text-[#FEFEFE] bg-[#E4F3F1]  dark:bg-[#262626] py-2 px-4">
-                        <h2 class="text-[20px] leading-5 font-semibold">
-                            Test Case {{ testCaseIndex + 1 }}
-                        </h2>
-                        <button
-                            @click="removeTestCase(testCaseIndex)"
-                            class="dark:bg-[#CC2B2D] bg-red-500 hover:bg-red-700 text-white px-6 py-[4px] text-[20px] leading-5 rounded-lg"
-                        >
-                            ลบ
-                        </button>
-                    </div>
-        
-                    <!-- Form section -->
-                    <div class="flex p-6 space-x-8 bg-[#FEFEFE] dark:bg-[#3D3D3D]">
-                        <!-- Input Fields Section -->
-                        <div class="w-[55%] flex flex-col space-y-2">
-                            <div class="w-full flex">
-                                <div class="flex-none flex flex-col w-fit gap-y-2 mr-1">
-                                    <label v-for="(input, inputIndex) in testCase.inputs" class="dark:text-[#FEFEFE] p-2 leading-[26px] w-fit text-[16px] font-medium">
-                                        input line {{ inputIndex + 1 }} :
-                                    </label>
-                                </div>
-                                <div class="flex-auto flex flex-col gap-y-2">
-                                    <input
-                                        v-for="(input, inputIndex) in testCase.inputs"
-                                        v-model="testCase.inputs[inputIndex]"
-                                        type="text"
-                                        class="w-full text-[#202020] dark:text-[#FEFEFE] p-2 border border-gray-300 dark:border-[#1D1D1D] rounded-lg shadow-inner shadow-black/5 bg-[#FBFBFB] dark:bg-[#2E2E2E]"
-                                    />
-                                </div>
-                                <!-- re input button aligned with the input fields -->
-                                <div class="flex-none flex flex-col space-y-2 ml-3">
-                                    <button
-                                        v-for="(input, inputIndex) in testCase.inputs"
-                                        @click="removeInput(testCaseIndex, inputIndex)"
-                                        class="w-[40px] h-[42px] bg-red-500 hover:bg-red-700 text-white text-[18px] py-2 rounded-md"
-                                    >
-                                        <font-awesome-icon :icon="['fas', 'trash']" />
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Add input button aligned with the input fields -->
-                            <div class="flex items-center space-x-1">
-                            <label class="flex-none p-2 leading-[26px] w-fit text-[16px] font-medium opacity-0">input line 3 :</label>
-                            <!-- Empty label to match the input label space -->
-                            <button
-                                @click="addInput(testCaseIndex)"
-                                class="flex-auto w-full text-md leading-5 bg-[#606060] dark:bg-[#3DD6BA] hover:bg-[#4b4b4b] text-white dark:text-[#0F0F0F] py-3 rounded-lg"
-                            >
-                                เพิ่ม input
-                            </button>
-                            </div>
+
+                <div v-if="selectIndexTestType != 0" class="">
+                    <div
+                        class=" w-full h-fit border overflow-hidden rounded-lg bg-[#FEFEFE] dark:border-[#2E2E2E]"
+                    >
+                        <!-- Header with green background and "ลบ" button -->
+                        <div class="flex items-center justify-between dark:text-[#FEFEFE] bg-[#E4F3F1]  dark:bg-[#262626] py-2 px-4">
+                            <h2 class="text-[20px] leading-5 font-semibold">
+                                Test Case 
+                            </h2>
                         </div>
             
-                        <!-- Textarea Section -->
-                        <div class="w-[45%]">
-                            <textarea
-                            rows="6"
-                            v-model="testCase.answer"
-                            class="w-full h-full p-2  dark:bg-[#2E2E2E] border border-gray-300 shadow-inner shadow-black/5 bg-[#FBFBFB] dark:border-[#1D1D1D] dark:placeholder:text-[#6b6b6b] rounded-lg resize-none"
-                            placeholder="Output ที่คาดหวัง"
-                            ></textarea>
+                        <!-- Form section -->
+                        <div class="flex h-fit px-6 pt-4 pb-6 space-x-8 dark:bg-[#3D3D3D]">
+                            <!-- Input Fields Section -->
+                            <div class="w-[50%]">
+                                <div class="flex items-center justify-between mb-2">
+                                    <p class="dark:text-[#FEFEFE] text-[18px]">Code สำหรับสร้าง Input</p>
+                                    <DropdownCheckSelect 
+                                        block-class="w-fit h-full"
+                                        customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+                                        v-model="selectIndexLangGenInput" 
+                                        :list_data="LangListName" 
+                                        height-list="160px"
+                                        icon="caret-down"
+                                        icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
+                                    />
+                                </div>
+                                <div class="w-full h-[240px]  bg-[#FEFEFE] dark:bg-[#2E2E2E] border border-gray-300 dark:border-[#1D1D1D] rounded-lg overflow-hidden">
+                                    <MonacoEditor ref="editorInput" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false, lineNumbersMinChars: 4, lineDecorationsWidth: 3  }" v-model="codeGenInput"
+                                    :lang="LangData[selectIndexLangGenInput]['lang']" class="h-full border-[#000000] " />
+                                </div>
+                            </div>
+                                
+                            <!-- Textarea Section -->
+                            <div class="w-[50%]">
+                                <div class="flex items-center justify-between mb-2">
+                                    <p class="dark:text-[#FEFEFE] text-[18px]">Code สำหรับสร้าง Output</p>
+                                    <DropdownCheckSelect 
+                                        block-class="w-fit h-full"
+                                        customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
+                                        v-model="selectIndexLangGenOutput" 
+                                        :list_data="LangListName" 
+                                        height-list="160px"
+                                        icon="caret-down"
+                                        icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
+                                    />
+                                </div>
+                                <div class="w-full h-[240px]  bg-[#FEFEFE] dark:bg-[#2E2E2E] border border-gray-300 dark:border-[#1D1D1D] rounded-lg overflow-hidden">
+                                    <MonacoEditor ref="editorOutput" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false, lineNumbersMinChars: 4, lineDecorationsWidth: 3  }" v-model="codeGenOutput"
+                                        :lang="LangData[selectIndexLangGenOutput]['lang']" class="h-full border-[#000000] " />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <!-- Test Case Random Section -->
+                <div v-else class="flex flex-col space-y-6 ">
+                    <div
+                        v-for="(testCase, testCaseIndex) in testCases"
+                        :key="testCaseIndex"
+                        class=" w-full border overflow-hidden rounded-lg dark:border-[#2E2E2E]"
+                    >
+                        <!-- Header with green background and "ลบ" button -->
+                        <div class="flex items-center justify-between dark:text-[#FEFEFE] bg-[#E4F3F1]  dark:bg-[#262626] py-2 px-4">
+                            <h2 class="text-[20px] leading-5 font-semibold">
+                                Test Case {{ testCaseIndex + 1 }}
+                            </h2>
+                            <button
+                                @click="removeTestCase(testCaseIndex)"
+                                class="dark:bg-[#CC2B2D] bg-red-500 hover:bg-red-700 text-white px-6 py-[4px] text-[20px] leading-5 rounded-lg"
+                            >
+                                ลบ
+                            </button>
+                        </div>
+            
+                        <!-- Form section -->
+                        <div class="flex p-6 space-x-8 bg-[#FEFEFE] dark:bg-[#3D3D3D]">
+                            <!-- Input Fields Section -->
+                            <div class="w-[55%] flex flex-col space-y-2">
+                                <div class="w-full flex">
+                                    <div class="flex-none flex flex-col w-fit gap-y-2 mr-1">
+                                        <label v-for="(input, inputIndex) in testCase.inputs" class="dark:text-[#FEFEFE] p-2 leading-[26px] w-fit text-[16px] font-medium">
+                                            input line {{ inputIndex + 1 }} :
+                                        </label>
+                                    </div>
+                                    <div class="flex-auto flex flex-col gap-y-2">
+                                        <input
+                                            v-for="(input, inputIndex) in testCase.inputs"
+                                            v-model="testCase.inputs[inputIndex]"
+                                            type="text"
+                                            class="w-full text-[#202020] dark:text-[#FEFEFE] p-2 border border-gray-300 dark:border-[#1D1D1D] rounded-lg shadow-inner shadow-black/5 bg-[#FBFBFB] dark:bg-[#2E2E2E]"
+                                        />
+                                    </div>
+                                    <!-- re input button aligned with the input fields -->
+                                    <div class="flex-none flex flex-col space-y-2 ml-3">
+                                        <button
+                                            v-for="(input, inputIndex) in testCase.inputs"
+                                            @click="removeInput(testCaseIndex, inputIndex)"
+                                            class="w-[40px] h-[42px] bg-red-500 hover:bg-red-700 text-white text-[18px] py-2 rounded-md"
+                                        >
+                                            <font-awesome-icon :icon="['fas', 'trash']" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Add input button aligned with the input fields -->
+                                <div class="flex items-center space-x-1">
+                                <label class="flex-none p-2 leading-[26px] w-fit text-[16px] font-medium opacity-0">input line 3 :</label>
+                                <!-- Empty label to match the input label space -->
+                                <button
+                                    @click="addInput(testCaseIndex)"
+                                    class="flex-auto w-full text-md leading-5 bg-[#606060] dark:bg-[#3DD6BA] hover:bg-[#4b4b4b] text-white dark:text-[#0F0F0F] py-3 rounded-lg"
+                                >
+                                    เพิ่ม input
+                                </button>
+                                </div>
+                            </div>
+                
+                            <!-- Textarea Section -->
+                            <div class="w-[45%]">
+                                <textarea
+                                rows="6"
+                                v-model="testCase.answer"
+                                class="w-full h-full p-2  dark:bg-[#2E2E2E] border border-gray-300 shadow-inner shadow-black/5 bg-[#FBFBFB] dark:border-[#1D1D1D] dark:placeholder:text-[#6b6b6b] rounded-lg resize-none"
+                                placeholder="Output ที่คาดหวัง"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-            <div class="flex justify-center items-center mt-8 space-x-4">
-                <button
-                    @click="send"
-                    class="border border-black bg-white hover:bg-[#00C7A3] hover:text-white active:bg-[#199c80] text-black rounded-lg px-6 py-2"
-                >
-                    บันทึกโจทย์
-                </button>
-                <button
-                    @click="openModalEnd"
-                    class="border border-black bg-red-500 hover:bg-red-700 text-white rounded-lg px-6 py-2"
-                >
-                    ยกเลิก
-                </button>
-            </div>
+                <div class="flex justify-center items-center mt-8 space-x-4">
+                    <button
+                        @click="send"
+                        class="border border-black bg-white hover:bg-[#00C7A3] hover:text-white active:bg-[#199c80] text-black rounded-lg px-6 py-2"
+                    >
+                        บันทึกโจทย์
+                    </button>
+                    <button
+                        @click="openModalEnd"
+                        class="border border-black bg-red-500 hover:bg-red-700 text-white rounded-lg px-6 py-2"
+                    >
+                        ยกเลิก
+                    </button>
+                </div>
 
             </div>
+        </div>
+        
     
-            <div v-show="modelEnd" class="absolute min-w-full h-[100dvh] top-0 left-0">
-                <ModalAlertEnd
-                    :message="statusMessage"
-                    :show="modelEnd"
-                    @closeModal="modelEnd = false"
-                    :succuess="statusCreate"
+        <div v-show="modelEnd" class="absolute min-w-full h-[100dvh] top-0 left-0">
+            <ModalAlertEnd
+                :message="statusMessage"
+                :show="modelEnd"
+                @closeModal="modelEnd = false"
+                :icon="statusCreate"
 
-                    linkToMain="/dashboard"
-                    linkToEdit="/dashboard/create-question"
+                linkToMain="/dashboard"
+                :linkToEdit="linkToEdit"
 
-                />
-            </div>
+            />
+        </div>
     </NuxtLayout>
 </template>
 <script setup lang="ts">
@@ -280,6 +308,12 @@ TopicListName.value.push('Topic');
 const load_topic = async () => {
   const config = useRuntimeConfig()
   const response = await fetch(config.public.backendApi + '/question/topic')
+
+    if (!response.ok) {
+        error_code.value = response.status;
+        return;
+    }
+
   const data = await response.json()
   
   const list_data = data.data.topic_list
@@ -300,6 +334,12 @@ LevelListName.value.push('ความยาก');
 const load_level = async () => {
   const config = useRuntimeConfig()
   const response = await fetch(config.public.backendApi + '/question/level')
+  
+  if (!response.ok) {
+    error_code.value = response.status;
+    return;
+  }
+  
   const data = await response.json()
 
   const list_data = data.data.level_list
@@ -324,19 +364,21 @@ const load_lang = async () => {
 
 //////////////////////////////////// Load Data  ////////////////////////////////////
 async function processNodeImageURL(node: any) {
-  if (node.type === 'image'  && node.attrs.src !== null && !node.attrs.src.includes('question')) {
-    node.attrs.src = "https://pub-3d57d68059384f598b7ac0875ccf93db.r2.dev/question/" + node.attrs.src;
-  }
-
-  if (node.content) {
-    // วนซ้ำไปใน content ที่ซ้อนอยู่
-    for (const childNode of node.content) {
-      await processNodeImageURL(childNode);
+    if (node.type === 'image'  && node.attrs.src !== null && !node.attrs.src.includes('question')) {
+        DiscriptionListImage.value.push(node.attrs.src);
+        node.attrs.src = "https://pub-3d57d68059384f598b7ac0875ccf93db.r2.dev/question/" + node.attrs.src;
     }
-  }
+
+    if (node.content) {
+        // วนซ้ำไปใน content ที่ซ้อนอยู่
+        for (const childNode of node.content) {
+        await processNodeImageURL(childNode);
+        }
+    }
 }
 
 const questionData = ref<any>({});
+const DiscriptionListImage = ref<string[]>([]);
 const load_data = async () => {
     const config = useRuntimeConfig()
     const user_data:any = data.value;
@@ -347,8 +389,11 @@ const load_data = async () => {
     })
 
     const datajson = await response.json()
-    if (response.ok) {
+    if (response.status === 200) {
+
         problemName.value = datajson.data.name;
+        questionData.value.name = datajson.data.name;
+
         questionData.value.point = datajson.data.point;
 
 
@@ -356,15 +401,22 @@ const load_data = async () => {
         await processNodeImageURL(Discription);
         textEditor.value.commands.setContent(Discription)
 
+        questionData.value.description = JSON.parse(datajson.data.description);
+
         countTestCases.value = datajson.data.test_count;
+        questionData.value.test_count = datajson.data.test_count;
 
         if (datajson.data.llm_prompt !== "") {
             isLLMChecked.value = true;
             llmPrompt.value = datajson.data.llm_prompt;
+            questionData.value.llm_prompt = datajson.data.llm_prompt;
         }
 
         if (datajson.data.test_type === 'random') {
+
+            questionData.value.test_type = 0;
             selectIndexTestType.value = 0;
+
             let listTest:any[] = [];
             datajson.data.list_testcase.forEach((element: any) => {
                 listTest.push({
@@ -373,31 +425,58 @@ const load_data = async () => {
                     type: 'random',
                 });
             });
+
+            questionData.value.testcase = listTest;
             testCases.value = listTest;
         } else {
+            questionData.value.test_type = 1;
             selectIndexTestType.value = 1;
+
             if (datajson.data.list_testcase[0].input != ""){
                 const getGenInput = JSON.parse(datajson.data.list_testcase[0].input);
-                selectIndexLangGenInput.value = LangData.findIndex((element: any) => element['lang'] === getGenInput.runtime);
+                
+                const indexLangGenInput = LangData.findIndex((element: any) => element['lang'] === getGenInput.runtime);
+                questionData.value.selectIndexLangGenInput = indexLangGenInput;
+                selectIndexLangGenInput.value = indexLangGenInput;
+
                 codeGenInput.value = getGenInput.code;
+                questionData.value.codeGenInput = getGenInput.code;
             }
+
             const getGenOutput = JSON.parse(datajson.data.list_testcase[0].answer);
-            selectIndexLangGenOutput.value = LangData.findIndex((element: any) => element['lang'] === getGenOutput.runtime);
+
+            const indexLangGenOutput = LangData.findIndex((element: any) => element['lang'] === getGenOutput.runtime);
+            selectIndexLangGenOutput.value = indexLangGenOutput;
+            questionData.value.selectIndexLangGenOutput = indexLangGenOutput;
+
             codeGenOutput.value = getGenOutput.code;
+            questionData.value.codeGenOutput = getGenOutput.code;
         }
 
-        selectIndexTopic.value = await TopicData.value.findIndex((element: any) => element['id'] === datajson.data.topic_id) + 1;
-        selectIndexLevel.value = await LevelData.value.findIndex((element: any) => element['id'] === datajson.data.level_id) + 1;
+        const IndexTopic = await TopicData.value.findIndex((element: any) => element['id'] === datajson.data.topic_id) + 1;
+        questionData.value.selectIndexTopic = IndexTopic;
+        selectIndexTopic.value = IndexTopic;
+
+
+        const IndexLevel = await LevelData.value.findIndex((element: any) => element['id'] === datajson.data.level_id) + 1;
+        questionData.value.selectIndexLevel = IndexLevel;
+        selectIndexLevel.value = IndexLevel;
+    } else {
+        alert(datajson.message);
+        error_code.value = response.status;
     }
 
 }
 
+const loading_all = ref<boolean>(true);
+const error_code = ref<number|null>(null);
 onMounted(async () => {
     await load_topic();
     await load_lang();
     await load_level();
     
     await load_data();
+    loading_all.value = false;
 })
 
 ///////////////////////////////// Test Case //////////////////////////////////
@@ -452,7 +531,7 @@ const GenerateTestCaseByCode = () => {
 
     if (codeGenOutput.value === '') {
         statusMessage.value = 'กรุณาเขียน Code สำหรับสร้าง Output';
-        statusCreate.value = false;
+        statusCreate.value = 'warning';
         openModalEnd();
         return;
     }
@@ -497,10 +576,6 @@ const checkTestConut = () => {
         }
     }
 };
-
-onMounted(() => {
-  addTestCase();
-});
 
 
 ///////////////////////////////// Code Editor //////////////////////////////////
@@ -581,7 +656,7 @@ async function base64ToFile(base64Url: string) {
     // สร้าง File object จาก Blob และตั้งชื่อไฟล์
     const file = new File([blob], fileName, { type: blob.type });
 
-    formdata.append('image_file', file, fileName);
+    formdata.append('image_description', file, fileName);
 
 
     return fileName;
@@ -590,9 +665,21 @@ async function base64ToFile(base64Url: string) {
   }
 }
 
+const DiscriptionnewImage = ref<string[]>([]);
 async function processNodeHasImage(node: any) {
   if (node.type === 'image' && node.attrs.src.startsWith('data:image/')) {
-    node.attrs.src = await base64ToFile(node.attrs.src);
+    let fileName = await base64ToFile(node.attrs.src);
+    node.attrs.src = fileName;
+    if (fileName){
+        DiscriptionnewImage.value.push(fileName);
+    }
+    
+  } else if (node.type === 'image' && node.attrs.src.startsWith('http')) {
+    let remove_url = node.attrs.src.replace('https://pub-3d57d68059384f598b7ac0875ccf93db.r2.dev/question/', '');
+    node.attrs.src = remove_url;
+    if (remove_url){
+        DiscriptionnewImage.value.push(remove_url);
+    }
   }
 
   if (node.content) {
@@ -604,14 +691,23 @@ async function processNodeHasImage(node: any) {
 }
 
 const textEditor = ref<any>(null);
-async function getJSON() {
+const imageRemove = ref<string[]>([]);
+async function getDescirption() {
 
-  const data = textEditor.value?.getJSON();
-  await processNodeHasImage(data);
+    const datas = textEditor.value?.getJSON();
+    await processNodeHasImage(datas);
 
-  console.log(data);
+    //เปรียบเทียบระหว่างรูปที่มีก่อนอยู่ก่อน
+    DiscriptionListImage.value.forEach((element: string) => {
+        if (!DiscriptionnewImage.value.includes(element)) {
+            imageRemove.value.push(element);
+        }
+    });
 
-  return JSON.stringify(data);
+
+    console.log(datas);
+
+  return datas;
 }
 
 /////////////////////////////////// End Model ///////////////////////////////////
@@ -624,11 +720,16 @@ const openModalEnd = () => {
 }
 
 //////////////////////////////////// Save Question ////////////////////////////////////
-const statusCreate = ref<boolean>(false);
+const statusCreate = ref<string>('');
 const statusMessage = ref<string>('');
 const linkToEdit = ref<string>('');
 
+
+const { deepEqualObject } = useDeepEqualObject() 
+
 async function send() {
+
+    let has_update:boolean = false;
 
     if (!textEditor.value) return;
 
@@ -641,37 +742,105 @@ async function send() {
 
     const user_session: any = data.value;
 
-    formdata.append('name', problemName.value);
-    formdata.append('description', await getJSON());
-    formdata.append('type', 'public');
-    formdata.append('mem_limit', '3000');
+    if (questionData.value.name !== problemName.value) {
+        console.log('name');
+        has_update = true;
+        formdata.append('name', problemName.value);
+    }
+    const description = await getDescirption();
+    if (!deepEqualObject(await questionData.value.description, description)) {
+        console.log('description', description);
+        console.log('description old', questionData.value.description);
+        has_update = true;
+        formdata.append('description', JSON.stringify(description));
+    }
 
-    if (selectIndexTopic.value !== 0) {
-        formdata.append('topic_id', TopicData.value[selectIndexTopic.value - 1]['id']);
+    if (imageRemove.value.length > 0 && deepEqualObject(questionData.value.description, description)) {
+        console.log('del_image_des');
+        has_update = true;
+        formdata.append('del_image_des', imageRemove.value.join(','));
+    }
+
+    if (selectIndexTopic.value !== 0 ) {
+        if (questionData.value.selectIndexTopic !== selectIndexTopic.value) {
+            console.log('topic_id');
+            has_update = true;
+            formdata.append('topic_id', TopicData.value[selectIndexTopic.value - 1]['id']);
+        }
     }
 
     if (selectIndexLevel.value !== 0) {
-        formdata.append('level_id', LevelData.value[selectIndexLevel.value - 1]['id']);
+        if (questionData.value.selectIndexLevel !== selectIndexLevel.value) {
+            console.log('level_id');
+            has_update = true;
+            formdata.append('level_id', LevelData.value[selectIndexLevel.value - 1]['id']);
+        }
     }
 
     if (isLLMChecked.value) {
-        formdata.append('llm_prompt', llmPrompt.value);
+        if (questionData.value.llm_prompt !== llmPrompt.value) {
+            console.log('llm_prompt');
+            has_update = true;
+            formdata.append('llm_prompt', llmPrompt.value);
+        }
     }
 
 
-    formdata.append('test_count', countTestCases.value.toString());
+    if (questionData.value.test_count !== countTestCases.value) {
+        console.log('testcase count');
+        has_update = true;
+        formdata.append('test_count', countTestCases.value.toString());
+    }
 
     if (selectIndexTestType.value === 0) {
-        formdata.append('test_type', 'random');
-        formdata.append('testcase', JSON.stringify(GenerateTestCaseRandom()));
+        if (JSON.stringify(questionData.value.testcase) !== JSON.stringify(testCases.value)) {
+            console.log('testcase random');
+            has_update = true;
+
+            formdata.append('test_type', 'random');
+            formdata.append('testcase', JSON.stringify(GenerateTestCaseRandom()));
+        }
     } else {
-        formdata.append('test_type', 'code');
-        formdata.append('testcase', JSON.stringify(GenerateTestCaseByCode()));
+        if (questionData.value.selectIndexLangGenInput !== selectIndexLangGenInput.value) {
+            console.log('testcase code');
+            has_update = true;
+
+            formdata.append('test_type', 'code');
+            formdata.append('testcase', JSON.stringify(GenerateTestCaseByCode()));
+        } else if (codeGenInput.value !== questionData.value.codeGenInput) {
+            console.log('testcase code 2');
+            has_update = true;
+
+            formdata.append('test_type', 'code');
+            formdata.append('testcase', JSON.stringify(GenerateTestCaseByCode()));
+        }
+
+        if (questionData.value.selectIndexLangGenOutput !== selectIndexLangGenOutput.value) {
+            console.log('testcase code 3');
+            has_update = true;
+
+            formdata.append('test_type', 'code');
+            formdata.append('testcase', JSON.stringify(GenerateTestCaseByCode()));
+        } else if (codeGenOutput.value !== questionData.value.codeGenOutput) {
+            console.log('testcase code 4');
+            has_update = true;
+
+            formdata.append('test_type', 'code');
+            formdata.append('testcase', JSON.stringify(GenerateTestCaseByCode()));
+        }
+    }
+
+    if (!has_update) {
+        statusCreate.value = 'warning';
+        statusMessage.value = 'ไม่มีการแก้ไขข้อมูล';
+        linkToEdit.value = '';
+        openModalEnd();
+        return;
     }
 
     const config = useRuntimeConfig();
-    const res = await fetch(config.public.backendApi+'/question/data', {
-        method: 'POST',
+    const res = await fetch(config.public.backendApi+'/question/data/'+route.params.id, {
+        method: 'PATCH',
         headers: {
             "Authorization": "Bearer "+user_session.sessionToken,
         },
@@ -679,19 +848,22 @@ async function send() {
     });
 
     if (!res.ok) {
-        alert("เกิดข้อผิดพลาดในการสร้างโจทย์");
+        statusCreate.value = 'error';
+        statusMessage.value = 'เกิดข้อผิดพลาดในการแก้ไขโจทย์';
+        linkToEdit.value = '';
+        openModalEnd();
         return;
     }
     const datas = await res.json();
 
     if (datas.success === true) {
-        statusCreate.value = true;
-        statusMessage.value = 'สร้างโจทย์สำเร็จ';
-        linkToEdit.value = '/dashboard/edit-question/'+datas.data.id;
+        statusCreate.value = 'success';
+        statusMessage.value = 'แก้ไขโจทย์ สำเร็จ';
+        linkToEdit.value = '/dashboard/question/'+route.params.id;
         openModalEnd();
     } else {
-        statusCreate.value = false;
-        statusMessage.value = 'เกิดข้อผิดพลาดในการสร้างโจทย์';
+        statusCreate.value = 'error';
+        statusMessage.value = 'เกิดข้อผิดพลาดในการแก้ไขโจทย์';
         linkToEdit.value = '';
         openModalEnd();
     }

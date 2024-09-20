@@ -238,7 +238,7 @@
                     :message="statusMessage"
                     :show="modelEnd"
                     @closeModal="modelEnd = false"
-                    :succuess="statusCreate"
+                    :icon="statusCreate"
 
                     linkToMain="/dashboard"
                     linkToEdit="/dashboard/create-question"
@@ -251,6 +251,7 @@
 <script setup lang="ts">
 import LangData from '~/assets/json/editor_lang.json'
 import {v7 as uuidv7} from 'uuid'
+import { icon } from '@fortawesome/fontawesome-svg-core';
 
 //////////////////////////////////// Auth  ////////////////////////////////////
 
@@ -378,7 +379,7 @@ const GenerateTestCaseByCode = () => {
 
     if (codeGenOutput.value === '') {
         statusMessage.value = 'กรุณาเขียน Code สำหรับสร้าง Output';
-        statusCreate.value = false;
+        statusCreate.value = 'warning';
         openModalEnd();
         return;
     }
@@ -549,7 +550,7 @@ const openModalEnd = () => {
 }
 
 //////////////////////////////////// Save Question ////////////////////////////////////
-const statusCreate = ref<boolean>(false);
+const statusCreate = ref<string>('');
 const statusMessage = ref<string>('');
 const linkToEdit = ref<string>('');
 
@@ -610,12 +611,12 @@ async function send() {
     const datas = await res.json();
 
     if (datas.success === true) {
-        statusCreate.value = true;
+        statusCreate.value = "success";
         statusMessage.value = 'สร้างโจทย์สำเร็จ';
         linkToEdit.value = '/dashboard/edit-question/'+datas.data.id;
         openModalEnd();
     } else {
-        statusCreate.value = false;
+        statusCreate.value = "error";
         statusMessage.value = 'เกิดข้อผิดพลาดในการสร้างโจทย์';
         linkToEdit.value = '';
         openModalEnd();

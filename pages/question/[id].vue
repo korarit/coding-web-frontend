@@ -10,6 +10,7 @@
                         :paneLeftWidth="paneLeftWidth"
                         :isVerticalLeftMode="isVerticalLeftMode"
                         :Desciption="DesciptionQuestion"
+                        linkBack="/collection"
 
                         v-model:submission_type_id="submission_type_id"
 
