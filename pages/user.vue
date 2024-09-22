@@ -230,6 +230,7 @@ onMounted(async () => {
 
 const config = useRuntimeConfig()
 const status_profile = ref(false)
+const old_status_profile = ref(false)
 const load_user_data = async () => {
     // get user data from api
 
@@ -249,6 +250,7 @@ const load_user_data = async () => {
         //check profile show
         if (user_data.value.ProfileShow == "true") {
             status_profile.value = true
+            old_status_profile.value = true
         }
 
         // check thired party
@@ -293,8 +295,12 @@ watch(() => status_profile.value, async (val) => {
     const status_str = val ? 'true' : 'false'
 
     //change profile show
+    if (old_status_profile.value === val) {
+        return
+    }
     const status_change = await changeUserData('profile_show', status_str)
     if (status_change) {
+        old_status_profile.value = val
         user_data.value.ProfileShow = status_str
     }
 })
