@@ -1,6 +1,6 @@
 <template>
     <NuxtLayout name="defaultmain">
-      <div class="flex flex-col min-h-[calc(100dvh-65px)] max-w-[100%] pt-[32px] sm:pt-[64px] px-4 xl:px-16 2xl:px-[96px]">
+      <div class="flex flex-col min-h-[calc(100dvh-65px)] max-w-[100%] pt-[32px] sm:pt-[64px] px-4 xl:px-16 2xl:px-[128px]">
   
         <div class="flex-auto flex flex-col min-h-full w-full px-10 sm:px-20 lg:px-24  sm:border-2 sm:border-b-0 sm:rounded-b-sm sm:rounded-2xl sm:border-[#9C9C9C] dark:border-[#545454]">
             
@@ -56,11 +56,11 @@
                         <p class="w-fit">{{ index + 1 }}</p>
                     </div>
                     <div class="basis-3/4 flex items-center">
-                        <div class="mx-[10%] h-10 w-10 bg-slate-300 rounded-md flex justify-center items-center">
-                            <font-awesome-icon
-                            :icon="['fas', 'user']"
-                            class=""
-                            />
+                        <div class="mx-[10%] h-10 w-10 bg-slate-300 rounded-md overflow-hidden shadow-sm shadow-black/30">
+                            <img v-if="data.image_profile != '' && data.image_profile != null" class="w-full h-full object-cover" :src="'https://pub-3d57d68059384f598b7ac0875ccf93db.r2.dev/profile/'+data.image_profile">
+                            <div v-else class="w-full h-full flex items-center justify-center">
+                                <font-awesome-icon :icon="['fas', 'user']" class="text-[#202020] text-5xl" />
+                            </div>
                         </div>
                         <p class="text-[10px] 2xl:text-[20px] xl:text-[18px] lg:text[16px] md:text-[14px] sm:text-[12px]">{{ data.name }}</p>
                     </div>
@@ -69,7 +69,7 @@
             </div>
 
             <div class="flex-none py-7 flex justify-center items-center">
-                <Pagination v-model="page" :countAll="rankingData.length" :countPerPage="2" />
+                <Pagination v-model="page" :countAll="rankingData.length" :countPerPage="10" />
             </div>
 
         </div>
@@ -178,8 +178,8 @@ const fitterData = async () => {
 const rankingShow = ref<any>([])
 const page = ref<number>(1)
 const pagination = (page: number) =>{
-    const start = (page - 1) * 2;
-    const end = start + 2;
+    const start = (page - 1) * 10;
+    const end = start + 10;
     const result = rankingData.value.slice(start, end);
     rankingShow.value = result;
 }
