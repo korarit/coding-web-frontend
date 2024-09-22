@@ -45,6 +45,7 @@
     "@zxcvbn-ts/core": "^3.0.4",
     "@zxcvbn-ts/language-common": "^3.0.4",
     "@zxcvbn-ts/language-en": "^3.0.2",
+    "chart.js": "^4.4.4",
     "dayjs-nuxt": "^2.1.9",
     "highlight.js": "^11.10.0",
     "lowlight": "^3.1.0",
@@ -58,6 +59,7 @@
     "uuid": "^10.0.0",
     "vue": "latest",
     "vue-advanced-cropper": "^2.8.9",
+    "vue-chartjs": "^5.3.1",
     "vue-sweetalert-icons": "^5.0.0"
   },
   "devDependencies": {
