@@ -2,7 +2,7 @@
     <NuxtLayout name="defaultmain" page_name="หน้าหลัก">
         <div class=" min-h-[calc(100dvh-65px)] max-w-[100%] pt-[32px] sm:pt-[64px]">
             
-            <div class="px-4 xl:px-16 2xl:px-[96px] grid grid-cols-12 content-center gap-x-5 gap-y-8 mb-[72px]">
+            <div class="px-4 xl:px-16 2xl:px-[128px] grid grid-cols-12 content-center gap-x-5 gap-y-8 mb-[72px]">
 
                 <div class="col-span-12 sm:col-span-7 h-fit my-auto">
                     <p class="text-[32px] sm:text-[28px] md:text-[32px] xl:text-[40px] text-[#00C7A3] text-center font-medium sm:leading-10 w-fit mx-auto">
@@ -32,7 +32,7 @@
             <div class="w-full">
                 <img src="~/assets/img/non-square-connector-white.svg" class="w-full" />
             </div>
-            <div class="bg-[#FEFEFE] border-b border-[#C2C2C2] drop-shadow-md h-fit px-4 xl:px-16 2xl:px-[96px] py-[72px] flex justify-center">
+            <div class="bg-[#FEFEFE] border-b border-[#C2C2C2] drop-shadow-md h-fit px-4 xl:px-16 2xl:px-[128px] py-[72px] flex justify-center">
                 <div class="w-full md:w-[90%] xl:w-[80%] 2xl:w-[70%] grid grid-cols-2 gap-6 h-auto">
 
                     <div class="col-span-2 lg:col-span-1 min-h-[310px] w-full relative">
@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="w-full h-fit py-[80px] px-4 xl:px-16 2xl:px-[96px]">
+            <div class="w-full h-fit py-[80px] px-4 xl:px-16 2xl:px-[128px]">
                 <div class="w-[90%] h-fit flex gap-5 mx-auto flex-col md:flex-row">
                     <div class="w-[100%] md:w-[40%]">
                         <img src="~/assets/img/programmer_community.svg" class="w-[70%] mx-auto" />
