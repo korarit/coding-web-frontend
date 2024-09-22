@@ -284,7 +284,6 @@ definePageMeta({
     auth: true
 })
 const { status, data } = useAuth()
-
 const router = useRouter()
 const route = useRoute()
 
