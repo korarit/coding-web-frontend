@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div v-else class="min-h-[calc(100dvh-270px)] px-4 xl:px-16 2xl:px-[96px] pt-[64px] flex flex-col">
+    <div v-else class="min-h-[calc(100dvh-270px)] px-4 xl:px-16 2xl:px-[128px] pt-[64px] flex flex-col">
       <div class="flex-none relative min-h-[80px] h-fit w-full">
         <div
           class="absolute z-0 top-1/2 -translate-y-1/2 w-full h-fit pr-[4px] flex gap-3 md:gap-5 pb-4 items-center overflow-hidden">
@@ -91,7 +91,7 @@
             customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexLevel" :list_data="LevelListName" icon="caret-down"
             icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
-            @select="async () => {list_question = await fillterQuestionMain(save_question, LevelData, TopicData, selectIndexLevel, selectIndexStatus, selectIndexTopic)}" />
+            @select="filterData" />
         </div>
         <div class="col-span-2 lg:col-span-1">
           <DropdownCheckSelect block-class="w-full"
@@ -99,7 +99,7 @@
             v-model="selectIndexStatus" :list_data="StatusListName" :off="status == 'authenticated' ? false : true"
             icon="caret-down"
             icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
-            @select="async () => {list_question = await fillterQuestionMain(save_question, LevelData, TopicData, selectIndexLevel, selectIndexStatus, selectIndexTopic)}" />
+            @select="filterData" />
         </div>
 
         <div class="col-span-2 lg:col-span-1">
@@ -107,7 +107,7 @@
             customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexTopic" :list_data="TopicListName" icon="caret-down"
             icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] 2xl:text-[28px] xl:text-[28px] lg:text-[28px] md:text-[26px] sm:text-[22px] text-[20px]"
-            @select="async () => {list_question = await fillterQuestionMain(save_question, LevelData, TopicData, selectIndexLevel, selectIndexStatus, selectIndexTopic)}" />
+            @select="filterData" />
         </div>
 
         <div class="relative col-span-5 lg:col-span-2">
@@ -156,9 +156,8 @@
 
       <div v-else class="flex-none flex flex-col space-y-6 mb-7">
         <div
-          v-if="data != undefined"
           class="w-full flex flex-col gap-2 sm:gap-0 sm:flex-row sm:justify-between border-2 border-[#BABABA] bg-[#FEFEFE] dark:border-[#1D1D1D] dark:bg-[#262626] drop-shadow-md rounded-xl p-3 sm:p-5"
-          v-for="(data, index) in list_question">
+          v-for="(data, index) in questionShow">
           <div class="w-full sm:w-fit">
             <h1
               class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[36px] xl:text-[30px] lg:text-[26px] md:text-[24px] sm:text-[22px] text-[20px]">
@@ -187,6 +186,10 @@
               ทำโจทย์
             </NuxtLink>
           </div>
+        </div>
+
+        <div class="flex-none py-7 flex justify-center items-center">
+          <Pagination v-model="page" :countAll="Object.values(list_question).length" :countPerPage="6" />
         </div>
       </div>
 
@@ -361,7 +364,10 @@ onMounted(async () => {
     return
   }
   list_question.value = question[0]
-  save_question.value = question[0]
+  save_question.value = Object.values(question[0])
+
+  page.value = 1
+  pagination(1)
 
   loading_all.value = false
 })
@@ -430,8 +436,11 @@ const search_question = async () => {
     }
   });
 
-  save_question.value = await list_data
+  save_question.value = Object.values(list_data)
   list_question.value = await fillterQuestionMain(save_question.value, LevelData.value, TopicData.value, selectIndexLevel.value, selectIndexStatus.value, selectIndexTopic.value)
+  
+  page.value = 1
+  pagination(1)
 
   search_loading.value = false
 }
@@ -447,6 +456,7 @@ const like_question = async (index: number, id: number) => {
   const config = useRuntimeConfig()
   const user_session: any = data.value
 
+  console.log(save_question.value[index])
   const method: string = save_question.value[index].like ? 'DELETE' : 'POST'
 
   const response = await fetch(config.public.backendApi + '/question/like/' + id, {
@@ -459,5 +469,30 @@ const like_question = async (index: number, id: number) => {
   if (response.status == 200) {
     save_question.value[index].like = !save_question.value[index].like
   }
+}
+
+
+const questionShow = ref<any>([])
+const page = ref<number>(1)
+const pagination = (page: number) =>{
+    const start = (page - 1) * 6;
+    const end = start + 6;
+
+    const result = Object.values(toRaw(list_question.value)).slice(start, end);
+    questionShow.value = result;
+}
+watch(() => page.value, (value) => {
+    pagination(value)
+})
+
+
+//////////////////////////////////// Filter Data By Dropdown  ////////////////////////////////////
+
+const filterData = async () => {
+  const list = await fillterQuestionMain(save_question.value, LevelData.value, TopicData.value, selectIndexLevel.value, selectIndexStatus.value, selectIndexTopic.value)
+  list_question.value = list
+
+  page.value = 1
+  pagination(page.value)
 }
 </script>
