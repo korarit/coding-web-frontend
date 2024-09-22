@@ -37,21 +37,21 @@
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
-            <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
+            <NuxtLink to="/like-question" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
                 <div class="w-[48px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'book-bookmark']" class="text-[28px] " />
                 </div>
                 <p class="text-[18px] font-light">โจทย์ที่ถูกใจไว้</p>
-            </button>
+            </NuxtLink>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
-            <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
+            <NuxtLink to="/ranking" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
                 <div class="w-[48px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'award']" class="text-[28px] " />
                 </div>
                 <p class="text-[18px] font-light">ลำดับภายในเว็บไซต์</p>
-            </button>
+            </NuxtLink>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
