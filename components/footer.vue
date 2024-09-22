@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full py-2 md:py-8 px-4 xl:px-16 2xl:px-[96px] bg-[#FFFFFF] dark:bg-[#3D3D3D] shadow-[inset_0_3px_10px_-7px_rgba(0,0,0,0.5)] border-t border-[#0000000f]">
+    <div class="min-w-full py-2 md:py-8 px-4 xl:px-16 2xl:px-[128px] bg-[#FFFFFF] dark:bg-[#3D3D3D] shadow-[inset_0_3px_10px_-7px_rgba(0,0,0,0.5)] border-t border-[#0000000f]">
         <div class="min-w-full flex flex-col md:flex-row md:items-center  md:justify-between">
             <div>
                 <p class="dark:text-[#FEFEFE] text-[5vw] md:text-[24px] xl:text-[24px] 2xl:text-[28px]">
