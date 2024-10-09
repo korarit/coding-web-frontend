@@ -225,7 +225,7 @@
                 </button>
                 <button
                     @click="openModalEnd"
-                    class="border border-black bg-red-500 hover:bg-red-700 text-white rounded-lg px-6 py-2"
+                    class=" bg-red-500 hover:bg-red-600 border border-red-700 text-white rounded-lg px-6 py-2"
                 >
                     ยกเลิก
                 </button>

@@ -27,7 +27,7 @@
 
             <h1 class="text-4xl underline font-bold mb-6 dark:text-[#FEFEFE]">ข้อมูลของโจทย์</h1>
 
-            <div class="border-t border-x border-gray-600 pt-10 px-12 my-12 pb-8 rounded-t-lg h-fit">
+            <div class="border-t border-x border-gray-600 pt-10 px-12 mt-8 pb-8 rounded-t-lg h-fit">
 
                 <div class="flex w-full space-x-4 mb-6">
                     <div class="flex w-fit items-center space-x-2">
@@ -250,7 +250,7 @@
                     </button>
                     <button
                         @click="openModalEnd"
-                        class="border border-black bg-red-500 hover:bg-red-700 text-white rounded-lg px-6 py-2"
+                        class=" bg-red-500 hover:bg-red-600 border border-red-700 text-white rounded-lg px-6 py-2"
                     >
                         ยกเลิก
                     </button>
