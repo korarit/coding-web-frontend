@@ -13,11 +13,11 @@
 
           <div v-if="icon == 'success'" class="flex space-x-3 w-fit mt-6 mx-auto">
             <NuxtLink :href="linkToMain" class="w-fit bg-[#00C7A3] hover:bg-[#35bca3] text-white text-center px-3 py-2 rounded-lg">กลับหน้าหลัก</NuxtLink>
-            <NuxtLink :href="$props.linkToEdit" class="w-fit bg-red-500 hover:bg-red-700 text-white text-center px-3 py-2 rounded-lg">แก้ไขโจทย์</NuxtLink>
+            <NuxtLink :href="$props.linkToEdit" class="w-fit bg-red-500 hover:bg-red-600 text-white text-center px-3 py-2 rounded-lg">แก้ไขโจทย์</NuxtLink>
           </div>
           <div v-else class="flex space-x-3 w-fit mt-6 mx-auto">
             <button @click="closeModal" class="w-fit bg-[#00C7A3] hover:bg-[#35bca3] text-white px-3 py-2 rounded-lg">แก้ไขโจทย์</button>
-            <NuxtLink :href="linkToMain" class="w-fit bg-red-500 hover:bg-red-700 text-white text-center px-3 py-2 rounded-lg">ยกเลิก</NuxtLink>
+            <NuxtLink :href="linkToMain" class="w-fit bg-red-500 hover:bg-red-600 text-white text-center px-3 py-2 rounded-lg">ยกเลิก</NuxtLink>
           </div>
         </div>
       </div>
