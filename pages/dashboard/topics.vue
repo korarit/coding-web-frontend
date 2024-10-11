@@ -94,10 +94,13 @@
             <ModalComfirm 
                 @closeModal="closeModalDelete"
                 @comfirm="DeleteTopicById()"
-                :show="openCofirmDelete"
+                :show="showConfirm"
 
                 message="คุณต้องการลบ Topic นี้ใช่หรือไม่ ?"
                 icon="warning"
+
+                :loading="loadingDelete"
+                loadingMessage="กำลังลบ Topic . . ."
 
             />
         </div>
@@ -205,21 +208,33 @@ const closeModalEditTopic = () => {
 
 //////////////////////////////////// Delete Topic  ////////////////////////////////////
 const openCofirmDelete = ref<boolean>(false)
+const showConfirm = ref<boolean>(false)
+
+const loadingDelete = ref<boolean>(false)
+
 const selectTopicDelete = ref<number>(0)
 const openModeldeleteCofirm = (id:number) => {
     openCofirmDelete.value = true
+    showConfirm.value = true
     selectTopicDelete.value = id
     open_modal()
 }
 
 const closeModalDelete = () => {
-    openCofirmDelete.value = false
-    close_modal()
+    showConfirm.value = false
+    loadingDelete.value = false
+
+    setTimeout(() => {
+        openCofirmDelete.value = false
+    }, 300);
+    close_modal();
 }
 
 const DeleteTopicById = async () => {
     
+    
     const user_session:any = data.value
+    loadingDelete.value = true
     try {
         const response = await fetch(config.public.backendApi+'/question/topic/'+selectTopicDelete.value, {
             method: 'DELETE',
@@ -231,10 +246,14 @@ const DeleteTopicById = async () => {
 
         if (response.status !== 200) {
             error_code.value = response.status
+            loadingDelete.value = false
             return
         }
 
-        load_topic()
+        if (response.status === 200) {
+            closeModalDelete()
+            load_topic()
+        }
     } catch (error:any) {
         console.log(error)
     }
