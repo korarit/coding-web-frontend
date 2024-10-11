@@ -25,7 +25,16 @@
         </div>
         <div v-show="!loading_all && error_code == null" class="flex flex-col">
 
-            <h1 class="text-4xl underline font-bold mb-6 dark:text-[#FEFEFE]">ข้อมูลของโจทย์</h1>
+            <div class="flex-none flex justify-between items-center">
+                <h1 class="text-4xl font-bold mb-4 dark:text-[#FEFEFE]">ข้อมูลของโจทย์</h1>
+
+                <button
+                    @click="openModalDelete"
+                    class="flex items-center justify-center px-8 py-1 bg-red-500 hover:bg-red-600 border border-red-700 text-2xl text-[#FEFEFE] rounded-md"
+                >
+                    ลบโจทย์นี้
+                </button>
+            </div>
 
             <div class="border-t border-x border-gray-600 pt-10 px-12 mt-8 pb-8 rounded-t-lg h-fit">
 
@@ -267,8 +276,23 @@
                 @closeModal="modelEnd = false"
                 :icon="statusCreate"
 
-                linkToMain="/dashboard"
                 :linkToEdit="linkToEdit"
+                :link-to-main="linkToEdit"
+
+            />
+        </div>
+
+        <div v-show="modelCofirmDelete" class="absolute min-w-full h-[100dvh] top-0 left-0">
+            <ModalComfirm 
+                @closeModal="closeModalDelete"
+                @comfirm="DeleteTopicById"
+                :show="modelCofirmDelete"
+
+                message="คุณต้องการลบ โจทย์ นี้ใช่หรือไม่ ?"
+                icon="warning"
+
+                :loading="loading_delete"
+                loadingMessage="กำลังลบโจทย์ . . ."
 
             />
         </div>
@@ -277,6 +301,7 @@
 <script setup lang="ts">
 import LangData from '~/assets/json/editor_lang.json'
 import {v7 as uuidv7} from 'uuid'
+import { set } from '@vueuse/core';
 
 //////////////////////////////////// Auth  ////////////////////////////////////
 
@@ -782,6 +807,12 @@ async function send() {
             has_update = true;
             formdata.append('llm_prompt', llmPrompt.value);
         }
+    }else{
+        if (questionData.value.llm_prompt !== '') {
+            console.log('llm_prompt del');
+            has_update = true;
+            formdata.append('llm_prompt', '');
+        }
     }
 
 
@@ -868,6 +899,67 @@ async function send() {
     }
 
 }
+
+/////////////////////////////////// Delete Question ///////////////////////////////////
+const modelCofirmDelete = ref<boolean>(false);
+const showConfirm = ref<boolean>(false);
+
+const loading_delete = ref<boolean>(false);
+
+
+const {open_modal, close_modal} = useModalControl()
+
+
+const openModalDelete = () => {
+    modelCofirmDelete.value = true;
+    showConfirm.value = true;
+    open_modal();
+}
+
+const closeModalDelete = () => {
+    showConfirm.value = false;
+    loading_delete.value = false;
+    setTimeout(() => {
+        modelCofirmDelete.value = false;
+    }, 300);
+    close_modal();
+}
+
+async function DeleteTopicById() {
+    const user_session: any = data.value;
+    const config = useRuntimeConfig();
+
+    loading_delete.value = true;
+    const res = await fetch(config.public.backendApi+'/question/data/'+route.params.id, {
+        method: 'DELETE',
+        headers: {
+            "Authorization": "Bearer "+user_session.sessionToken,
+        },
+    });
+
+    if (res.status !== 200) {
+        statusCreate.value = 'error';
+        statusMessage.value = 'เกิดข้อผิดพลาดในการลบโจทย์';
+        
+        loading_delete.value = false;
+
+        openModalEnd();
+        return;
+    }
+
+    if (res.status === 200) {
+        closeModalDelete();
+        setTimeout(() => {
+            statusCreate.value = 'success';
+            statusMessage.value = 'ลบโจทย์ สำเร็จ';
+            linkToEdit.value = '/dashboard/collection';
+            openModalEnd();
+        }, 300);
+    }
+
+    loading_delete.value = false;
+}   
+
 </script>
 <style>
 /* CSS เพื่อลบกรอบสีฟ้า */
