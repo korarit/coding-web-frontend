@@ -11,9 +11,19 @@
 
           <p class="text-[20px] text-center">{{ props.message }}</p>
 
-          <div class="flex space-x-3 w-fit mt-6 mx-auto">
-            <button @click="comfirm" class="w-fit bg-[#00C7A3] hover:bg-[#35bca3] text-white px-3 py-2 rounded-lg">ลบ</button>
+          <div class="flex space-x-3 w-fit mt-6 mx-auto" v-if="loading === false">
+            <button @click="comfirm" class="w-fit bg-[#00C7A3] hover:bg-[#35bca3] text-white px-3 py-2 rounded-lg">ยืนยัน</button>
             <button @click="closeModal" class="w-fit bg-red-500 hover:bg-red-600 text-white text-center px-3 py-2 rounded-lg">ยกเลิก</button>
+          </div>
+          <div class="flex items-center space-x-2 w-fit mt-6 mx-auto" v-else>
+            <svg class=" animate-spin -ml-1 h-[28px] w-[28px] text-[#303030] dark:text-[#FEFEFE]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+
+            <p class="text-[20px] text-[#303030] dark:text-[#FEFEFE]">{{ props.loadingMessage }}</p>
           </div>
         </div>
       </div>
@@ -37,7 +47,11 @@ const props = defineProps({
   icon: String,
 
   linkToEdit: String,
-  linkToMain: String
+  linkToMain: String,
+
+  loading: Boolean,
+  loadingMessage: String
+
 })
 
 const show_modal = ref(false)
@@ -50,14 +64,10 @@ watch(() => props.show, (val) => {
 const emit = defineEmits(['closeModal', 'comfirm'])
 
 const closeModal = () => {
-  show_modal.value = false
-  setTimeout(() => {
-    emit('closeModal')
-  }, 300)
+  emit('closeModal')
 }
 
 const comfirm = () => {
-  closeModal();
   emit('comfirm');
 }
 
