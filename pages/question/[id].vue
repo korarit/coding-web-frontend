@@ -58,6 +58,8 @@
                             :resultTest="resultTest"
                             :resultSubmit="resultSubmit"
 
+                            :llm-check="LLMCheck"
+
                             v-model:submit-loading="submitLoading"
                             v-model:test-loading="testLoading"
 
@@ -326,7 +328,9 @@ const resultTestType = ref<string>('')
 ////////////////////////////////// Summit Code ////////////////////////////////////
 const config = useRuntimeConfig();
 const codeSave = ref<string>('')
-
+watch(() => codeSave.value, (val) => {
+  console.log(String(val))
+})
 const resultSubmit = ref<resultOfSubmit[]>([])
 
 type resultOfSubmit = {
@@ -445,6 +449,7 @@ async function TestCode() {
         if (done) break;
         
         //string to json
+        console.log(value)
         console.log(JSON.parse(value.split('data: ')[1]))
         const json:resultOfTest = JSON.parse(value.split('data: ')[1])
         resultTest.value = json
@@ -455,6 +460,7 @@ async function TestCode() {
 
 const DesciptionQuestion = ref<string>('')
 const CountTestCase = ref<number>(0)
+const LLMCheck = ref<boolean>(false)
 const getQuestionData = async () => {
     const config = useRuntimeConfig();
     const request = await fetch( config.public.backendApi + '/question/data/'+route.params.id, {
@@ -469,6 +475,7 @@ const getQuestionData = async () => {
         //set Discription
         DesciptionQuestion.value = await data.data.description
         CountTestCase.value = await data.data.test_count
+        LLMCheck.value = await data.data.llm_check
     }
 } 
 
