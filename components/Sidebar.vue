@@ -47,7 +47,7 @@
                 <p class="text-[20px] text-nowrap">สร้างโจทย์</p>
             </NuxtLink>
 
-            <NuxtLink class="flex items-center bg-[#FFFFFF] drop-shadow-md hover:bg-[#252525] active:bg-[#199c80] hover:text-[#FEFEFE] w-full border-1 rounded-xl h-12 overflow-hidden ">
+            <NuxtLink to="/dashboard/topics" class="flex items-center bg-[#FFFFFF] drop-shadow-md hover:bg-[#252525] active:bg-[#199c80] hover:text-[#FEFEFE] w-full border-1 rounded-xl h-12 overflow-hidden ">
                 <div class="flex-none flex items-center justify-center w-12 h-12">
                     <font-awesome-icon
                         :icon="['fas', 'box-archive']"
