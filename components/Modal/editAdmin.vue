@@ -12,7 +12,7 @@
         <div v-show="show_modal" class="bg-white dark:bg-[#3D3D3D] dark:border-[#676767] p-6 rounded-lg shadow-lg w-[90dvw] sm:w-[480px]  2xl:w-[24dvw]">
             
             <div class="flex items-center justify-between w-full">
-                <p class="text-[28px] leading-6 text-[#00C7A3]">เพิ่ม Admin</p>
+                <p class="text-[28px] leading-6 text-[#00C7A3]">แก้ไขระดับ Admin</p>
 
                 <button class="flex items-center justify-center w-fit" @click="closeModal">
                     <font-awesome-icon 
@@ -23,12 +23,8 @@
             </div>
 
 
-            <div class="my-5 flex flex-col space-y-5">
-                <input 
-                    class="w-full px-4 py-1.5 shadow-inner shadow-black/15 border border-[#C2C2C2] rounded-md text-[20px] placeholder:font-light focus:outline-none"
-                    v-model="Email"
-                    placeholder="Email ของคนที่ต้องการให้ admin"
-                />
+            <div class="mt-2 mb-5 flex flex-col space-y-2">
+                <p class="text-[20px] leading-6 ">ระดับ Admin ของ {{ name }}</p>
 
                 <DropdownCheckSelect block-class="w-full"
                     customclass="w-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-md flex items-center justify-between px-4 py-1.5 shadow-inner lg:text-[20px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
@@ -42,7 +38,7 @@
 
             <button @click="addAdmin" class="w-full rounded-lg bg-[#00C7A3] dark:bg-[#3DD6BA] hover:bg-[#199c80] active:bg-[#199c80] dark:hover:bg-[#00C7A3] dark:active:bg-[#00C7A3] drop-shadow-md py-1">
                 
-                <span v-if="!loading" class="text-[24px] text-[#FEFEFE]">เพิ่ม Admin</span>
+                <span v-if="!loading" class="text-[24px] text-[#FEFEFE]">บันทึกข้อมูล</span>
                 <div v-else class="mx-auto py-1 w-fit h-fit">
                     <svg  class=" animate-spin -ml-1 h-7 w-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -66,6 +62,9 @@
   
 const props = defineProps<{
     show: boolean
+    name: string
+    level: number
+    user_id: number
 }>()
 
 const { status, data } = useAuth()
@@ -85,27 +84,31 @@ watch(() => props.show, (value) => {
     show_modal.value = value
     if (value) {
         error.value = null
+        selectIndexLevel.value = props.level - 1
     }
 })
 
 const LevelListName = ref<string[]>([
     'เลือกระดับ Admin',
+    'ยกเลิกการเป็น Admin',
     'Admin (จัดการ question ได้)',
     'Super Admin (จัดการ โจทย์ และ admin ได้)'
 ])
 
 /////////////////// create ///////////////////
-const Email = ref<string|null>(null)
 const error = ref<string|null>(null)
+
 const selectIndexLevel = ref<number>(0)
+
 async function addAdmin() {
-    if (!Email.value) {
-        error.value = 'กรุณากรอก Email'
-        return
-    }
     if (selectIndexLevel.value === 0) {
         error.value = 'กรุณาเลือกระดับของ Admin'
         return
+    }
+
+    if (selectIndexLevel.value === props.level) {
+        error.value = 'ระดับ Admin ไม่มีการเปลี่ยนแปลง'
+        return;
     }
 
     if (loading.value) {
@@ -120,14 +123,14 @@ async function addAdmin() {
     loading.value = true
     try {
         const response = await fetch(config.public.backendApi + '/admin', {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 "Content-Type": 'application/json',
                 "Authorization": 'Bearer ' + user_session.sessionToken,
             },
             body: JSON.stringify({
-                email: Email.value,
-                level: selectIndexLevel.value + 1
+                user_id: props.user_id,
+                level: selectIndexLevel.value
             })
         })
 

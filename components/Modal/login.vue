@@ -193,6 +193,7 @@ const checkInput = async () => {
       error.value = res?.error
       turnstile_ref.value?.reset()
     } else {
+
       closeModal()
     }
 

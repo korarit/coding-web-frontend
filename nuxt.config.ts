@@ -7,6 +7,14 @@ export default defineNuxtConfig({
     'vue-sweetalert-icons/dist/style.css'
   ],
 
+  pwa: {
+    workbox: {
+      // ระบุ URL ของ service worker ของคุณ
+      swURL: '/service-worker.js',
+    }
+  },
+
+
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -19,8 +27,12 @@ export default defineNuxtConfig({
       secretKey: process.env.TURNSTILE_SECRET_KEY
     },
     public:{
+      ablyApiKey: process.env.ABLY_API_KEY,
       backendApi: process.env.API_BASE_URL || 'http://localhost:3000'
     }
+  },
+  build: {
+    transpile: ['@fortawesome/vue-fontawesome']
   },
   
   modules: [

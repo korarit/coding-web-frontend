@@ -55,6 +55,15 @@
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
+            <NuxtLink to="/dashboard" v-if="data?.type_level >= 2" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
+                <div class="w-[48px] h-fit flex items-center justify-center">
+                    <font-awesome-icon :icon="['fas', 'server']" class="text-[28px] " />
+                </div>
+                <p class="text-[18px] font-light">จัดการเว็บไซต์</p>
+            </NuxtLink>
+
+            <div class="bg-[#EBEBEB] h-px w-full" v-if="data?.type_level >= 2"></div>
+
             <button @click="signOut" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
                 <div class="w-[48px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-[28px] " />

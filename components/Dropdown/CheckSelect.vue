@@ -33,12 +33,12 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 
 
 //set v-model
 const datamodal = defineModel()
-const idselect = ref(0)
+const idselect = ref<number>(0)
 
 //props data
 const props = defineProps({
@@ -69,11 +69,15 @@ const props = defineProps({
     heightList: {
         type: String,
         default: '200px'
+    },
+    placeholder: {
+        type: String,
+        default: ''
     }
 })
 
 const emit = defineEmits(['select'])
-const selectId = (id) => {
+const selectId = (id: number) => {
     idselect.value = id
     datamodal.value = id
 
@@ -96,11 +100,11 @@ onClickOutside(dropdownRef, () => {
 })
 
 // เพิ่ม watch เพื่ออัปเดต datamodal เมื่อ idselect เปลี่ยน
-watch(idselect, (newValue) => {
+watch(idselect, (newValue: number|null) => {
   datamodal.value = newValue
 })
 
 watch(datamodal, (newValue) => {
-  idselect.value = newValue
+  idselect.value = newValue as number
 })
 </script>

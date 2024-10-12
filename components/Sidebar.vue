@@ -58,7 +58,7 @@
                 <p class="text-[20px] text-nowrap">จัดการหัวข้อ</p>
             </NuxtLink>
 
-            <NuxtLink class="flex items-center bg-[#FFFFFF] drop-shadow-md hover:bg-[#252525] active:bg-[#199c80] hover:text-[#FEFEFE] w-full border-1 rounded-xl h-12 overflow-hidden ">
+            <NuxtLink to="/dashboard/admin" class="flex items-center bg-[#FFFFFF] drop-shadow-md hover:bg-[#252525] active:bg-[#199c80] hover:text-[#FEFEFE] w-full border-1 rounded-xl h-12 overflow-hidden ">
                 <div class="flex-none flex items-center justify-center w-12 h-12">
                     <font-awesome-icon
                         :icon="['fas', 'user-tie']"
@@ -67,17 +67,6 @@
                 </div>
 
                 <p class="text-[20px] text-nowrap">จัดการแอดมิน</p>
-            </NuxtLink>
-
-            <NuxtLink class="flex items-center bg-[#FFFFFF] drop-shadow-md hover:bg-[#252525] active:bg-[#199c80] hover:text-[#FEFEFE] w-full border-1 rounded-xl h-12 overflow-hidden ">
-                <div class="flex-none flex items-center justify-center w-12 h-12">
-                    <font-awesome-icon
-                        :icon="['fas', 'file-code']"
-                        class="text-[26px] 2xl:text-[28px]"
-                    />
-                </div>
-
-                <p class="text-[20px] text-nowrap">จัดการ Runtime</p>
             </NuxtLink>
         </div>
     </div>

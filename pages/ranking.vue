@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="defaultmain">
+    <NuxtLayout name="defaultmain" page_name="อันดับ">
         <div
             class="flex flex-col min-h-[calc(100dvh-65px)] max-w-[100%] pt-[32px] sm:pt-[64px] px-4 xl:px-16 2xl:px-[128px]">
 

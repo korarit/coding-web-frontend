@@ -30,45 +30,22 @@
         <div
           class="absolute z-0 top-1/2 -translate-y-1/2 w-full h-fit pr-[4px] flex gap-3 md:gap-5 pb-4 items-center overflow-hidden">
           <button
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#00B191] text-[#FCFCFC] bg-[#00C7A3] hover:bg-[rgb(25,156,128)] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[3px] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:border-[#00B191]">
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center lg:gap-x-2 px-4 py-2 drop-shadow-md border-[#00B191] text-[#FCFCFC] bg-[#00C7A3] hover:bg-[rgb(25,156,128)] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-3 dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:border-[#00B191]">
             <font-awesome-icon :icon="['fas', 'box-archive']"
-              class="text-[0px] text-[#FFFFFF] dark:text-[#0F0F0F] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2" />
+              class="text-[0px] text-[#FFFFFF] dark:text-[#0F0F0F] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px]" />
             <p class="whitespace-nowrap">All Topics</p>
           </button>
 
           <button
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[3px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]">
-            <font-awesome-icon :icon="['fas', 'code']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2" />
-            Algorithm
-          </button>
-
-          <button
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]">
-            <font-awesome-icon :icon="['fab', 'js']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2" />
-            JavaScript
-          </button>
-
-          <button
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]">
-            <font-awesome-icon :icon="['fas', 'person-running']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2" />
-            Contest
-          </button>
-
-          <button
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]">
-            <font-awesome-icon :icon="['fab', 'python']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2" />
-            Python
-          </button>
-
-          <button
-            class="w-[50%] sm:w-[30%] xl:w-[16.66%] border-2 rounded-2xl flex items-center justify-center px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-[2px] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#00B191]">
-            <font-awesome-icon :icon="['fab', 'java']"
-              class="text-[0px] text-[#606060] dark:text-[#FEFEFE] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px] lg:mr-2" />
-            Java
+            v-for="(data, index) in TopicData"
+            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center lg:gap-x-4 px-4 py-2 drop-shadow-md border-[#BABABA] bg-[#FEFEFE] text-[#606060] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-3 text-left dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]">
+            <div class="h-8 w-8">
+              <img v-if="data.image_link"  v-show="image_status[index] == false" @error="image_status[index] = true" :src="data.image_link" alt="topic" class="h-full w-full object-cover">
+              <div v-show="image_status[index] == true || data.image_link === null" class="flex w-full h-full items-center justify-center">
+                <font-awesome-icon :icon="['far','image']" class=" text-[36px]" />
+              </div>
+              </div>
+              {{ data.name }}
           </button>
         </div>
         <div
@@ -145,11 +122,20 @@
         </div>
       </div>
 
-      <div v-else-if="list_question.length <= 0" class="flex-auto h-full flex justify-center items-center ">
+      <div v-else-if="search_error != null" class="flex-auto h-full flex justify-center items-center ">
         <div class="mx-auto flex items-center space-x-4">
           <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[48px] text-red-600" />
           <p class="text-[24px]">
-            ไม่พบโจทย์ที่เกี่ยวข้อง
+            {{ search_error }}
+          </p>
+        </div>
+      </div>
+
+      <div v-else-if="search_error != null" class="flex-auto h-full flex justify-center items-center ">
+        <div class="mx-auto flex items-center space-x-4">
+          <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[48px] text-red-600" />
+          <p class="text-[24px]">
+            {{ search_error }}
           </p>
         </div>
       </div>
@@ -188,7 +174,7 @@
           </div>
         </div>
 
-        <div class="flex-none py-7 flex justify-center items-center">
+        <div class="flex-none py-7 flex justify-center items-center" v-if="Object.values(list_question).length > 0">
           <Pagination v-model="page" :countAll="Object.values(list_question).length" :countPerPage="6" />
         </div>
       </div>
@@ -212,6 +198,7 @@
 </style>
 
 <script setup lang="ts">
+import { list } from 'postcss';
 import submission_status from '~/assets/json/submission_status.json'
 
 //////////////////////////////////// Auth  ////////////////////////////////////
@@ -265,6 +252,7 @@ submission_status.filter((data) => {
 const selectIndexTopic = ref<number>(0);
 const TopicListName = ref<any>([]);
 const TopicData = ref<any>([]);
+const image_status = ref<boolean[]>([]);
 TopicListName.value.push('Topic');
 
 const load_topic = async () => {
@@ -281,6 +269,10 @@ const load_topic = async () => {
 
   list_data.forEach((element: any) => {
     TopicListName.value.push(element['name']);
+  });
+
+  list_data.forEach((element: any) => {
+    image_status.value.push(false);
   });
 
   return [true, null]
@@ -379,6 +371,7 @@ const {fillterQuestionMain} = useFillterQuestion()
 
 const search_loading = ref<boolean>(false)
 const search_keyword = ref<string>('')
+const search_error = ref<string|null>(null)
 
 const search_question = async () => {
 
@@ -386,6 +379,7 @@ const search_question = async () => {
 
   const config = useRuntimeConfig()
   if (search_keyword.value == '') {
+    search_error.value = null
     const list = await load_question()
     save_question.value = list
 
@@ -396,25 +390,25 @@ const search_question = async () => {
   const response = await fetch(config.public.backendApi + '/question/search?keyword=' + search_keyword.value)
 
   if (response.status == 500) {
-    alert('Unauthorized')
+    search_error.value = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์'
     search_loading.value = false
     return
   }
 
   if (response.status == 401) {
-    alert('Unauthorized')
+    search_error.value = 'ไม่มีการเข้าสู่ระบบ'
     search_loading.value = false
     return
   }
 
   if (response.status == 400) {
-    alert('Forbidden')
+    search_error.value = 'ไม่มีสิทธิ์เข้าถึง'
     search_loading.value = false
     return
   }
 
   if (response.status == 404) {
-    alert('Not found')
+    search_error.value = 'ไม่พบโจทย์ที่เกี่ยวข้อง'
     search_loading.value = false
     return
   }
@@ -439,6 +433,7 @@ const search_question = async () => {
   save_question.value = Object.values(list_data)
   list_question.value = await fillterQuestionMain(save_question.value, LevelData.value, TopicData.value, selectIndexLevel.value, selectIndexStatus.value, selectIndexTopic.value)
   
+  search_error.value = null
   page.value = 1
   pagination(1)
 
