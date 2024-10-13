@@ -4,9 +4,9 @@
             :login_status="status"
             @open-login="openLogin"
 
-            @open-user="() => {show_user_modal = !show_user_modal;}"
+            @open-user="() => {show_user_modal = !show_user_modal;show_notification_modal = false;}"
 
-            @open-notification="() => {show_notification_modal = !show_notification_modal;}"
+            @open-notification="() => {show_notification_modal = !show_notification_modal;show_user_modal = false;}"
 
             :profile="data?.profile_img"
             :fullname="data?.name[0]"

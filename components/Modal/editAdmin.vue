@@ -84,7 +84,7 @@ watch(() => props.show, (value) => {
     show_modal.value = value
     if (value) {
         error.value = null
-        selectIndexLevel.value = props.level - 1
+        selectIndexLevel.value = props.level
     }
 })
 
