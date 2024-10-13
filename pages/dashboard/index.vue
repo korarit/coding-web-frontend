@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="dashboard">
+    <NuxtLayout name="dashboard" page_name="home">
         <div v-if="loading_all" class="flex justify-between items-center h-full">
             <div class="mx-auto flex items-center">
                 <svg class=" animate-spin -ml-1 mr-4 h-12 w-12 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"

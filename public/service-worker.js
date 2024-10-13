@@ -1,11 +1,28 @@
 self.addEventListener('push', (event) => {
-    const data = event.data.json();
-    const title = data.notification.title;
+  const { notification } = event.data.json();
+  const title = notification.title;
+  const options = {
+    body: notification.body,
+    icon: notification.icon || '/logo-web-coding.png',
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('message', (event) => {
+  console.log('SW Received Message: ', event.data);
+
+  if (event.data && event.data.type === 'notification') {
+    const { notification } = event.data.payload;
+
     const options = {
-      body: data.notification.body,
-      icon: data.notification.icon || '/img_programmer.svg' // ให้แน่ใจว่ามีไฟล์ icon ที่ถูกต้อง
+      body: notification.body,
+      icon: notification.icon || '/logo-web-coding.png',
     };
-  
-    event.waitUntil(self.registration.showNotification(title, options));
-  });
-  
+
+    if (self.registration) {
+      self.registration.showNotification(notification.title, options);
+    } else {
+      console.error('self.registration is undefined');
+    }
+  }
+});

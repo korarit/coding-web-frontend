@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="dashboard">
+  <NuxtLayout name="dashboard" page_name="collection">
     <div v-if="loading_all" class="flex justify-between items-center h-full">
       <div class="mx-auto flex items-center">
         <svg class=" animate-spin -ml-1 mr-4 h-12 w-12 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -100,9 +100,8 @@
             </h1>
             <span
               class="text-[#00C7A3] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">{{ data.level_name }}</span>
-            <span
-              class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">,
-              Max scroce 15, Success Rate: 96.12%</span>
+            <span class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">
+              , {{ data.point }} คะแนน</span>
           </div>
           <div class="w-full sm:w-fit flex items-center gap-3 sm:gap-6">
             <NuxtLink

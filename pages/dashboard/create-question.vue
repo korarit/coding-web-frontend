@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="dashboard">
+    <NuxtLayout name="dashboard" page_name="create-question">
         <h1 class="text-4xl underline font-bold mb-4 dark:text-[#FEFEFE]">เริ่มสร้างโจทย์</h1>
         <p class="text-gray-600 dark:text-[#FEFEFE] mb-6">สร้างโจทย์สุดเจ๋งเลย :3</p>
     
@@ -26,6 +26,16 @@
                         :list_data="LevelListName" 
                         icon="caret-down"
                         icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
+                    />
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <label for="difficulty" class="block text-[#202020] dark:text-[#FEFEFE] text-[20px] font-medium">คะแนน</label>
+
+                    <input
+                        type="number"
+                        v-model="score"
+                        class="w-[200px] text-[20px] text-[#606060] dark:text-[#FEFEFE] border border-gray-300 dark:border-[#1D1D1D] rounded-lg shadow-inner shadow-black/5 px-3 py-[2px] focus:outline-none"
                     />
                 </div>
             </div>
@@ -240,8 +250,8 @@
                     @closeModal="modelEnd = false"
                     :icon="statusCreate"
 
-                    linkToMain="/dashboard"
-                    linkToEdit="/dashboard/create-question"
+                    linkToMain="/dashboard/collection"
+                    :linkToEdit="linkToEdit"
 
                 />
             </div>
@@ -251,7 +261,6 @@
 <script setup lang="ts">
 import LangData from '~/assets/json/editor_lang.json'
 import {v7 as uuidv7} from 'uuid'
-import { icon } from '@fortawesome/fontawesome-svg-core';
 
 //////////////////////////////////// Auth  ////////////////////////////////////
 
@@ -269,6 +278,9 @@ onMounted(() => {
         }
     }
 })
+
+const problemName = ref<string>('');
+const score = ref<number>(0);
 
 //////////////////////////////////// Topic  ////////////////////////////////////
 
@@ -466,7 +478,7 @@ watch(() => selectIndexTestType.value, (newValue) => {
 ///////////////////////////////// Rich Text Editor //////////////////////////////////
 
 const isLLMChecked = ref<boolean>(false);
-const problemName = ref<string>('');
+
 const llmPrompt = ref<string>('');
 const countTestCases = ref<number>(1);
 
@@ -568,6 +580,11 @@ async function send() {
     const user_session: any = data.value;
 
     formdata.append('name', problemName.value);
+
+    if (score.value === 0) {
+        formdata.append('point', score.value.toString());
+    }
+
     formdata.append('description', await getJSON());
     formdata.append('type', 'public');
     formdata.append('mem_limit', '3000');
@@ -613,7 +630,7 @@ async function send() {
     if (datas.success === true) {
         statusCreate.value = "success";
         statusMessage.value = 'สร้างโจทย์สำเร็จ';
-        linkToEdit.value = '/dashboard/edit-question/'+datas.data.id;
+        linkToEdit.value = '/dashboard/question/'+datas.data.id;
         openModalEnd();
     } else {
         statusCreate.value = "error";

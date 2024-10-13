@@ -15,77 +15,93 @@
             </div>
         </div>
         <div class="flex flex-col w-[280px] overflow-y-auto px-3 divide-y divide-gray-300">
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
+            <div class="flex space-x-3 py-2 text-[#606060]">
+                <div class="h-fit flex items-center justify-center pt-1">
+                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[18px] text-[#199c80]" />
                 </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
+                <div class="flex flex-col">
+                    <p class="text-[18px] ">บันทึกการทำโจทย์</p>
+                    <p class="text-[16px] font-light">คุณได้ทำโจทย์ใหม่เสร็จสิ้นแล้ว</p>
+
+                    <p class="text-[14px] font-extralight text-black">เวลา: 12:00 น.</p>
+                </div>
             </div>
 
 
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
-                </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
-            </div>
-
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
-                </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
-            </div>
-
-            <div class="flex space-x-3 py-2 items-center text-[#606060]">
-                <div class="h-fit flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'bullhorn']" class="text-[16px] text-[#199c80]" />
-                </div>
-                <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
-            </div>
+            
         </div>
     </div>
     </Transition>

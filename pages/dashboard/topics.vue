@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="dashboard">
+    <NuxtLayout name="dashboard" page_name="topics">
         <div v-show="loading_all" class="flex justify-between items-center h-full">
             <div class="mx-auto flex items-center">
                 <svg class=" animate-spin -ml-1 mr-4 h-12 w-12 text-black" xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@
                             </p>
                         </div>
                         <p class="text-lg dark:text-[#FEFEFE] mb-4">
-                            มีโจทย์ในหัวข้อ 10 โจทย์
+                            มีโจทย์ในหัวข้อ {{ data.count_question }} โจทย์
                         </p>
 
                         <div class="grid grid-cols-2 gap-4">

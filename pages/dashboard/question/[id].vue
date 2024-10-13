@@ -62,6 +62,16 @@
                             icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] lg:text-[24px] text-[20px]"
                         />
                     </div>
+
+                    <div class="flex items-center space-x-2">
+                        <label for="difficulty" class="block text-[#202020] dark:text-[#FEFEFE] text-[20px] font-medium">คะแนน</label>
+
+                        <input
+                            type="number"
+                            v-model="score"
+                            class="w-[200px] text-[20px] text-[#606060] dark:text-[#FEFEFE] border border-gray-300 dark:border-[#1D1D1D] rounded-lg shadow-inner shadow-black/5 px-3 py-[2px] focus:outline-none"
+                        />
+                    </div>
                 </div>
         
                 <div class="mb-6">
@@ -277,7 +287,7 @@
                 :icon="statusCreate"
 
                 :linkToEdit="linkToEdit"
-                :link-to-main="linkToEdit"
+                link-to-main="/dashboard/collection"
 
             />
         </div>
@@ -385,6 +395,9 @@ const load_lang = async () => {
     });
 }
 
+//////////////////////////////////// Point ////////////////////////////////////
+const score = ref<number>(0);
+
 
 //////////////////////////////////// Load Data  ////////////////////////////////////
 async function processNodeImageURL(node: any) {
@@ -416,9 +429,11 @@ const load_data = async () => {
     if (response.status === 200) {
 
         problemName.value = datajson.data.name;
+
         questionData.value.name = datajson.data.name;
 
         questionData.value.point = datajson.data.point;
+        score.value = datajson.data.point;
 
 
         const Discription = JSON.parse(datajson.data.description);
@@ -442,16 +457,21 @@ const load_data = async () => {
             selectIndexTestType.value = 0;
 
             let listTest:any[] = [];
-            datajson.data.list_testcase.forEach((element: any) => {
-                listTest.push({
-                    inputs: element.input.split('\n'),
-                    answer: element.answer,
-                    type: 'random',
+            if (datajson.data.list_testcase !== null) {
+                datajson.data.list_testcase.forEach((element: any) => {
+                    listTest.push({
+                        inputs: element.input.split('\n'),
+                        answer: element.answer,
+                        type: 'random',
+                    });
                 });
-            });
 
-            questionData.value.testcase = listTest;
-            testCases.value = listTest;
+                questionData.value.testcase = listTest;
+                testCases.value = listTest;
+            } else {
+                addTestCase();
+            }
+            
         } else {
             questionData.value.test_type = 1;
             selectIndexTestType.value = 1;
@@ -745,7 +765,7 @@ const openModalEnd = () => {
 
 //////////////////////////////////// Save Question ////////////////////////////////////
 const statusCreate = ref<string>('');
-const statusMessage = ref<string>('');
+const statusMessage = ref<string>(''); 
 const linkToEdit = ref<string>('');
 
 
@@ -771,6 +791,13 @@ async function send() {
         has_update = true;
         formdata.append('name', problemName.value);
     }
+
+    if (questionData.value.point !== score.value) {
+        console.log('point');
+        has_update = true;
+        formdata.append('point', score.value.toString());
+    }
+
     const description = await getDescirption();
     if (!deepEqualObject(await questionData.value.description, description)) {
         console.log('description', description);

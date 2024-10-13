@@ -86,39 +86,145 @@ const { status , data } = useAuth()
 
 
 ////////////////////// notification //////////////////////
+
+async function RegisterDevice(ably_id, form_factor, target_url, public_vapid_key, p256dh, auth_id) {
+    const user_session = data.value
+    const config = useRuntimeConfig()
+    console.log({
+            ably_id: ably_id,
+            form_factor: form_factor,
+            target_url: target_url,
+            public_vapid_key: public_vapid_key,
+            p256dh: p256dh,
+            auth_id: auth_id
+        })
+    const res = await fetch(config.public.backendApi + '/notification/reg', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + user_session.sessionToken
+        },
+        body: JSON.stringify({
+            ably_id: ably_id,
+            form_factor: form_factor,
+            target_url: target_url,
+            public_vapid_key: public_vapid_key,
+            p256dh: p256dh,
+            auth_id: auth_id
+        })
+    })
+
+    if (res.status === 200) {
+        const data_device = await res.json()
+        console.log(data)
+        return await data_device
+    }
+    return null
+}
+
+async function DeleteDevice() {
+    const user_session = data.value
+    const config = useRuntimeConfig()
+    const res = await fetch(config.public.backendApi + '/notification', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + user_session.sessionToken
+        }
+    })
+
+    if (res.status === 200) {
+        const data_device = await res.json()
+        console.log(data)
+        return await data_device
+    }
+    return null
+}
+
+const config = useRuntimeConfig()
+
 onMounted(async() => {
 
+    
     if (status.value === 'authenticated') {
-        const config = useRuntimeConfig()
         //notification ably
-        if (config.public.ablyApiKey !== null ) {
+        if (config.public.ablyApiKey !== null && 'serviceWorker' in navigator) {
 
-            const res_url = await navigator.serviceWorker.register('/service-worker.js')
+            const url_service_worker = await navigator.serviceWorker.register('/service-worker.js')
 
-            console.log(res_url.scope+'service-worker.js')
+            navigator.serviceWorker.getRegistration().then((registration) => {
+                if (registration) {
+                registration.update();
+                }
+            });
+
+            console.log(url_service_worker.scope+'service-worker.js')
 
             //setlocalstorage status notification
             localStorage.setItem('notification', 'true')
 
-            const clinet_ably = new Ably.Realtime({ key: config.public.ablyApiKey, pushServiceWorkerUrl: res_url.scope+'service-worker.js' , plugins: {Push}});
-            
-            await clinet_ably.push.activate(async(deviceDetails, callback) => {
-                console.log('deviceDetails', deviceDetails)
+            const client_ably  = new Ably.Realtime({ key: config.public.ablyApiKey, pushServiceWorkerUrl: url_service_worker.scope+'service-worker.js' , plugins: {Push}});
+            if(Notification.permission === 'default'){
+                await client_ably.push.activate(async(deviceDetails, callback) => {
+                    console.log('deviceDetails', deviceDetails)
+                    callback(null, deviceDetails);
+                    const device = await RegisterDevice(deviceDetails.id, 
+                        deviceDetails.formFactor, 
+                        deviceDetails.push.recipient.targetUrl, 
+                        deviceDetails.push.recipient.publicVapidKey, 
+                        deviceDetails.push.recipient.encryptionKey.p256dh, 
+                        deviceDetails.push.recipient.encryptionKey.auth
+                    )
+                    if (device){
+                        callback(null, device);
+                    }else{
+                        callback('error', null);
+                    }
+                });
+            }else if (Notification.permission === 'denied'){
+                await client_ably.push.deactivate(async(deviceDetails, callback) => {
+                    const device = await DeleteDevice()
+                    console.log('deviceDetails', deviceDetails)
+                    if (device){
+                        callback(null, device);
+                    }else{
+                        callback('error', null);
+                    }
+                });
+            }
+
+
+            const channel = client_ably.channels.get('pushenabled:all');
+            console.log('channel')
+            channel.subscribe('example',(message) => {
+                url_service_worker.active.postMessage({
+                    type: 'notification',
+                    payload: message.data
+                });
+                console.log('message notification', message)
             });
+
+            console.log('test')
 
         }
     } else {
-        const ably_key = process.env.ABLY_API_KEY
         //notification ably
-        if (ably_key) {
+        if (config.public.ablyApiKey) {
 
             //setlocalstorage status notification
-            localStorage.setItem('notification', 'true')
+            const url_service_worker = await navigator.serviceWorker.register('/service-worker.js')
 
-            const clinet_ably = new Ably.Realtime({ key: ably_key , plugins: {Push}});
+            const clinet_ably = new Ably.Realtime({ key: config.public.ablyApiKey , plugins: {Push}, pushServiceWorkerUrl: url_service_worker.scope+'service-worker.js' });
             
             await clinet_ably.push.deactivate(async(deviceDetails, callback) => {
                 console.log('deviceDetails', deviceDetails)
+                const device = await DeleteDevice()
+                    console.log('deviceDetails', deviceDetails)
+                if (device){
+                    callback(null, device);
+                }else{
+                    callback('error', null);
+                }
             });
         }
     }
@@ -151,6 +257,13 @@ watch(() => status.value ,async () => {
             
             await clinet_ably.push.deactivate(async(deviceDetails, callback) => {
                 console.log('deviceDetails', deviceDetails)
+                const device = await DeleteDevice()
+                console.log('deviceDetails', deviceDetails)
+                if (device){
+                    callback(null, device);
+                }else{
+                    callback('error', null);
+                }
             });
         }
     }
