@@ -12,7 +12,7 @@
                         ด้วยโจทย์ที่หลากหลาย
                     </p>
                     <p class="text-[16px] sm:text-[12px] md:text-[16px] xl:text-[24px] text-[#000000] dark:text-white sm:leading-7 w-fit mx-auto text-center">
-                        เว็บไซต์นี้มีโจทย์มากกว่า x ข้อ มีหัวข้อที่หลากหลายมากกว่า x ข้อ
+                        เว็บไซต์นี้มีโจทย์มากกว่า {{ countQuestion }} ข้อ มีหัวข้อที่หลากหลายมากกว่า {{ countTopic }} ข้อ
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-x-10 gap-y-4 mx-auto w-full sm:w-fit mt-6 md:mt-8 xl:mt-12">
@@ -122,7 +122,7 @@
                         <div class="w-fit h-fit">
                             <div class="flex flex-col xl:flex-row items-center gap-x-6 gap-y-2">
                                 <p class="text-[32px] md:text-[28px] xl:text-[32px] text-[#606060] dark:text-white font-medium">จำนวนผู้ใช้งานกว่า</p>
-                                <p class="text-[56px] leading-8 xl:text-[64px]  text-[#00C7A3] font-medium">XXXXXX</p>
+                                <p class="text-[56px] leading-8 xl:text-[64px]  text-[#00C7A3] font-medium">{{ countUser }}</p>
                                 <p class="text-[32px] md:text-[28px] xl:text-[32px] text-[#606060] dark:text-white font-medium">คน</p>
                             </div>
                             <div class="w-fit h-fit mx-auto mt-4 xl:mt-10">
@@ -153,4 +153,22 @@ const openLogin = () => {
     open_modal_login()
     open_modal()
 }
+
+const countQuestion = ref(0)
+const countTopic = ref(0)
+const countUser = ref(0)
+
+const load_data = async () => {
+    const config = useRuntimeConfig()
+    const res = await fetch(config.public.backendApi +'/webinfo/report')
+    const datas = await res.json()
+
+    countQuestion.value = datas.data.count_question
+    countTopic.value = datas.data.count_topic
+    countUser.value = datas.data.count_user
+}
+
+onMounted(() => {
+    load_data()
+})
 </script>
