@@ -25,9 +25,9 @@
 
             <div class="my-5 flex flex-col space-y-5">
                 <input 
-                    class="w-full px-4 py-1.5 shadow-inner shadow-black/15 border border-[#C2C2C2] rounded-md text-[20px] placeholder:font-light focus:outline-none"
+                    class="w-full px-4 py-1.5 shadow-inner shadow-black/15 border border-[#C2C2C2] rounded-md text-[20px] placeholder:text-[18px] placeholder:text-[#adadad] placeholder:font-light focus:outline-none"
                     v-model="EmailOrUser"
-                    placeholder="Email หรือ Username ของคนที่ต้องการให้ admin"
+                    placeholder="Email หรือ Username ของคนที่ต้องการให้"
                 />
 
                 <DropdownCheckSelect block-class="w-full"
