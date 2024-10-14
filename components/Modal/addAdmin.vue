@@ -26,8 +26,8 @@
             <div class="my-5 flex flex-col space-y-5">
                 <input 
                     class="w-full px-4 py-1.5 shadow-inner shadow-black/15 border border-[#C2C2C2] rounded-md text-[20px] placeholder:font-light focus:outline-none"
-                    v-model="Email"
-                    placeholder="Email ของคนที่ต้องการให้ admin"
+                    v-model="EmailOrUser"
+                    placeholder="Email หรือ Username ของคนที่ต้องการให้ admin"
                 />
 
                 <DropdownCheckSelect block-class="w-full"
@@ -95,12 +95,12 @@ const LevelListName = ref<string[]>([
 ])
 
 /////////////////// create ///////////////////
-const Email = ref<string|null>(null)
+const EmailOrUser = ref<string|null>(null)
 const error = ref<string|null>(null)
 const selectIndexLevel = ref<number>(0)
 async function addAdmin() {
-    if (!Email.value) {
-        error.value = 'กรุณากรอก Email'
+    if (!EmailOrUser.value) {
+        error.value = 'กรุณากรอก Email หรือ Username ของคนที่ต้องการให้'
         return
     }
     if (selectIndexLevel.value === 0) {
@@ -126,7 +126,7 @@ async function addAdmin() {
                 "Authorization": 'Bearer ' + user_session.sessionToken,
             },
             body: JSON.stringify({
-                email: Email.value,
+                username_or_email: EmailOrUser.value,
                 level: selectIndexLevel.value + 1
             })
         })
