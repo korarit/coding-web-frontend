@@ -136,8 +136,7 @@ watch(() => props.show,async (value) => {
         topic_name.value = props.name
 
         if (props.image_link) {
-            const response = await fetch(props.image_link)
-
+            const response = await fetch(props.image_link, { mode: 'no-cors' })
             const blob = await response.blob()
             fileUrl.value = URL.createObjectURL(blob)
         }else{

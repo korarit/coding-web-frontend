@@ -22,10 +22,11 @@
           class="2xl:text-[36px] xl:text-[30px] lg:text-[26px] md:text-[24px] sm:text-[22px] text-[20px] text-[#000000] dark:text-[#FEFEFE]">
           รายการโจทย์
         </h1>
-        <button
+        <NuxtLink
+          to="/dashboard/create-question"
           class="2xl:text-[36px] xl:text-[30px] lg:text-[26px] md:text-[24px] sm:text-[22px] text-[20px] rounded-xl border-2 px-4 text-[#FCFCFC] border-[#B12900] hover:bg-[#ad313e] bg-[#DF3E3E] active:bg-[#ef435d]">
           เพิ่มโจทย์
-        </button>
+        </NuxtLink>
       </div>
 
       <div class="flex-none grid grid-cols-5 gap-5 items-center my-10">
@@ -98,10 +99,11 @@
               class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[36px] xl:text-[30px] lg:text-[26px] md:text-[24px] sm:text-[22px] text-[20px]">
               {{ data.name }}
             </h1>
-            <span
-              class="text-[#00C7A3] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">{{ data.level_name }}</span>
-            <span class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">
-              , {{ data.point }} คะแนน</span>
+
+            <span class="text-[#00C7A3] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">{{ data.level_name }}</span>
+            <span v-if="data.level_name != ''" class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]"> , </span>
+            <span class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">{{ data.point }} คะแนน</span>
+          
           </div>
           <div class="w-full sm:w-fit flex items-center gap-3 sm:gap-6">
             <NuxtLink
@@ -240,6 +242,7 @@ const search_question = async () => {
     
     if (list[element.payload_data.id] != undefined && list[element.payload_data.id] != null) {
       list_data[element.payload_data.id] = list[element.payload_data.id]
+      list_data[element.payload_data.id]["search_score"]= element.combined_score
     }
 
   });

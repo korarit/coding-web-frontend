@@ -192,11 +192,12 @@ const openEditTopic = ref<boolean>(false)
 const editTopicId = ref<number>(0)
 const editTopicName = ref<string>('')
 const editTopicImage = ref<string|null>(null)
-const editTopic = (id:number, name:string, image_link:string|null) => {
+const editTopic = async (id:number, name:string, image_link:string|null) => {
     editTopicId.value = id
     editTopicName.value = name
     editTopicImage.value = image_link
     openEditTopic.value = true
+
     
     open_modal()
 }

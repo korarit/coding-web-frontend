@@ -128,7 +128,7 @@
                                 <h3 class="text-xl lg:text-2xl font-bold dark:text-[#fefefe]">แผนผังความสามารถ</h3>
                             </div>
 
-                            <div v-if="datasets.labels.length > 0" class="size-48 sm:size-32 md:w-[118px] md:h-[118px] lg:w-[160px] lg:h-[160px] 2xl:w-[220px] 2xl:h-[184px]">
+                            <div v-if="datasets.labels.length > 0 && datasets.datasets[0].data.length > 0" class="size-48 sm:size-32 md:w-[118px] md:h-[118px] lg:w-[160px] lg:h-[160px] 2xl:w-[220px] 2xl:h-[184px]">
                                 <Radar ref="radarChart" :data="datasets" :options="{ responsive: true,maintainAspectRatio: true,plugins:{legend: {display: false}},scales:{r:{pointLabels:{display: false}}}}" />
                             </div>
                         </div>
@@ -138,6 +138,13 @@
                                 class="text-xl font-medium text-white bg-[#00C7A3] dark:bg-[#3DD6BA] dark:text-[#0f0f0f] py-3 px-6 rounded-t-lg">
                                 โจทย์ที่ทำสำเร็จ
                             </h3>
+                            <div v-if="submitlist?.length == 0 || submitlist == null" class="divide-y divide-gray-300 dark:bg-[#262626] dark:border-[#262626] h-[130px]">
+                                <div class="w-full h-full flex py-3 px-4 items-center justify-center">
+                                    <p class="text-2xl text-wrap font-medium ml-4 dark:text-[#fefefe]">
+                                        ยังไม่มีข้อมูล
+                                    </p>
+                                </div>
+                            </div>
                             <div class="divide-y divide-gray-300 dark:bg-[#262626] dark:border-[#262626]">
                                 <div v-for="(d, n) in submitlist" :key="n" class="w-full flex py-3 px-4 items-center">
                                     <p class="text-lg font-medium w-8 text-right dark:text-[#fefefe]">{{ n + 1 }}.</p>
@@ -251,19 +258,23 @@ const load_level = async () => {
 
     const list_data = data.data.level_list
     let level_total = [0,0,0]
-    list_data.forEach((element:any) => {
-        if (element.name === 'ง่าย') {
-            level_easy.value[1] = element.question_count
-            level_total[0] = element.question_count
-        } else if (element.name === 'ปานกลาง') {
-            level_medium.value[1] = element.question_count
-            level_total[1] = element.question_count
-        } else if (element.name === 'ยาก') {
-            level_hard.value[1] = element.question_count
-            level_total[2] = element.question_count
-        }
-    });
+    if (list_data != null) {
+        console.log(list_data)
+        list_data.forEach((element:any) => {
+            if (element.name === 'ง่าย') {
+                level_easy.value[1] = element.question_count
+                level_total[0] = element.question_count
+            } else if (element.name === 'ปานกลาง') {
+                level_medium.value[1] = element.question_count
+                level_total[1] = element.question_count
+            } else if (element.name === 'ยาก') {
+                level_hard.value[1] = element.question_count
+                level_total[2] = element.question_count
+            }
+        });
+    }
 
+    console.log('tevel count',level_total)
     return [level_total, null]
 }
 
@@ -325,18 +336,20 @@ const load_data = async () => {
         let level_data:any[] = data_profile.data.level_list.list
 
         let level_count = [0,0,0]
-        level_data.forEach((element:any) => {
-            if (element.level_name === 'ง่าย') {
-                level_easy.value[0] = element.pass_question
-                level_count[0] = element.pass_question
-            } else if (element.level_name === 'ปานกลาง') {
-                level_medium.value[0] = element.pass_question
-                level_count[1] = element.pass_question
-            } else if (element.level_name === 'ยาก') {
-                level_hard.value[0] = element.pass_question
-                level_count[2] = element.pass_question
-            }
-        });
+        if (level_data != null) { 
+            level_data.forEach((element:any) => {
+                if (element.level_name === 'ง่าย') {
+                    level_easy.value[0] = element.pass_question
+                    level_count[0] = element.pass_question
+                } else if (element.level_name === 'ปานกลาง') {
+                    level_medium.value[0] = element.pass_question
+                    level_count[1] = element.pass_question
+                } else if (element.level_name === 'ยาก') {
+                    level_hard.value[0] = element.pass_question
+                    level_count[2] = element.pass_question
+                }
+            });
+        }
 
         let topic_data:any[] = data_profile.data.topic_list.list
 
@@ -348,12 +361,14 @@ const load_data = async () => {
             let has_topic = false
             let count = 0
 
-            topic_data.forEach((element:any) => {
+            if (topic_data != null) {
+                topic_data.forEach((element:any) => {
                 if (element.topic_id === topic.id) {
                     has_topic = true
                     count = element.pass_question
                 }
             });
+            }
 
             if (has_topic) {
                 datasets.value.datasets[0].data.push(count)
@@ -374,7 +389,7 @@ const progress_hard = ref(0)
 const progress_all = ref(100)
 
 onMounted(async () => {
-    const level_total = await load_level()
+    const level_total_data = await load_level()
     const level_count = await load_data()
     
     loading_all.value = false
@@ -384,26 +399,41 @@ onMounted(async () => {
     }
 
 
-    if (level_total[0] === null) {
+    if (level_total_data[0] === null) {
         return
     }
 
     //callculate
     if (level_count[0] > 0 && level_count[0] !== null) {
-        let total = level_total?.[0]?.[1] ? level_total[0][0] : 0
+        let total = 1;
+
+        console.log("level_total_data", level_total_data[0])
+        if (level_total_data && level_total_data[0] && level_total_data[0][0]) {
+            total = Number(level_total_data[0][0]);  // ใช้ค่าใน array ถ้ามี
+        } else {
+            total = 1;  // กำหนดค่าเริ่มต้นเป็น 1 หรือค่าที่เหมาะสมแทน 0
+        }
+
+        console.log("total", total)
         console.log(total)
         const interval_easy = setInterval(() => {
         if (progress_easy.value < (level_count[0] / Number(total)) * 100) {
             progress_easy.value += 1
         } else {
-        clearInterval(interval_easy)
+            clearInterval(interval_easy)
         }
         }, 20)
     }
 
 
     if (level_count[1] > 0 && level_count[1] !== null) {
-        let total = level_total?.[0]?.[1] ? level_total[0][1] : 0
+        let total = 1
+
+        if (level_total_data && level_total_data[0] && level_total_data[0][1]) {
+            total = Number(level_total_data[0][1]);  // ใช้ค่าใน array ถ้ามี
+        } else {
+            total = 1;  // กำหนดค่าเริ่มต้นเป็น 1 หรือค่าที่เหมาะสมแทน 0
+        }
         const interval_medium = setInterval(() => {
             if (progress_medium.value < (level_count[1] / Number(total)) * 100) {
                 progress_medium.value += 1
@@ -414,7 +444,14 @@ onMounted(async () => {
     }
 
     if (level_count[2] > 0 && level_count[2] !== null) {
-        let total = level_total?.[0]?.[2] ? level_total[0][2] : 0
+        let total = 1
+
+        if (level_total_data && level_total_data[0] && level_total_data[0][2]) {
+            total = Number(level_total_data[0][2]);  // ใช้ค่าใน array ถ้ามี
+        } else {
+            total = 1;  // กำหนดค่าเริ่มต้นเป็น 1 หรือค่าที่เหมาะสมแทน 0
+        }
+
         const interval_hard = setInterval(() => {
             if (progress_hard.value < (level_count[2] / Number(total)) * 100) {
                 progress_hard.value += 1
@@ -425,9 +462,9 @@ onMounted(async () => {
     }
 
     if (level_count[0] + level_count[1] + level_count[2] > 0 && level_count[2] !== null) {
-        let total_easy = level_total?.[0]?.[0] ? level_total[0][0] : 0
-        let total_medium = level_total?.[0]?.[1] ? level_total[0][1] : 0
-        let total_hard = level_total?.[0]?.[2] ? level_total[0][2] : 0
+        let total_easy = level_total_data?.[0]?.[0] ? level_total_data[0][0] : 0
+        let total_medium = level_total_data?.[0]?.[1] ? level_total_data[0][1] : 0
+        let total_hard = level_total_data?.[0]?.[2] ? level_total_data[0][2] : 0
 
         let progress_cal = 100 - (((level_count[0] + level_count[1] + level_count[2]) / (Number(total_easy) + Number(total_medium) + Number(total_hard))) * 100)
 

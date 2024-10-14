@@ -101,6 +101,11 @@ watch(() => props.show, (value) => {
     show_modal.value = value
     if (value) {
         error.value = null
+        loading.value = false
+        Title.value = null
+        Msg.value = null
+        selectIndex.value = 0
+        EmailUser.value = null
     }
 })
 
@@ -146,7 +151,7 @@ async function sendNotification() {
         if (selectIndex.value === 4) {
             path = 'user'
             payload = {
-                target_user_id: EmailUser.value,
+                target_user: EmailUser.value,
                 title: Title.value,
                 msg: Msg.value,
             }

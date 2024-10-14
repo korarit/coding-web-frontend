@@ -227,9 +227,7 @@
                             <div v-if="resultSubmit[i - 1].status != 'code error'">
                                 <p class="text-[16px] leading-4">Output</p>
                                 <div class="w-full rounded bg-gray-200 px-2 py-1 mt-1">
-                                    <p v-if="resultSubmit[i].code_output != ''" class="text-[16px]">
-                                        {{resultSubmit[i].code_output }}
-                                    </p>
+                                    <p v-if="resultSubmit[i].code_output != ''" v-for="(data) in resultSubmit[i].code_output.split('\n')" class="text-[16px] text-warp">{{ data }}</p>
                                     <p v-else class="text-[16px]">&nbsp;</p>
                                 </div>
                             </div>
@@ -237,7 +235,7 @@
                             <div>
                                 <p class="text-[16px] leading-4">Expexted</p>
                                 <div class="w-full rounded bg-gray-200 px-2 py-1 mt-1">
-                                    <p v-if="resultSubmit[i].expected != ''" class="text-[16px]">{{resultSubmit[i].expected }}</p>
+                                    <p v-if="resultSubmit[i].expected != ''" v-for="(data) in resultSubmit[i].expected.split('\n')" class="text-[16px] text-warp">{{ data }}</p>
                                     <p v-else class="text-[16px]">&nbsp;</p>
                                 </div>
                             </div>
@@ -304,7 +302,7 @@
                             <div>
                                 <p class="text-[16px] leading-4">Expexted</p>
                                 <div class="w-full rounded bg-gray-200 px-2 py-1 mt-1">
-                                    <p v-if="resultSubmit[i - 1].expected != ''" class="text-[16px]">{{resultSubmit[i-1].expected }}</p>
+                                    <p v-if="resultSubmit[i - 1].expected != ''" v-for="(data) in resultSubmit[i-1].expected.split('\n')" class="text-[16px] text-warp">{{ data }}</p>
                                     <p v-else class="text-[16px]">&nbsp;</p>
                                 </div>
                             </div>

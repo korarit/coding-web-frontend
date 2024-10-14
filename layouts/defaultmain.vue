@@ -204,6 +204,26 @@ onMounted(async() => {
                 console.log('message notification', message)
             });
 
+            let user_ch = ''
+
+            if (data.value.type_level === 2) {
+                user_ch = 'pushenabled:admin'
+            }else if (data.value.type_level === 3) {
+                user_ch = 'pushenabled:super_admin'
+            }else{
+                user_ch = 'pushenabled:user'
+            }
+
+            const user_channel = client_ably.channels.get(user_ch);
+
+            user_channel.subscribe('example',(message) => {
+                url_service_worker.active.postMessage({
+                    type: 'notification',
+                    payload: message.data
+                });
+                console.log('message notification', message)
+            });
+
             console.log('test')
 
         }

@@ -119,14 +119,49 @@ import Italic from '@tiptap/extension-italic';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import StarterKit from '@tiptap/starter-kit'
 
+import TextStyle from '@tiptap/extension-text-style'
+import FontSizeLib from 'tiptap-extension-font-size'
+
 import Image from '@tiptap/extension-image'
 import ImageResize from 'tiptap-extension-resize-image';
 import Dropcursor from '@tiptap/extension-dropcursor'
+
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { all, createLowlight } from 'lowlight'
+
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import python from 'highlight.js/lib/languages/python'
+import java from 'highlight.js/lib/languages/java'
+import c from 'highlight.js/lib/languages/c'
+import cpp from 'highlight.js/lib/languages/cpp'
+import csharp from 'highlight.js/lib/languages/csharp'
+import rust from 'highlight.js/lib/languages/rust'
+import php from 'highlight.js/lib/languages/php'
+import go from 'highlight.js/lib/languages/go'
+import lua from 'highlight.js/lib/languages/lua'
+
 import { generateHTML } from '@tiptap/html'
 
 
 import submission_status from '~/assets/json/submission_status.json'
 import EditorLang from '~/assets/json/editor_lang.json';
+
+// create a lowlight instance
+const lowlight = createLowlight(all)
+
+// you can also register languages
+lowlight.register('js', js)
+lowlight.register('ts', ts)
+lowlight.register('python', python)
+lowlight.register('java', java)
+lowlight.register('c', c)
+lowlight.register('cpp', cpp)
+lowlight.register('csharp', csharp)
+lowlight.register('rust', rust)
+lowlight.register('php', php)
+lowlight.register('go', go)
+lowlight.register('lua', lua)
 
 
 type submitData = {
@@ -231,114 +266,246 @@ watch(() => props.Desciption, async (val) => {
   const DesciptionJson = JSON.parse(val)
   await processNodeHasImage(DesciptionJson);
 
-  DiscriptionHTML.value = generateHTML(DesciptionJson, [Youtube.configure({ controls: false, nocookie: true }), Document, Paragraph, Text, Underline, TextAlign.configure({ types: ['heading', 'paragraph'], }), Heading, HardBreak, Strike, CodeBlock, Code, Blockquote, Bold, BulletList, OrderedList, ListItem, Italic, HorizontalRule, StarterKit, Image.configure({ allowBase64: true }), ImageResize, Dropcursor])
+  DiscriptionHTML.value = generateHTML(DesciptionJson, [CodeBlockLowlight.configure({lowlight}),FontSizeLib,TextStyle, Youtube.configure({ controls: false, nocookie: true }), Document, Paragraph, Text, Underline, TextAlign.configure({ types: ['heading', 'paragraph'], }), Heading, HardBreak, Strike, CodeBlock, Code, Blockquote, Bold, BulletList, OrderedList.configure({ HTMLAttributes: { class: 'list-decimal' } }), ListItem, Italic, HorizontalRule, StarterKit, Image.configure({ allowBase64: true }), ImageResize, Dropcursor])
 })
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 /* Basic editor styles */
 .tiptap {
   outline: none;
 }
 
 .tiptap {
-  :first-child {
-    margin-top: 0;
-  }
-
-  blockquote {
-    border-left: 3px solid var(--gray-3);
-    margin: 1.5rem 0;
-    padding-left: 1rem;
-  }
-
-  /* List styles */
-  ul,
-  ol {
-
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
-
-    li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
+    :first-child {
+        margin-top: 0;
     }
-  }
 
-  ol {
-    list-style-type: decimal;
-  }
-
-  ul {
-    list-style-type: disc;
-  }
-
-  /* Heading styles */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-    margin-top: 0.5rem;
-    text-wrap: pretty;
-  }
-
-  h1,
-  h2 {
-    margin-top: 0.5rem;
-  }
-
-  h1 {
-    font-size: 3.2rem;
-  }
-
-  h2 {
-    font-size: 2.8rem;
-  }
-
-  h3 {
-    font-size: 2.4rem;
-  }
-
-  h4 {
-    font-size: 2.2rem;
-  }
-
-  h5 {
-    font-size: 2rem;
-  }
-
-  h6 {
-    font-size: 1.8rem;
-  }
-
-  /* Code and preformatted text styles */
-  code {
-    background-color: #767676;
-    border-radius: 0.4rem;
-    color: var(--black);
-    font-size: 0.85rem;
-    padding: 0.25em 0.3em;
-  }
-
-  pre {
-    background: #a5a5a5;
-    border-radius: 0.5rem;
-    color: var(--white);
-    font-family: 'JetBrainsMono', monospace;
-    margin: 0.5rem 0;
-    padding: 0.5rem;
-
-    code {
-      background: none;
-      color: inherit;
-      font-size: 0.8rem;
-      padding: 0;
+    @media (prefers-color-scheme: dark) {
+        p {
+            color: #FEFEFE;
+        }
     }
-  }
+
+    blockquote {
+        border-left: 3px solid var(--gray-3);
+        margin: 1.5rem 0;
+        padding-left: 1rem;
+    }
+
+    /* List styles */
+    ul{
+        padding: 0 1rem;
+        margin: 0.4rem 1rem 0.4rem 0.4rem;
+        li p {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+        }
+    }
+    ol {
+
+        padding: 0 0.4rem;
+        margin: 0.4rem 1rem 0.4rem 0.4rem;
+
+        li p {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+        }
+    }
+
+    ol {
+        list-style-type: decimal;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+
+    /* Heading styles */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        line-height: 1.1;
+        margin-top: 0.5rem;
+        text-wrap: pretty;
+    }
+
+    h1,
+    h2 {
+        margin-top: 0.5rem;
+    }
+
+    h1 {
+        font-size: 3.2rem;
+    }
+
+    h2 {
+        font-size: 2.8rem;
+    }
+
+    h3 {
+        font-size: 2.4rem;
+    }
+
+    h4 {
+        font-size: 2.2rem;
+    }
+
+    h5 {
+        font-size: 2rem;
+    }
+
+    h6 {
+        font-size: 1.8rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        pre {
+            background: #565656;
+            border-radius: 0.5rem;
+            color: #202020;
+            font-family: 'JetBrainsMono', monospace;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+
+            code {
+                background: none;
+                color: inherit;
+                font-size: 0.8rem;
+                padding: 0;
+            }
+
+            /* Code styling */
+            .hljs-comment,
+            .hljs-quote {
+                color: #616161;
+            }
+
+            .hljs-variable,
+            .hljs-template-variable,
+            .hljs-attribute,
+            .hljs-tag,
+            .hljs-name,
+            .hljs-regexp,
+            .hljs-link,
+            .hljs-name,
+            .hljs-selector-id,
+            .hljs-selector-class {
+                color: #f98181;
+            }
+
+            .hljs-number,
+            .hljs-meta,
+            .hljs-built_in,
+            .hljs-builtin-name,
+            .hljs-literal,
+            .hljs-type,
+            .hljs-params {
+                color: #f77f1d;
+            }
+
+            .hljs-string,
+            .hljs-symbol,
+            .hljs-bullet {
+                color: #9ece7a;
+            }
+
+            .hljs-title,
+            .hljs-section {
+                color: #d6cc08;
+            }
+
+            .hljs-keyword,
+            .hljs-selector-tag {
+                color: #64bbe0;
+            }
+
+            .hljs-emphasis {
+                font-style: italic;
+            }
+
+            .hljs-strong {
+                font-weight: 700;
+            }
+
+        }
+    }
+
+    @media screen and (prefers-color-scheme: light) {
+        pre {
+            background: #202020;
+            border-radius: 0.5rem;
+            color: #FEFEFE;
+            font-family: 'JetBrainsMono', monospace;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+
+            code {
+                background: none;
+                color: inherit;
+                font-size: 0.8rem;
+                padding: 0;
+            }
+
+            /* Code styling */
+            .hljs-comment,
+            .hljs-quote {
+                color: #616161;
+            }
+
+            .hljs-variable,
+            .hljs-template-variable,
+            .hljs-attribute,
+            .hljs-tag,
+            .hljs-name,
+            .hljs-regexp,
+            .hljs-link,
+            .hljs-name,
+            .hljs-selector-id,
+            .hljs-selector-class {
+                color: #f98181;
+            }
+
+            .hljs-number,
+            .hljs-meta,
+            .hljs-built_in,
+            .hljs-builtin-name,
+            .hljs-literal,
+            .hljs-type,
+            .hljs-params {
+                color: #fbbc88;
+            }
+
+            .hljs-string,
+            .hljs-symbol,
+            .hljs-bullet {
+                color: #b9f18d;
+            }
+
+            .hljs-title,
+            .hljs-section {
+                color: #faf594;
+            }
+
+            .hljs-keyword,
+            .hljs-selector-tag {
+                color: #70cff8;
+            }
+
+            .hljs-emphasis {
+                font-style: italic;
+            }
+
+            .hljs-strong {
+                font-weight: 700;
+            }
+
+        }
+    }
 
   blockquote {
     border-left: 3px solid #dddddd;

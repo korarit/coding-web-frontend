@@ -26,15 +26,17 @@
     </div>
 
     <div v-else class="min-h-[calc(100dvh-270px)] px-4 xl:px-16 2xl:px-[128px] pt-[64px] flex flex-col">
-      <div class="flex-none relative min-h-[80px] h-fit w-full">
+      <div class="flex-none h-fit w-full">
         <div
-          class="absolute z-0 top-1/2 -translate-y-1/2 w-full h-fit pr-[4px] flex gap-3 md:gap-5 pb-4 items-center overflow-hidden">
+          class="w-full h-fit pr-[4px] flex gap-3 md:gap-5 mb-4 items-center scroll-costom overflow-x-auto">
           <button
             @click="selectIndexTopic = 0"
             :class="selectIndexTopic == 0 ? 'border-[#00B191] text-[#FCFCFC] bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:border-[#00B191]':'border-[#BABABA] bg-[#FEFEFE] text-[#606060] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]'"
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center lg:gap-x-2 px-4 py-2 drop-shadow-md 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-3">
-            <font-awesome-icon :icon="['fas', 'box-archive']"
-              class="text-[0px] text-[#FFFFFF] dark:text-[#0F0F0F] 2xl:text-[32px] xl:text-[30px] lg:text-[24px] md:text-[0px] sm:text-[0px]" />
+            class="select-none flex-shrink-0 w-[50%] sm:w-[40%] md:w-[33.33%] xl:w-[16.66%] border-2 rounded-2xl flex items-center md:gap-x-2 px-4 py-2 drop-shadow-md 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-3"
+          >
+            <div class="hidden md:flex items-center">
+              <font-awesome-icon :icon="['fas', 'box-archive']" class=" text-[#FFFFFF] dark:text-[#0F0F0F] 2xl:text-[32px] xl:text-[30px] md:text-[24px]" />
+            </div>
             <p class="whitespace-nowrap">All Topics</p>
           </button>
 
@@ -42,28 +44,15 @@
             v-for="(data, index) in TopicData"
             @click="selectIndexTopic = index + 1"
             :class="selectIndexTopic == index + 1 ? 'border-[#00B191] text-[#FCFCFC] bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:border-[#00B191]':'border-[#BABABA] bg-[#FEFEFE] text-[#606060] dark:text-[#FEFEFE] dark:bg-[#3D3D3D] dark:border-[#292929]'"
-            class="w-[50%] sm:w-[40%] xl:w-[16.66%] border-2 rounded-2xl flex items-center lg:gap-x-4 px-4 py-2 drop-shadow-md  2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-3 text-left">
-            <div class="h-8 w-8">
+            class="select-none flex-shrink-0 w-[50%] sm:w-[40%] md:w-[33.33%] xl:w-[16.66%] border-2 rounded-2xl flex items-center md:gap-x-4 px-4 py-2 drop-shadow-md  2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[16px] sm:py-[8px] sm:px-3 text-left">
+            <div class="md:h-7 md:w-7 xl:h-8 xl:w-8 hidden md:block">
               <img v-if="data.image_link"  v-show="image_status[index] == false" @error="image_status[index] = true" :src="data.image_link" alt="topic" class="h-full w-full object-cover">
               <div v-show="image_status[index] == true || data.image_link === null" class="flex w-full h-full items-center justify-center">
                 <font-awesome-icon :icon="['far','image']" class=" text-[36px]" />
               </div>
-              </div>
-              {{ data.name }}
-          </button>
-        </div>
-        <div
-          v-if="TopicData.length > 5"
-          class="absolute w-[104px] z-10 right-0 top-1/2 -translate-y-1/2 flex self-end min-h-full text-label-3 dark:text-dark-label-3">
-          <span
-            class="from-[#FAFAFA] dark:from-[#0F0F0F] min-h-full to-transparent dark:from-dark-paper w-16 bg-gradient-to-l">
-          </span>
-          <span
-            class="bg-[#FAFAFA] dark:bg-[#0F0F0F] min-h-full dark:bg-dark-paper w-10 cursor-pointer pl-1 font-normal text-[20px] text-[#606060] dark:text-dark-label-3">
-            <div class="flex items-center h-[80%] dark:text-white">
-              >>
             </div>
-          </span>
+            {{ data.name }}
+          </button>
         </div>
       </div>
 
@@ -145,7 +134,7 @@
         </div>
       </div>
 
-      <div v-else-if="questionShow.length <= 0" class="flex-auto h-full flex justify-center items-center ">
+      <div v-else-if="questionShow.length == 0" class="flex-auto h-full flex justify-center items-center ">
         <div class="mx-auto flex items-center space-x-4">
           <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[48px] text-red-600" />
           <p class="text-[24px] dark:text-white">
@@ -164,9 +153,10 @@
               {{ data.name }}
             </h1>
             <span class="text-[#00C7A3] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">{{data.level_name }}</span>
+            <span v-if="data.level_name != ''" class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]"> , </span>
             <span
               class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[24px] xl:text-[22px] lg:text-[20px] md:text-[18px] sm:text-[14px]">
-              , {{ data.point }} คะแนน
+              {{ data.point }} คะแนน
             </span>
           </div>
           <div class="w-full sm:w-fit flex items-center gap-3 sm:gap-6">
@@ -402,6 +392,7 @@ const search_question = async () => {
 
     list_question.value = await fillterQuestionMain(save_question.value, LevelData.value, TopicData.value, selectIndexLevel.value, selectIndexStatus.value, selectIndexTopic.value)
     search_loading.value = false
+    pagination(1)
     return
   }
   const response = await fetch(config.public.backendApi + '/question/search?keyword=' + search_keyword.value)
@@ -424,6 +415,7 @@ const search_question = async () => {
     return
   }
 
+  console.log('list_search')
   if (response.status == 404) {
     search_error.value = 'ไม่พบโจทย์ที่เกี่ยวข้อง'
     search_loading.value = false
@@ -438,16 +430,23 @@ const search_question = async () => {
   const list_search: any[] = data.data.search_result
 
   const list = await load_question()
-  console.log(list)
+  console.log('list question',list)
 
   const list_data: any = {}
   list_search.forEach((element: any) => {
-    if (list[element.payload_data.id] != undefined && list[element.payload_data.id] != null) {
-      list_data[element.payload_data.id] = list[element.payload_data.id]
+    console.log(element.payload_data.id)
+    if (list[0][element.payload_data.id] != undefined && list[0][element.payload_data.id] != null) {
+      list_data[element.payload_data.id] = list[0][element.payload_data.id]
+      list_data[element.payload_data.id]["search_score"]= element.combined_score
     }
   });
 
-  save_question.value = Object.values(list_data)
+  console.log("test db",list_data)
+
+
+  const list_data_search = Object.values(list_data).sort((a: any, b: any) => b.search_score - a.search_score)
+
+  save_question.value = list_data_search
   list_question.value = await fillterQuestionMain(save_question.value, LevelData.value, TopicData.value, selectIndexLevel.value, selectIndexStatus.value, selectIndexTopic.value)
   
   search_error.value = null
@@ -508,3 +507,26 @@ const filterData = async () => {
   pagination(page.value)
 }
 </script>
+
+<style lang="css" scoped>
+.scroll-costom {
+  scrollbar-width: thin; /* สำหรับ Firefox ให้ scrollbar บางลง */
+  -ms-overflow-style: thin; /* สำหรับ Internet Explorer */
+}
+
+.scroll-costom::-webkit-scrollbar {
+  width: 0; /* ซ่อน scrollbar ใน Chrome, Safari */
+  height: 0;
+}
+
+/* แสดง scrollbar เมื่อ hover (หรือกำหนดแสดงเมื่อ scroll) */
+.scroll-costom:hover::-webkit-scrollbar {
+  width: 6px; /* แสดง scrollbar เมื่อ hover */
+  height: 6px;
+}
+
+.scroll-costom:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* สี scrollbar */
+  border-radius: 3px; /* ทำให้ scrollbar ดูมน */
+}
+</style>

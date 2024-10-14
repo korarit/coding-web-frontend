@@ -28,12 +28,12 @@
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
-            <button class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
+            <NuxtLink :to="'/profile/'+data?.username" class="flex space-x-3 items-center text-[#606060] hover:text-[#262626]">
                 <div class="w-[48px] h-fit flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'circle-question']" class="text-[28px] " />
                 </div>
                 <p class="text-[18px] font-light">บันทึกการทำโจทย์</p>
-            </button>
+            </NuxtLink>
 
             <div class="bg-[#EBEBEB] h-px w-full"></div>
 
