@@ -46,12 +46,12 @@
     <div v-else class="flex-auto flex flex-col w-full h-full">
       <div class="flex-none min-w-fit px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
         <div class="w-[160px]">
-          <DropdownCheckSelect block-class="w-full" customclass="w-full flex items-center gap-x-2 text-[#616161] dark:text-[#cecece] hover:text-[#353535] dark:hover:text-[#FEFEFE] text-[18px] font-light leading-5"
+          <DropdownCheckSelect block-class="w-full" heightList="200px" customclass="w-full flex items-center gap-x-2 text-[#616161] dark:text-[#cecece] hover:text-[#353535] dark:hover:text-[#FEFEFE] text-[18px] font-light leading-5"
           v-model="selectIndexType" :list_data="TypeListName" @select="filterSubmit" />
         </div>
         
         <div class="w-[164px]">
-          <DropdownCheckSelect block-class="w-full" customclass="flex items-center gap-x-2 text-[#616161] dark:text-[#cecece] hover:text-[#353535] dark:hover:text-[#FEFEFE] text-[18px] font-light leading-5"
+          <DropdownCheckSelect block-class="w-full" heightList="200px"  customclass="flex items-center gap-x-2 text-[#616161] dark:text-[#cecece] hover:text-[#353535] dark:hover:text-[#FEFEFE] text-[18px] font-light leading-5"
           v-model="selectIndexLang" :list_data="LanguageListName" @select="filterSubmit" />
         </div>
        

@@ -151,7 +151,7 @@
                                         customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
                                         v-model="selectIndexLangGenInput" 
                                         :list_data="LangListName" 
-                                        height-list="160px"
+                                        height-list="120px"
                                         icon="caret-down"
                                         icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
                                     />
@@ -171,7 +171,7 @@
                                         customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
                                         v-model="selectIndexLangGenOutput" 
                                         :list_data="LangListName" 
-                                        height-list="160px"
+                                        height-list="80px"
                                         icon="caret-down"
                                         icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
                                     />
@@ -260,7 +260,7 @@
                 </div>
 
 
-                <div v-if="sendLoading" class="flex justify-between items-center mt-8 h-full">
+                <div v-if="sendLoading" class="flex justify-center items-center mt-8 h-full">
                     <div class="flex items-center">
                         <svg class=" animate-spin -ml-1 mr-4 h-7 w-7 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24">

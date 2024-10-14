@@ -40,7 +40,7 @@
                     </div>
                     <div class="w-full h-[240px] rounded-b-md shadow-inner shadow-black/15 overflow-hidden">
                         <label 
-                            v-if="props.image_link === null && file === null && fileUrl === null"
+                            v-if="file === null && fileUrl === null"
                             class="w-full h-full flex justify-center items-center"
                             @drop.prevent="dragEnter"
                             for="fileUploadA"
@@ -134,16 +134,6 @@ watch(() => props.show,async (value) => {
     show_modal.value = value
     if (value) {
         topic_name.value = props.name
-
-        if (props.image_link) {
-            const response = await fetch(props.image_link, { mode: 'no-cors' })
-            const blob = await response.blob()
-            fileUrl.value = URL.createObjectURL(blob)
-        }else{
-            fileUrl.value = null
-        }
-
-        file.value = null
     }else{
         topic_name.value = ''
         fileUrl.value = null

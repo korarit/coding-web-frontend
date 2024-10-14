@@ -85,6 +85,8 @@ watch(() => props.show, (value) => {
     show_modal.value = value
     if (value) {
         error.value = null
+        EmailOrUser.value = null
+        selectIndexLevel.value = 0
     }
 })
 

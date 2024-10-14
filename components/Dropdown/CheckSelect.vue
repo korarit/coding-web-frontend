@@ -20,7 +20,7 @@
             <div v-if="dropdown_status && props.heightList != undefined" tabindex="1"
                 class="absolute z-20 left-0 right-0 mt-2 w-full bg-white dark:bg-[#3d3d3d] border border-[#8c8c8c] dark:border-[#686868] divide-y rounded-md shadow-lg overflow-hidden">
                  <div class="py-2 flex gap-2 w-full">
-                    <div :style="{ maxHeight: `${props.heightList}` }" :class="`grid grid-cols-1 gap-y-2 min-h-fit overflow-auto w-full px-2`">
+                    <div :style="{ maxHeight: `${props.heightList}` }" :class="` grid grid-cols-1 gap-y-2 overflow-auto w-full px-2`">
                         <button v-for="(data, index) in props.list_data" @click="selectId(index)" class="hover:bg-[#e0e0e0] dark:hover:bg-[#5a5a5a] w-full rounded-md py-2 px-2 flex items-center justify-between">
                             <p class="text-[16px] w-fit text-left text-[#262626] dark:text-[#FEFEFE] leading-5 mr-6">{{ data }}</p>
                             <font-awesome-icon :icon="['fas', 'check']" class="text-[#00C7A3] text-[18px]" v-if="index == idselect" />

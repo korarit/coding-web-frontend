@@ -117,7 +117,7 @@
                                     customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
                                     v-model="selectIndexLangGenInput" 
                                     :list_data="LangListName" 
-                                    height-list="160px"
+                                    height-list="120px"
                                     icon="caret-down"
                                     icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
                                 />
@@ -137,7 +137,7 @@
                                     customclass="w-[180px] h-full border border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between py-[2px] px-[8px] drop-shadow-md xl:text-[16px] text-[12px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
                                     v-model="selectIndexLangGenOutput" 
                                     :list_data="LangListName" 
-                                    height-list="160px"
+                                    height-list="120px"
                                     icon="caret-down"
                                     icon-class="text-[#4F4F4F] dark:text-[#8A8A8A] xl:text-[20px] text-[16px]"
                                 />
@@ -226,7 +226,7 @@
             </div>
 
 
-            <div v-if="createLoading" class="flex justify-between items-center mt-8 h-full">
+            <div v-if="createLoading" class="flex justify-center items-center mt-8 h-full">
                 <div class="flex items-center">
                     <svg class=" animate-spin -ml-1 mr-4 h-7 w-7 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
@@ -240,7 +240,7 @@
                     </p>
                 </div>
             </div>
-            <div class="flex justify-center items-center mt-8 space-x-4">
+            <div v-else class="flex justify-center items-center mt-8 space-x-4">
                 <button
                     @click="send"
                     class="border border-black bg-white hover:bg-[#00C7A3] hover:text-white active:bg-[#199c80] text-black rounded-lg px-6 py-2"
