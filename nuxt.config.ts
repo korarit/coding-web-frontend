@@ -3,8 +3,17 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   css: ['~/assets/css/golbal.css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    'vue-sweetalert-icons/dist/style.css'
   ],
+
+  pwa: {
+    workbox: {
+      // ระบุ URL ของ service worker ของคุณ
+      swURL: '/service-worker.js',
+    }
+  },
+
 
   postcss: {
     plugins: {
@@ -18,8 +27,12 @@ export default defineNuxtConfig({
       secretKey: process.env.TURNSTILE_SECRET_KEY
     },
     public:{
+      ablyApiKey: process.env.ABLY_API_KEY,
       backendApi: process.env.API_BASE_URL || 'http://localhost:3000'
     }
+  },
+  build: {
+    transpile: ['@fortawesome/vue-fontawesome']
   },
   
   modules: [
@@ -28,7 +41,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     "@sidebase/nuxt-auth",
     "@nuxtjs/turnstile",
-    "dayjs-nuxt"
+    "dayjs-nuxt",
+    "@hypernym/nuxt-gsap",
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],

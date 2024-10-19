@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full bg-[#FEFEFE] dark:bg-[#3D3D3D] border-b border-[#cecece] dark:border-[#3A3A3A] drop-shadow-md py-3 flex justify-between px-4 xl:px-16 2xl:px-[96px]">
+    <div class="min-w-full bg-[#FEFEFE] dark:bg-[#3D3D3D] border-b border-[#cecece] dark:border-[#3A3A3A] drop-shadow-md py-3 flex justify-between px-4 xl:px-16 2xl:px-[128px]">
 
         <!-- logo -->
         <div>
@@ -23,19 +23,16 @@
                 โจทย์
             </NuxtLink>
             <NuxtLink 
-                to="/"
+                to="/ranking"
                 class="text-[20px] text-center" 
-                :class="props.page_name === 'การแข่ง' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
+                :class="props.page_name === 'อันดับ' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
             > 
-                การแข่ง
+                อันดับ
             </NuxtLink>
-            <NuxtLink 
-                to="/"
-                class="text-[20px] text-center" 
-                :class="props.page_name === 'ชั้นเรียน' ? 'text-[#00C7A3] dark:text-[#3DD6BA]' : 'text-[#606060] dark:text-[#FEFEFE]'"
-            > 
-                ชั้นเรียน
-            </NuxtLink>
+
+            <button v-if="props.login_status  === 'authenticated'" @click="$emit('openNotification')" class="text-[24px] text-[#606060] dark:text-[#FEFEFE]">
+                <font-awesome-icon :icon="['fas', 'bell']" />
+            </button>
 
             <NuxtLink v-if="props.login_status != 'authenticated'" to="/register" class="rounded-md drop-shadow-md bg-[#606060] dark:bg-[#FEFEFE] hover:bg-[#303030] dark:hover:bg-[#a0a0a0] active:bg-[#303030] dark:active:bg-[#a0a0a0] text-[20px] text-white dark:text-[#0F0F0F] font-medium px-3 py-[4px]">
                 Sing Up

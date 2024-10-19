@@ -1,60 +1,72 @@
 [
     {
-        "lang": "c",
-        "name": "C",
-        "version": ["10.2.0"]
-    },
-    {
-        "lang": "c++",
-        "name": "C++",
-        "version": ["10.2.0"]
-    },
-    {
-        "lang": "c#",
-        "name": "C#",
-        "version": ["5.0.201"]
-    },
-    {
-        "lang": "rust",
-        "name": "Rust",
-        "version": ["1.68.2"]
-    },
-    {
-        "lang": "java",
-        "name": "Java",
-        "version": ["15.0.2"]
-    },
-    {
+        "id": 1,
         "lang": "python",
         "name": "Python 3",
         "version": ["3.12.0"]
     },
     {
+        "id": 2,
+        "lang": "c",
+        "name": "C",
+        "version": ["10.2.0"]
+    },
+    {
+        "id": 3,
+        "lang": "c++",
+        "name": "C++",
+        "version": ["10.2.0"]
+    },
+    {
+        "id": 4,
+        "lang": "c#",
+        "name": "C#",
+        "version": ["5.0.201"]
+    },
+    {
+        "id": 5,
+        "lang": "rust",
+        "name": "Rust",
+        "version": ["1.68.2"]
+    },
+    {
+        "id": 6,
+        "lang": "java",
+        "name": "Java",
+        "version": ["15.0.2"]
+    },
+    {
+        "id": 7,
         "lang": "python2",
         "name": "Python 2",
         "version": ["2.7.18"]
     },
     {
+        "id": 8,
         "lang": "lua",
         "name": "Lua",
         "version": ["5.4.4"]
     },
     {
+        "id": 9,
         "lang": "javascript",
         "name": "JavaScript",
         "version": ["20.11.1"]
     },
     {
+        "id": 10,
         "lang": "typescript",
         "name": "TypeScript",
         "version": ["5.0.3"]
     },
     {
+        "id": 11,
         "lang": "php",
         "name": "PHP",
         "version": ["8.2.3"]
     },
     {
+        "id": 12,
         "lang": "go",
         "name": "Go",
         "version": ["1.16.2"]

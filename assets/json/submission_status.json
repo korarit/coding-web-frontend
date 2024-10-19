@@ -1,10 +1,18 @@
 [
-    "สถานะ",
-    "ผ่าน",
-    "คำตอบผิด",
-    "Out of Memory",
-    "เวลาเกิน",
-    "Runtime Error",
-    "Compile Error",
-    "Internal Error"
+    {
+        "name": "สถานะ",
+        "eng": "status"
+    },
+    {
+        "name": "ยังไม่เคยทำ",
+        "eng": "not_do"
+    },
+    {
+        "name": "ยังไม่สำเร็จ",
+        "eng": "have_do_not_success"
+    },
+    {
+        "name": "สำเร็จ",
+        "eng": "have_success"
+    }
 ]

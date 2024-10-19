@@ -1,0 +1,26 @@
+[
+    {
+        "name": "ความยาก",
+        "eng": "Difficulty"
+    },
+    {
+        "id": "1",
+        "name": "ง่าย",
+        "eng": "Easy"
+    },
+    {
+        "id": "2",
+        "name": "ปานกลาง",
+        "eng": "medium"
+    },
+    {
+        "id": "3",
+        "name": "ยาก",
+        "eng": "hard"
+    },
+    {
+        "id": "4",
+        "name": "ยากมาก",
+        "eng": "Very Hard"
+    }
+]

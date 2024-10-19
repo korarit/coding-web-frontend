@@ -55,11 +55,22 @@
                     error="" :have_wait="true" :wait="wait_password_change" :reset="reset_password_change"
                     edit_form="password" @update="openOtpForChangePassword" />
 
+                <hr class="border-1 text-[#9D9D9D]" />
+
+                <div class="my-4 flex justify-between">
+                    <p class="text-[20px] sm:text-[20px] font-light">เปิด Profile ให้คนอื่น ๆ สามารถดูประวัติการทำได้</p>
+
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer" v-model="status_profile">
+                        <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#00C7A3]"></div>
+                    </label>
+                </div>
+
                 <hr class="border-1 mb-5 text-[#9D9D9D] sm:mb-6" />
 
                 <div class="grid grid-cols-2 gap-6 sm:grid sm:grid-cols-4 sm:gap-6 mb-12">
                     <button @click="oauthRemoveConnect(user_thired_party.google, 'google')"
-                        :class="user_thired_party.google ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
+                        :class="user_thired_party.google ? 'bg-red-500 hover:bg-red-600 border border-red-700' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
                         class="col-span-2 py-2 text-8 shadow-xl text-[#FFFFFF] dark:text-[#FFFFFF] dark:bg-[#E41E31] dark:hover:bg-[#D41E30] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
                         <font-awesome-icon v-if="!wait_remove_oauth.google" :icon="['fab', 'google']" class="text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
                         <div v-else class="mr-2 w-fit h-fit">
@@ -77,7 +88,7 @@
                     </button>
 
                     <button @click="oauthRemoveConnect(user_thired_party.github, 'github')"
-                        :class="user_thired_party.github ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
+                        :class="user_thired_party.github ? 'bg-red-500 hover:bg-red-600 border border-red-700' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
                         class="col-span-2 py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
                         
                         <font-awesome-icon v-if="!wait_remove_oauth.github" :icon="['fab', 'github']" class="text-[28px] xl:text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
@@ -95,7 +106,7 @@
                     
                     </button>
                     <button @click="oauthRemoveConnect(user_thired_party.facebook, 'facebook')"
-                        :class="user_thired_party.facebook ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
+                        :class="user_thired_party.facebook ? 'bg-red-500 hover:bg-red-600 border border-red-700' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
                         class="col-span-2 py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
                         
                         <font-awesome-icon v-if="!wait_remove_oauth.facebook" :icon="['fab', 'facebook']" class="text-[28px] xl:text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
@@ -113,7 +124,7 @@
                     </button>
 
                     <button @click="oauthRemoveConnect(user_thired_party.azure_ad, 'azure_ad')"
-                        :class="user_thired_party.azure_ad ? 'bg-[#D41E30] hover:bg-[#ad313e] dark:bg-[#E41E31] dark:hover:bg-[#D41E30]' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
+                        :class="user_thired_party.azure_ad ? 'bg-red-500 hover:bg-red-600 border border-red-700' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
                         class="col-span-2 py-2 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
 
                         <font-awesome-icon v-if="!wait_remove_oauth.azure_ad" :icon="['fab', 'microsoft']" class="text-[28px] xl:text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
@@ -134,7 +145,7 @@
                 <div class="flex sm:mb-8">
                     <button
                         @click="openDeleteAcc"
-                        class="w-full p-2 text-[23px] sm:p-2 bg-[#D41E30] hover:bg-[#ad313e] shadow-xl text-[#FFFFFF] dark:text-[#FFFFFF] dark:bg-[#E41E31] dark:hover:bg-[#D41E30] rounded-xl flex items-center justify-center 2xl:text-[28px] xl:text-[26px] lg:text-[24px] md:text-[22px] sm:text-[18px]">
+                        class="w-full p-2 text-[23px] sm:p-2 bg-red-500 hover:bg-red-600 border border-red-700 shadow-xl text-[#FFFFFF] dark:text-[#FFFFFF] rounded-xl flex items-center justify-center 2xl:text-[28px] xl:text-[26px] lg:text-[24px] md:text-[22px] sm:text-[18px]">
                         <div v-if="wait_acc_delete" class="mr-3 w-fit h-fit">
                             <svg class=" animate-spin -ml-1 h-7 w-7 text-white" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24">
@@ -209,7 +220,7 @@ const user_thired_party = ref({
     github: false,
     facebook: false,
     azure_ad: false
-} as { [key: string]: boolean })
+} as { [key: string]: boolean })    
 
 
 // get user data from api
@@ -218,6 +229,8 @@ onMounted(async () => {
 })
 
 const config = useRuntimeConfig()
+const status_profile = ref(false)
+const old_status_profile = ref(false)
 const load_user_data = async () => {
     // get user data from api
 
@@ -233,6 +246,12 @@ const load_user_data = async () => {
         const data = await res.json()
         user_data.value = data
         console.log(user_data.value)
+
+        //check profile show
+        if (user_data.value.ProfileShow == "true") {
+            status_profile.value = true
+            old_status_profile.value = true
+        }
 
         // check thired party
         for (const key in user_thired_party.value) {
@@ -258,7 +277,33 @@ const changeUserData = async (form_name: string, new_data: string) => {
         },
         body: form_data
     })
+
+    if (res.status >= 300) {
+        return false
+    }
+
+    return true
 }
+
+////////////////////// change profile show ///////////////////////
+watch(() => status_profile.value, async (val) => {
+    console.log(val)
+    if (user_data.value === null) {
+        return
+    }
+
+    const status_str = val ? 'true' : 'false'
+
+    //change profile show
+    if (old_status_profile.value === val) {
+        return
+    }
+    const status_change = await changeUserData('profile_show', status_str)
+    if (status_change) {
+        old_status_profile.value = val
+        user_data.value.ProfileShow = status_str
+    }
+})
 
 
 ///////////////////// modal control ///////////////////////
