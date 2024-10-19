@@ -1,75 +1,31 @@
-# Nuxt 3 Minimal Starter
+# Coding website Project (Frontend)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+เว็บไซต์ฝึกเขียนโปรแกรม มีระบบตรวจคำตอบ รองรับหลายภาษา
 
-## Setup
+## Team
+- กรฤต แสงทอง (Full-Stack) (backend/frontend/ai)
+- ณภัทร หนองเหล็ก (Front-End) (html+tailwind)
+- พรสิณี กิจชอุ่ม (Front-End) (html+tailwind)
+- เอ็ม ไม่มีนามสกุล (UX/UI)
 
-Make sure to install the dependencies:
+## Feature
+ - สามารถฝึกทำโจทย์
+ - มี ranking คะแนนในการทำโจทย์
+ - มี profile แสดงการทำโจทย์
+ - สามารถ สร้าง/แก้ไข/ลบ/ดู โจทย์ได้
+ - สร้าง test case สำหรับโจทย์ได้ทั้งแบบ random คำตอบที่ถูก และ เขียนโค้ดเฉลย
+ - จัดการ Topic ต่าง ๆ ได้
+ - สามารถจัดการแอดมินได้ (เพิ่ม/ลบ/แก้ไข)
+ - สามารถส่ง nofitication หาผู้ใช้ (รายคน / เป็นกลุ่มผู้ใช้ / ทุกคน)
+ - สามารถบันทึกโจทย์ที่สนใจได้
 
-```bash
-# npm
-npm install
+<br />
 
-# pnpm
-pnpm install
+ - ระบบตรวจคำตอบ รองรับ python 3 , python 2 , c , c++ , c# , golang , php , rust , lua , java , javascript , typescript
+ - มีระบบ LLM (Gemini-1.5-flash) ในการช่วยตรวจ เขียน prompt ในเพื่อตรวจสอบเงื่อนไขได้
+ - สามารถค้นหาโจทย์ได้ใช้ (lexical + semantic)
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Repository BackEnd
+ - Main BackEnd DB/Route [**Pravite Repo**](https://github.com/korarit/coding-web-backend) 
+ - Code Excute (Modifly By กรฤต แสงทอง) [**LINK**](https://github.com/korarit/piston-for-coding-web-project)
+ - NLP Backend LLM/Search [**Pravite Repo**](https://github.com/korarit/coding-web-nlp)
