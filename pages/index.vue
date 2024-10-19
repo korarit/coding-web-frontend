@@ -16,10 +16,10 @@
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-x-10 gap-y-4 mx-auto w-full sm:w-fit mt-6 md:mt-8 xl:mt-12">
-                        <NuxtLink to="/register" class="rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md h-full sm:px-12  text-[24px] md:text-[28px] xl:text-[32px] 2xl:text-[40px] text-[#FEFEFE] font-medium">
+                        <NuxtLink to="/register" class="rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md h-full sm:px-12  text-[24px] md:text-[28px] xl:text-[32px] 2xl:text-[40px] text-[#FEFEFE] text-center font-medium">
                             เข้าร่วม
                         </NuxtLink>
-                        <NuxtLink to="/collection" class="rounded-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] drop-shadow-md h-full sm:px-12 text-[24px] md:text-[28px] xl:text-[32px]  2xl:text-[40px]  text-[#FEFEFE] font-medium">
+                        <NuxtLink to="/collection" class="rounded-md bg-[#606060] hover:bg-[#303030] active:bg-[#303030] drop-shadow-md h-full sm:px-12 text-[24px] md:text-[28px] xl:text-[32px]  2xl:text-[40px]  text-[#FEFEFE] text-center font-medium">
                             ดูโจทย์
                         </NuxtLink>
                     </div>
