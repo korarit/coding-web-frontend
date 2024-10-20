@@ -36,7 +36,7 @@
             <div class="bg-[#FEFEFE] dark:bg-[#262626] border-b border-[#C2C2C2] dark:border-[#262626] drop-shadow-md h-fit px-4 xl:px-16 2xl:px-[128px] py-[72px] flex justify-center">
                 <div class="w-full md:w-[90%] xl:w-[80%] 2xl:w-[70%] grid grid-cols-2 gap-6 h-auto">
 
-                    <div class="col-span-2 lg:col-span-1 min-h-[310px] w-full relative">
+                    <div class="col-span-2 lg:col-span-1 min-h-[340px] xs:min-h-[310px] w-full relative">
                         <div class="absolute w-full min-h-[128px]">
                             <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-[#00C7A3] text-[#FEFEFE] w-[128px] h-[128px] rounded-xl flex items-center justify-center">
                                 <font-awesome-icon :icon="['fas', 'file-circle-check']" class="text-[96px] text-center" />
@@ -55,7 +55,7 @@
                             </div>
                     </div>
 
-                    <div class="col-span-2 lg:col-span-1 min-h-[310px]  h-fit w-full relative">
+                    <div class="col-span-2 lg:col-span-1 min-h-[340px] xs:min-h-[310px] md:min-h-[290px]  h-fit w-full relative">
                             <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-[#00C7A3] text-[#FEFEFE] w-[128px] h-[128px] rounded-xl flex items-center justify-center">
                                 <font-awesome-icon :icon="['fas', 'code']" class="text-[84px] text-center" />
                             </div>
@@ -65,8 +65,8 @@
                                         รองรับการเขียนโปรแกรมได้หลายภาษา
                                     </p>
                                     <p class="text-[16px] text-[#606060] dark:text-white text-center">
-                                        ด้วยระบบตรวจคำตอบ และ code editor ของเว็บไซต์นี้<br>
-                                        คุณสามารถฝึกได้ทั้ง C , C++ , golang , python 2 , python 3
+                                        ด้วยระบบตรวจคำตอบ และ code ของเว็บไซต์นี้<br>
+                                        คุณสามารถฝึกได้ทั้ง C , C++ , golang , python 3
                                         และ อื่น ๆ และ ยังมี version ของภาษาให้เลือก
                                     </p>
                                 </div>
@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="col-span-2 lg:col-span-1 h-auto w-full">
-                        <div class="relative w-full min-h-[310px]">
+                        <div class="relative w-full min-h-[310px] sm:min-h-[290px]">
                             <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-[#00C7A3] text-[#FEFEFE] w-[128px] h-[128px] rounded-xl flex items-center justify-center">
                                 <font-awesome-icon :icon="['far', 'id-card']" class="text-[96px] text-center" />
                             </div>
@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="col-span-2 lg:col-span-1 h-auto w-full">
-                        <div class="relative w-full min-h-[310px]">
+                        <div class="relative w-full min-h-[340px] xs:min-h-[310px]">
                             <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-[#00C7A3] text-[#FEFEFE] w-[128px] h-[128px] rounded-xl flex items-center justify-center">
                                 <font-awesome-icon :icon="['fas', 'sliders']" class="text-[96px] text-center" />
                             </div>
@@ -126,7 +126,7 @@
                                 <p class="text-[32px] md:text-[28px] xl:text-[32px] text-[#606060] dark:text-white font-medium">คน</p>
                             </div>
                             <div class="w-fit h-fit mx-auto mt-4 xl:mt-10">
-                                <NuxtLink to="/register" class="py-1 px-12 rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md text-[40px] text-[#FEFEFE] font-medium">
+                                <NuxtLink to="/register" class="py-1 px-12 rounded-md bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] drop-shadow-md text-[28px] xs:text-[36px] sm:text-[40px] text-[#FEFEFE] font-medium">
                                     เข้าร่วมกับเรา
                                 </NuxtLink>
                             </div>

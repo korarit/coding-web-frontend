@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full bg-[#FEFEFE] dark:bg-[#3D3D3D] border-b border-[#cecece] dark:border-[#3A3A3A] drop-shadow-md py-3 flex justify-between px-4 xl:px-16 2xl:px-[128px]">
+    <div class="min-w-full bg-[#FEFEFE] dark:bg-[#3D3D3D] border-b border-[#cecece] dark:border-[#3A3A3A] drop-shadow-md py-3 flex justify-between px-4 sm:px-5 xl:px-16 2xl:px-[128px]">
 
         <!-- logo -->
         <div>
@@ -7,7 +7,7 @@
         </div>
 
         <!-- menu -->
-        <div class="items-center w-fit gap-x-5 hidden xl:flex">
+        <div class="items-center w-fit gap-x-5 hidden md:flex">
             <NuxtLink 
                 to="/"
                 class="text-[20px] text-center" 
@@ -48,8 +48,8 @@
             </button>
         </div>
         <!-- mobile menu -->
-        <div class="flex xl:hidden">
-            <button class="text-[42px] text-[#00C7A3] dark:text-[#3DD6BA] hover:text-[#199c80] dark:hover:text-[#00C7A3] active:text-[#199c80] dark:active:text-[#00C7A3] font-medium px-3 flex items-center">
+        <div class="flex md:hidden">
+            <button @click="$emit('openMobileNav')" class="text-[36px] xs:text-[42px] text-[#00C7A3] dark:text-[#3DD6BA] hover:text-[#199c80] dark:hover:text-[#00C7A3] active:text-[#199c80] dark:active:text-[#00C7A3] font-medium px-3 flex items-center">
                 <font-awesome-icon :icon="['fas', 'bars']" />
             </button>
         </div>
