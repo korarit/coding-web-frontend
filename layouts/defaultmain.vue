@@ -1,6 +1,9 @@
 <template>
     <div class="h-[100dvh] flex flex-col max-w-full" :class="show_modal ? 'overflow-hidden' : ''">
         <Navbar 
+
+            @open-mobile-nav="openNavMobile"
+
             :login_status="status"
             @open-login="openLogin"
 
@@ -26,11 +29,15 @@
             />
         </div>
 
-        <div class="absolute z-50 w-fit h-fit top-20 xl:right-16  2xl:right-[96px] hidden xl:block">
+        <div  class="absolute z-50 w-fit h-fit top-0 left-0 block sm:hidden">
+            <NavMobile :show="show_nav_mobile" :data="data" :login-status="status == 'authenticated'" @login-open="openLogin"/>
+        </div>
+
+        <div class="absolute z-50 w-fit h-fit top-20 sm:right-5 lg:right-4 xl:right-16  2xl:right-[96px] hidden sm:block">
             <ModalUserData :show="show_user_modal" :data="data" />
         </div>
 
-        <div class="absolute z-50 w-fit h-fit top-20 xl:right-16  2xl:right-[168px] hidden xl:block">
+        <div class="absolute z-50 w-fit h-fit top-20 sm:right-14 lg:right-14 xl:right-[128px]  2xl:right-[168px] hidden sm:block">
             <ModalNotification :show="show_notification_modal" />
         </div>
 
@@ -51,6 +58,22 @@ const props = defineProps({
     page_name: String
 })
 
+
+///////////////////////// NavMobile /////////////////////////
+const show_nav_mobile = ref(false)
+
+const openNavMobile = () => {
+    if (show_login_modal) {
+        close_modal_login()
+    }
+    show_nav_mobile.value = !show_nav_mobile.value
+
+}
+
+const closeNavMobile = () => {
+    show_nav_mobile.value = false
+}
+
 ///////////////////////// modal control /////////////////////////
 const show_user_modal = ref(false)
 const show_notification_modal = ref(false)
@@ -64,6 +87,9 @@ const show_login_modal = run()
 const show_modal = statusModal()
 
 const openLogin = () => {
+    if (show_nav_mobile.value) {
+        show_nav_mobile.value = false
+    }
     open_modal_login()
     open_modal()
 }
