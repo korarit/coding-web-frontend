@@ -2,7 +2,7 @@
   <NuxtLayout name="defaultmain" page_name="โจทย์">
     <div v-if="loading_all" class="min-h-[calc(100dvh-270px)] px-4 xl:px-16 2xl:px-[96px] pt-[64px] flex justify-center items-center">
       <div class="mx-auto flex items-center">
-        <svg class=" animate-spin -ml-1 mr-4 h-12 w-12 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
+        <svg class=" animate-spin -ml-1 mr-4 h-12 w-12 text-black dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
           viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
           </circle>
@@ -10,7 +10,7 @@
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
           </path>
         </svg>
-        <p class="text-[28px]">
+        <p class="text-[28px] dark:text-white">
           Loading . . .
         </p>
       </div>
@@ -19,21 +19,21 @@
     <div v-else-if="error_message != null" class="min-h-[calc(100dvh-270px)] px-4 xl:px-16 2xl:px-[96px] pt-[64px] h-full flex justify-center items-center ">
       <div class="mx-auto flex items-center space-x-4">
         <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[72px] text-red-600" />
-        <p class="text-[28px]">
+        <p class="text-[28px] dark:text-white">
           เกิดข้อผิดพลาด {{ error_message }}
         </p>
       </div>
     </div>
     <div v-else class="min-h-[calc(100dvh-270px)] px-4 xl:px-16 2xl:px-[96px] pt-[64px] flex flex-col">
 
-      <div class="flex-none pr-[4px] grid grid-cols-6 gap-3 lg:gap-5 items-center">
+      <div class="flex-none pr-[4px] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-5 items-center">
 
-        <div class="col-span-6 lg:col-span-3 flex items-center space-x-4">
+        <div class="col-span-2 sm:col-span-3 flex items-center space-x-4">
           <font-awesome-icon :icon="['fas', 'book-bookmark']" class="text-[44px] text-[#00C7A3]" />
           <p class="text-[#000000] dark:text-[#FEFEFE] 2xl:text-[32px] lg:text-[24px] sm:text-[24px] text-[24px]">โจทย์ที่ถูกใจไว้</p>
         </div>
 
-        <div class="col-span-2 lg:col-span-1">
+        <div class="col-span-1">
           <DropdownCheckSelect block-class="w-full" customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexLevel" 
             :list_data="LevelListName" 
@@ -42,7 +42,7 @@
             @select="fitterData"
           />
         </div>
-        <div class="col-span-2 lg:col-span-1">
+        <div class="col-span-1">
           <DropdownCheckSelect block-class="w-full" customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexStatus" 
             :list_data="StatusListName" 
@@ -53,7 +53,7 @@
           />
         </div>
 
-        <div class="col-span-2 lg:col-span-1">
+        <div class="col-span-2 sm:col-span-1">
           <DropdownCheckSelect block-class="w-full" customclass="w-full border-2 border-[#BABABA] bg-[#FEFEFE] text-[#606060] rounded-lg flex items-center justify-between p-2 drop-shadow-md 2xl:text-[20px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[13px] dark:text-[#8A8A8A] dark:bg-[#282828] dark:border-[#222222]"
             v-model="selectIndexTopic" 
             :list_data="TopicListName" 
@@ -70,7 +70,7 @@
       <div v-if="list_question.length <= 0" class="flex-auto h-full flex justify-center items-center ">
         <div class="mx-auto flex items-center space-x-4">
           <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[48px] text-red-600" />
-          <p class="text-[24px]">
+          <p class="text-[24px] dark:text-white">
             ไม่มีโจทย์ที่ถูกใจไว้
           </p>
         </div>
