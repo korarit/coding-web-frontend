@@ -78,7 +78,7 @@
 
                     <div class="flex flex-col space-y-6 sm:px-8">
                         <div v-for="(data, index) in rankingShow"
-                            class="flex flex-row items-center odd:border py-2 rounded-2xl h-fit text-[#000000] odd:border-[#BABABA] odd:bg-[#FEFEFE] odd:dark:text-[#FEFEFE] odd:dark:bg-[#262626] odd:dark:border-[#626262]">
+                            class="flex flex-row items-center odd:border py-2 rounded-2xl h-fit text-[#000000] odd:border-[#BABABA] odd:bg-[#FEFEFE] dark:text-[#FEFEFE] odd:dark:bg-[#262626] odd:dark:border-[#626262]">
                             <div
                                 class="w-[15%] flex justify-center text-[10px] 2xl:text-[20px] xl:text-[18px] lg:text[16px] md:text-[14px] sm:text-[12px]">
                                 <p class="w-fit">{{ index + 1 }}</p>
