@@ -14,7 +14,7 @@
                 :placeholder="props.placeholder" 
                 value="**********"
                 disabled
-                class="w-full border-2 p-2 sm:disabled:bg-white sm:dark:disabled:bg-[#3D3D3D] text-[#1F1F1F] text-[14px] dark:text-[#FEFEFE] border-[#C2C2C2] placeholder-[#1F1F1F] dark:placeholder-[#FEFEFE] rounded-lg hover:border-gray-500 dark:bg-[#262626] dark:border-[#626262] dark:hover:border-[#CFCFCF] 2xl:text-[22px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[14px]" 
+                class="w-full border-2 p-2 text-[#1F1F1F] text-[14px] dark:text-[#FEFEFE] border-[#C2C2C2] placeholder-[#1F1F1F] dark:placeholder-[#FEFEFE] rounded-lg hover:border-gray-500 dark:bg-[#262626] dark:border-[#626262] dark:hover:border-[#CFCFCF] 2xl:text-[22px] xl:text-[20px] lg:text-[18px] md:text-[16px] sm:text-[14px]" 
             />
 
             <!-- กรณีแก้ไข -->
@@ -53,7 +53,7 @@
     </div>
 
     <div v-show="open_edit" class="grid grid-cols-4 gap-4 mb-4 sm:grid sm:grid-cols-5 sm:gap-6 sm:mb-6">
-        <button class></button>
+        <button class="hidden sm:block"></button>
         <button @click="update"
             class="border rounded-lg bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:text-[#0F0F0F] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] shadow-lg pl-0.5 py-1 sm:p-1 text-[#FFFFFF]">
             <span v-if="!loading_status"

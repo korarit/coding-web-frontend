@@ -58,7 +58,7 @@
                 <hr class="border-1 text-[#9D9D9D]" />
 
                 <div class="my-4 flex justify-between">
-                    <p class="text-[20px] sm:text-[20px] font-light">เปิด Profile ให้คนอื่น ๆ สามารถดูประวัติการทำได้</p>
+                    <p class="text-[20px] sm:text-[20px] font-light dark:text-white ">เปิด Profile ให้คนอื่น ๆ สามารถดูประวัติการทำได้</p>
 
                     <label class="inline-flex items-center cursor-pointer">
                         <input type="checkbox" value="" class="sr-only peer" v-model="status_profile">
@@ -71,7 +71,7 @@
                 <div class="grid grid-cols-2 gap-6 sm:grid sm:grid-cols-4 sm:gap-6 mb-12">
                     <button @click="oauthRemoveConnect(user_thired_party.google, 'google')"
                         :class="user_thired_party.google ? 'bg-red-500 hover:bg-red-600 border border-red-700' : 'bg-[#00C7A3] hover:bg-[rgb(25,156,128)] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3]'"
-                        class="col-span-2 py-2 text-8 shadow-xl text-[#FFFFFF] dark:text-[#FFFFFF] dark:bg-[#E41E31] dark:hover:bg-[#D41E30] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
+                        class="col-span-2 py-2 text-8 shadow-xl text-[#FFFFFF] dark:text-[#0F0F0F] dark:bg-[#E41E31] dark:hover:bg-[#D41E30] rounded-xl flex items-center justify-center xl:text-[20px] text-[16px]">
                         <font-awesome-icon v-if="!wait_remove_oauth.google" :icon="['fab', 'google']" class="text-[32px] text-[#FFFFFF] dark:text-[#0F0F0F] pr-2" />
                         <div v-else class="mr-2 w-fit h-fit">
                             <svg class=" animate-spin -ml-1 xl:h-8 xl:w-8 h-7 w-7   text-white" xmlns="http://www.w3.org/2000/svg"
