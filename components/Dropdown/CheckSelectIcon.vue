@@ -1,4 +1,5 @@
 <template>
+    <ClientOnly>
     <div :class="`relative ${props.blockClass}`" ref="dropdownRef">
         <button 
             @click="setDropdownStatus"
@@ -30,7 +31,7 @@
                         <button v-for="(data, index) in props.list_data" @click="selectId(index)" class="hover:bg-[#e0e0e0] dark:hover:bg-[#5a5a5a] w-full rounded-md py-2 px-2 flex items-center justify-between">
                             <div class="flex space-x-1 w-fit text-left text-[#262626] dark:text-[#FEFEFE] leading-5 mr-6">
                                 <fontawesome-icon 
-                                    :icon="['fas', data.icon]"
+                                    :icon="['fas', `${data.icon}`]"
                                     class="text-[18px]"
                                 />
                                 <p> {{ data.title }}</p>
@@ -42,10 +43,12 @@
             </div>
         </transition>
     </div>
+    </ClientOnly>
 </template>
 
 
 <script setup lang="ts">
+
 
 //set v-model
 const datamodal = defineModel()
