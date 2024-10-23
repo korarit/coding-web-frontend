@@ -18,8 +18,7 @@
                 </div>
 
             </div>
-            <div v-else
-                class="sm:my-16 sm:border-2 sm:bg-[#FEFEFE] sm:border-[#AFAFAF] sm:dark:bg-[#3D3D3D] sm:dark:border-[#1B1B1B] p-6 sm:rounded-lg sm:drop-shadow-xl sm:w-[80dvw] md:w-[68dvw] lg:w-[60dvw] 2xl:w-[45dvw]">
+            <div v-else class="sm:my-16 sm:border-2 sm:bg-[#FEFEFE] sm:border-[#AFAFAF] sm:dark:bg-[#3D3D3D] sm:dark:border-[#1B1B1B] p-6 sm:rounded-lg sm:drop-shadow-xl sm:w-[80dvw] md:w-[68dvw] lg:w-[60dvw] xl:w-[50dvw] 2xl:w-[45dvw]">
                 <div class="flex items-center justify-center mb-4">
                     <div class="relative">
                         <div
