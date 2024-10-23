@@ -30,6 +30,11 @@
                 อันดับ
             </NuxtLink>
 
+            <button class="text-[24px] text-[#606060] dark:text-[#FEFEFE]">
+                <font-awesome-icon :icon="['fas', 'moon']" v-if="!isDarkMode" @click="toggleDarkMode(true)" />
+                <font-awesome-icon :icon="['fas', 'sun']" v-else @click="()=>toggleDarkMode(false)" />
+            </button>
+
             <button v-if="props.login_status  === 'authenticated'" @click="$emit('openNotification')" class="text-[24px] text-[#606060] dark:text-[#FEFEFE]">
                 <font-awesome-icon :icon="['fas', 'bell']" />
             </button>
@@ -56,7 +61,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 
 const props = defineProps({
@@ -64,7 +69,22 @@ const props = defineProps({
     profile: String,
     fullname: String,
 
-    page_name: String
+    page_name: String,
+    DarkTheme: Boolean
 })
+
+const isDarkMode = defineModel('DarkTheme',{
+    type: Boolean,
+    default: false
+})
+
+const $emit = defineEmits(['openMobileNav', 'openLogin', 'openUser', 'openNotification', 'darkTheme'])
+
+
+const toggleDarkMode = (status:boolean) => {
+    isDarkMode.value = status
+    $emit('darkTheme', status)
+    localStorage.setItem('darkMode', status.toString())
+}
 
 </script>

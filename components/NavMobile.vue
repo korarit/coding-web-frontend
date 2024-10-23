@@ -16,7 +16,7 @@
                         </div>
 
                         <button @click="show_modal = false" class="text-[36px] flex items-center justify-center h-[32px] text-[#606060] hover:text-[#262626]">
-                            <IconClose color="#262626" dark-color="#FEFEFE" size="36" />
+                            <IconClose color="#262626" dark-color="#FEFEFE" :size="36" />
                         </button>
                     </div>
 
@@ -82,6 +82,16 @@
 
                     <div v-if="loginStatus" class="bg-[#d3d1d1] dark:bg-[#FEFEFE] h-[0.5px] w-full"></div>
 
+
+                    <button @click="toggleDarkMode" class="flex space-x-3 items-center bg-[#606060] dark:bg-[#262626] text-[#FEFEFE] hover:bg-[#303030] py-1.5 px-2 rounded-md border border-gray-300 dark:border-[#1c1c1c]">
+                        <div class="w-[48px] h-fit flex items-center justify-center">
+                            <font-awesome-icon :icon="['fas', 'moon']" class="text-[24px] " v-if="!isDarkMode" />
+                            <font-awesome-icon :icon="['fas', 'sun']" class="text-[24px] " v-else />
+                        </div>
+                        <p class="text-[18px]" v-if="!isDarkMode" >ตั้งเป็นโหมดกลางคืน</p>
+                        <p class="text-[18px]" v-else>ตั้งเป็นโหมดกลางวัน</p>
+                    </button>
+
                     <NuxtLink v-if="loginStatus" to="/user" class="flex space-x-3 items-center bg-[#606060] dark:bg-[#262626] text-[#FEFEFE] hover:bg-[#303030] py-1.5 px-2 rounded-md border border-gray-300 dark:border-[#1c1c1c]">
                         <div class="w-[48px] h-fit flex items-center justify-center">
                             <font-awesome-icon :icon="['fas', 'gear']" class="text-[24px] " />
@@ -89,7 +99,7 @@
                         <p class="text-[18px]">ตั้งค่าบัญชี</p>
                     </NuxtLink>
 
-                    <button v-if="loginStatus" @click="signOut" class="flex space-x-3 items-center bg-red-500 text-[#FEFEFE] hover:bg-red-600 py-1.5 px-2 rounded-md">
+                    <button  v-if="loginStatus" @click="() => signOut" title="logout" class="flex space-x-3 items-center bg-red-500 text-[#FEFEFE] hover:bg-red-600 py-1.5 px-2 rounded-md">
                         <div class="w-[48px] h-fit flex items-center justify-center">
                             <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-[24px] " />
                         </div>
@@ -101,7 +111,7 @@
     </Transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 const props = defineProps({
     show: Boolean,
@@ -120,4 +130,19 @@ watch(() => props.show, (val) => {
 })
 
 const { signOut } = useAuth()
+
+
+
+const $emit = defineEmits(['loginOpen', 'darkTheme'])
+
+const isDarkMode = defineModel('DarkTheme',{
+    type: Boolean,
+    default: false
+})
+const toggleDarkMode = () => {
+    isDarkMode.value = !isDarkMode.value
+    $emit('darkTheme', status)
+    localStorage.setItem('darkMode', status.toString())
+}
+
 </script>
