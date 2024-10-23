@@ -1,8 +1,10 @@
 <template>
-    <div class="h-[100dvh] flex flex-col max-w-full" :class="show_modal ? 'overflow-hidden' : ''">
+    <div class="h-[100dvh] flex flex-col max-w-full" :class="`${show_modal ? 'overflow-hidden' : ''} ${isDarkMode ? 'dark' : ''}`">
         <Navbar 
 
             @open-mobile-nav="openNavMobile"
+
+            @dark-theme="darkTheme"
 
             :login_status="status"
             @open-login="openLogin"
@@ -11,9 +13,11 @@
 
             @open-notification="() => {show_notification_modal = !show_notification_modal;show_user_modal = false;}"
 
-            :profile="data?.profile_img"
-            :fullname="data?.name[0]"
+            :profile="user_data?.profile_img"
+            :fullname="user_data?.name[0]"
             :page_name="props.page_name"
+
+            v-model:-dark-theme="isDarkMode"
         />
             <div class="bg-[#FBFBFB] dark:bg-[#0F0F0F]">
                 <slot>
@@ -30,11 +34,11 @@
         </div>
 
         <div  class="absolute z-50 w-fit h-fit top-0 left-0 block sm:hidden">
-            <NavMobile :show="show_nav_mobile" :data="data" :login-status="status == 'authenticated'" @login-open="openLogin"/>
+            <NavMobile :show="show_nav_mobile" :data="user_data" :login-status="status == 'authenticated'" @login-open="openLogin" v-model:-dark-theme="isDarkMode" />
         </div>
 
         <div class="absolute z-50 w-fit h-fit top-20 sm:right-5 lg:right-4 xl:right-16  2xl:right-[96px] hidden sm:block">
-            <ModalUserData :show="show_user_modal" :data="data" />
+            <ModalUserData :show="show_user_modal" :data="user_data" />
         </div>
 
         <div class="absolute z-50 w-fit h-fit top-20 sm:right-14 lg:right-14 xl:right-[128px]  2xl:right-[168px] hidden sm:block">
@@ -50,7 +54,7 @@ body {
     overflow-y: hidden;
 }
 </style>
-<script setup>
+<script setup lang="ts">
 import Ably from 'ably';;
 import Push from 'ably/push';
 
@@ -59,6 +63,33 @@ const props = defineProps({
 })
 
 
+
+///////////////////////// Theme Mode /////////////////////////
+const isDarkMode = ref(false)
+
+const darkTheme = (status:boolean) => {
+    console.log('dark theme ',status)
+    isDarkMode.value = status
+}
+
+onMounted(() => {
+    // Automatically detect system dark mode setting
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    if (localStorage.getItem('darkMode') !== null) {
+        isDarkMode.value = localStorage.getItem('darkMode') === 'true'
+    }
+
+    // Listen for changes to dark mode setting
+    mediaQuery.addEventListener('change', (e) => {
+        if (localStorage.getItem('darkMode') === null) {
+            isDarkMode.value = e.matches
+            console.log('dark mode ',e.matches)
+        }else{
+            isDarkMode.value = localStorage.getItem('darkMode') === 'true'
+        }
+        console.log('dark mode ',e.matches)
+    })
+})
 ///////////////////////// NavMobile /////////////////////////
 const show_nav_mobile = ref(false)
 
@@ -69,11 +100,6 @@ const openNavMobile = () => {
     show_nav_mobile.value = !show_nav_mobile.value
 
 }
-
-const closeNavMobile = () => {
-    show_nav_mobile.value = false
-}
-
 ///////////////////////// modal control /////////////////////////
 const show_user_modal = ref(false)
 const show_notification_modal = ref(false)
@@ -83,7 +109,7 @@ const status_login = ref(false)
 
 const {run, open_modal_login, close_modal_login} = useLoginModalControl()
 const {statusModal, open_modal, close_modal} = useModalControl()
-const show_login_modal = run()
+const show_login_modal:boolean = run()
 const show_modal = statusModal()
 
 const openLogin = () => {
@@ -101,7 +127,7 @@ const closeModal = () => {
 
 ///////////////////////// login /////////////////////////
 
-const login = (username, password) => {
+const login = (username :string, password:string) => {
     console.log(username, password)
     status_login.value = true
 }
@@ -109,12 +135,13 @@ const login = (username, password) => {
 ///////////////////////// login status /////////////////////////
 
 const { status , data } = useAuth()
+const user_data = ref<any>(data.value)
 
 
 ////////////////////// notification //////////////////////
 
-async function RegisterDevice(ably_id, form_factor, target_url, public_vapid_key, p256dh, auth_id) {
-    const user_session = data.value
+async function RegisterDevice(ably_id:string, form_factor:string, target_url:string, public_vapid_key:string, p256dh:string, auth_id:string) {
+    const user_session = user_data.value
     const config = useRuntimeConfig()
     console.log({
             ably_id: ably_id,
@@ -149,7 +176,7 @@ async function RegisterDevice(ably_id, form_factor, target_url, public_vapid_key
 }
 
 async function DeleteDevice() {
-    const user_session = data.value
+    const user_session = user_data.value
     const config = useRuntimeConfig()
     const res = await fetch(config.public.backendApi + '/notification', {
         method: 'DELETE',
@@ -161,7 +188,6 @@ async function DeleteDevice() {
 
     if (res.status === 200) {
         const data_device = await res.json()
-        console.log(data)
         return await data_device
     }
     return null
@@ -176,7 +202,7 @@ onMounted(async() => {
         //notification ably
         if (config.public.ablyApiKey !== null && 'serviceWorker' in navigator) {
 
-            const url_service_worker = await navigator.serviceWorker.register('/service-worker.js')
+            const url_service_worker:any = await navigator.serviceWorker.register('/service-worker.js')
 
             navigator.serviceWorker.getRegistration().then((registration) => {
                 if (registration) {
@@ -204,7 +230,7 @@ onMounted(async() => {
                     if (device){
                         callback(null, device);
                     }else{
-                        callback('error', null);
+                        callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
                     }
                 });
             }else if (Notification.permission === 'denied'){
@@ -214,7 +240,7 @@ onMounted(async() => {
                     if (device){
                         callback(null, device);
                     }else{
-                        callback('error', null);
+                        callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
                     }
                 });
             }
@@ -232,9 +258,9 @@ onMounted(async() => {
 
             let user_ch = ''
 
-            if (data.value.type_level === 2) {
+            if (user_data.value.type_level === 2) {
                 user_ch = 'pushenabled:admin'
-            }else if (data.value.type_level === 3) {
+            }else if (user_data.value.type_level === 3) {
                 user_ch = 'pushenabled:super_admin'
             }else{
                 user_ch = 'pushenabled:user'
@@ -269,7 +295,7 @@ onMounted(async() => {
                 if (device){
                     callback(null, device);
                 }else{
-                    callback('error', null);
+                    callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
                 }
             });
         }
@@ -308,7 +334,7 @@ watch(() => status.value ,async () => {
                 if (device){
                     callback(null, device);
                 }else{
-                    callback('error', null);
+                    callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
                 }
             });
         }
