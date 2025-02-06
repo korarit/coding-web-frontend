@@ -28,12 +28,12 @@
             </div>
 
             <div class="flex items-center gap-[4px]">
-                <button @click="setHeightTest(0)" v-show="paneTest > 2 && TestHidden == false"
+                <button v-if="props.disableSetHeight == false" @click="setHeightTest(0)" v-show="paneTest > 2 && TestHidden == false"
                     class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'chevron-up']"
                         class="text-[24px] text-[#6B6B6B] dark:text-[#B3B2B2]" />
                 </button>
-                <button @blur="expandButtonShow(1, true)" @mouseleave="expandButtonShow(1, true)"
+                <button v-if="props.disableSetHeight == false" @blur="expandButtonShow(1, true)" @mouseleave="expandButtonShow(1, true)"
                     @click="setHeightTest(null)" v-show="paneTest < 2 || TestHidden == true"
                     class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
                     <font-awesome-icon :icon="['fas', 'chevron-down']"
@@ -350,6 +350,8 @@ const props = defineProps<{
     isVerticalRightMode: boolean
     TestHidden: boolean
     statusShowTitle: boolean
+
+    disableSetHeight: boolean
 
     llmCheck : boolean
 }>()

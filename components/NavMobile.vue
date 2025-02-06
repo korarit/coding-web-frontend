@@ -20,7 +20,7 @@
                         </button>
                     </div>
 
-                    <NuxtLink to="/user" class="flex px-1 space-x-3 items-center text-[#606060] dark:text-[#FEFEFE] hover:text-[#262626]">
+                    <NuxtLink to="/" class="flex px-1 space-x-3 items-center text-[#606060] dark:text-[#FEFEFE] hover:text-[#262626]">
                         <p class="text-[20px] font-light">หน้าหลัก</p>
                     </NuxtLink>
 
@@ -42,7 +42,7 @@
                             <p class="text-[14px]">แจ้งเตือน</p>
                         </NuxtLink>
 
-                        <NuxtLink to="/profile" class="flex-shrink-0 flex flex-col space-y-1 items-center p-2 bg-gray-100 dark:bg-[#262626] text-[#464545] dark:text-[#dedddd] hover:text-[#262626] active:text-[#262626] rounded-md border border-gray-300 dark:border-[#1c1c1c] drop-shadow-sm">
+                        <NuxtLink :to="'/profile/'+data?.username" class="flex-shrink-0 flex flex-col space-y-1 items-center p-2 bg-gray-100 dark:bg-[#262626] text-[#464545] dark:text-[#dedddd] hover:text-[#262626] active:text-[#262626] rounded-md border border-gray-300 dark:border-[#1c1c1c] drop-shadow-sm">
                             <div class="w-[48px] h-fit flex items-center justify-center">
                                 <font-awesome-icon :icon="['fas', 'circle-question']" class="text-[36px] " />
                             </div>

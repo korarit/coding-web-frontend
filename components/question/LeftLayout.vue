@@ -27,11 +27,11 @@
         <button class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
           <font-awesome-icon :icon="['fas', 'share']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
         </button>
-        <button @click="setWidthPaneLeft(0)" v-show="paneLeftWidth > 1.5"
+        <button v-if="disableSetWidthPaneLeft == false" @click="setWidthPaneLeft(0)" v-show="paneLeftWidth > 1.5"
           class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
           <font-awesome-icon :icon="['fas', 'chevron-left']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
         </button>
-        <button @click="setWidthPaneLeft(null)" v-show="paneLeftWidth < 1.5"
+        <button v-if="disableSetWidthPaneLeft == false" @click="setWidthPaneLeft(null)" v-show="paneLeftWidth < 1.5"
           class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
           <font-awesome-icon :icon="['fas', 'chevron-right']" class="text-[24px] text-[#6B6B6B] dark:text-[#b3b2b2]" />
         </button>
@@ -43,7 +43,7 @@
     <div v-if="ShowDiscription" class="flex-auto w-full h-full px-2 pt-4 dark:text-white DiscriptionHTML"
       v-html="DiscriptionHTML">
     </div>
-    <div v-else class="flex-auto flex flex-col w-full h-full">
+    <div v-else class="flex-auto flex flex-col w-full h-full overflow-x-auto">
       <div class="flex-none min-w-fit px-3 border-b border-[#d9d9d9] flex gap-x-3 py-2">
         <div class="w-[160px]">
           <DropdownCheckSelect block-class="w-full" heightList="200px" customclass="w-full flex items-center gap-x-2 text-[#616161] dark:text-[#cecece] hover:text-[#353535] dark:hover:text-[#FEFEFE] text-[18px] font-light leading-5"
@@ -179,6 +179,7 @@ const props = defineProps<{
   paneLeftWidth: number
   isVerticalLeftMode: boolean
   Desciption: string
+  disableSetWidthPaneLeft: boolean
 }>()
 
 const submission_type_id = defineModel('submission_type_id')

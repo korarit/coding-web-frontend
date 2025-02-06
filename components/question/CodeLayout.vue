@@ -9,12 +9,12 @@
                 <span class="text-[#000000] dark:text-[#E6E6E6] text-[16px] font-medium">Editor</span>
             </div>
 
-            <button @click="() => setHeightEditor(0)" v-show="paneEditor > 1.5 && EditorHidden == false" 
+            <button v-if="props.disableSetHeight == false" @click="() => setHeightEditor(0)" v-show="paneEditor > 1.5 && EditorHidden == false" 
                 class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center"
             >
                 <font-awesome-icon :icon="['fas', 'chevron-up']" class="text-[24px] text-[#6B6B6B] dark:text-[#B3B2B2]" />
             </button>
-            <button @blur="expandButtonShow(0, true)" @mouseleave="expandButtonShow(0, true)"
+            <button v-if="props.disableSetHeight == false" @blur="expandButtonShow(0, true)" @mouseleave="expandButtonShow(0, true)"
                 @click="() => setHeightEditor(null)" v-show="paneEditor < 1.5 || EditorHidden == true"
                 class="hover:bg-[#e4e4e4] dark:hover:bg-[#2e2e2e] rounded-md h-8 w-8 flex items-center justify-center">
                 <font-awesome-icon :icon="['fas', 'chevron-down']" class="text-[24px] text-[#6B6B6B]" />
@@ -115,6 +115,7 @@ const props = defineProps<{
     EditorHidden: boolean
     statusShowTitle: boolean
     isFullscreen: boolean
+    disableSetHeight: boolean
 }>()
 
 const isLangExpanded = ref<boolean>(false)
