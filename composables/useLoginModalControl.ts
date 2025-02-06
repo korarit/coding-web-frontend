@@ -1,5 +1,5 @@
 export const useLoginModalControl = () => {
-  const message = useState<boolean>('login')
+  const message = useState('login')
   message.value = false
 
   const open_modal_login = () => {
@@ -11,10 +11,12 @@ export const useLoginModalControl = () => {
     message.value = false
   }
 
-  function run() :boolean {
+  function run()  {
+    const dates = new Date();
+    console.log('run', dates.getMilliseconds());
     console.log('message', message.value);
 
-    return message.value;
+    return message;
   }
 
   return {

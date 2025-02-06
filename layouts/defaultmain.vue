@@ -109,7 +109,7 @@ const status_login = ref(false)
 
 const {run, open_modal_login, close_modal_login} = useLoginModalControl()
 const {statusModal, open_modal, close_modal} = useModalControl()
-const show_login_modal:boolean = run()
+const show_login_modal = run() as Ref<boolean>
 const show_modal = statusModal()
 
 const openLogin = () => {
@@ -117,6 +117,7 @@ const openLogin = () => {
         show_nav_mobile.value = false
     }
     open_modal_login()
+    console.log('open login')
     open_modal()
 }
 

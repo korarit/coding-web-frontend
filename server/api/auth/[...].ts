@@ -2,8 +2,13 @@ import { NuxtAuthHandler } from '#auth'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
+
 import AzureADProvider from "next-auth/providers/azure-ad"
+import AzureADB2CProvider from "next-auth/providers/azure-ad-b2c";
+
 import CredentialsProvider from 'next-auth/providers/credentials'
+
+import jwtDecode from "jwt-decode";
 
 export default NuxtAuthHandler({
   secret: 'your-secret-here',
@@ -102,6 +107,14 @@ export default NuxtAuthHandler({
       tenantId: process.env.AZURE_AD_TENANT_ID,
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
+    AzureADB2CProvider.default({
+      clientId: process.env.AZURE_AD_B2C_CLIENT_ID,
+      clientSecret: process.env.AZURE_AD_B2C_CLIENT_SECRET,
+      tenantId: process.env.AZURE_AD_B2C_TENANT_NAME,
+      primaryUserFlow: process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW,
+      authorization: { params: { scope: "https://graph.microsoft.com/User.Read" } },
+    }),
+    // @ts-expect-error Use .default here for it to work during SSR.
     FacebookProvider.default({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
@@ -116,16 +129,27 @@ export default NuxtAuthHandler({
           }
         }else {
           const provider:string = account.provider.toLowerCase();
+          console.log('provider_data', account);
+
+          let access_token = account.access_token;
+          if (provider === 'azure-ad-b2c') {
+            const decoded_ad_btoc:any = jwtDecode(account.id_token);
+
+            console.log('decoded_ad_btoc', decoded_ad_btoc);
+            
+            access_token = decoded_ad_btoc.idp_access_token
+          }
+
           const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: account.access_token})
+            body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: access_token})
           });
           if (data_session.status >= 200 && data_session.status < 300) {
             const data = await data_session.json();
-            // console.log('OAuth login successful:', data);
+            console.log('OAuth login successful:', data);
             token.sessionToken = data.login_token;
           } else {
             console.error('OAuth login failed:', await data_session.json());
