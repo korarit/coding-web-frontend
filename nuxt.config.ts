@@ -6,13 +6,34 @@ export default defineNuxtConfig({
     '@fortawesome/fontawesome-svg-core/styles.css',
     'vue-sweetalert-icons/dist/style.css'
   ],
-
   pwa: {
-    workbox: {
-      // ระบุ URL ของ service worker ของคุณ
-      swURL: '/service-worker.js',
+    manifest: {
+      name: 'Coding with Me',
+      short_name: 'CWM',
+      icons: [
+        {
+          src: '/logo-web-coding.png', // ใช้ path ตรงจาก public/
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-web-coding.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ],
+      start_url: '/',
+      display: 'fullscreen', // สำคัญสำหรับ TWA
+      theme_color: '#ffffff',
+      background_color: '#ffffff'
+    },
+    workbox:{
+      swDest: 'service-worker.js',
     }
   },
+  
+
+  ssr: process.env.BUILD_MOBILE === 'true' ? false : true,
 
 
   postcss: {
@@ -22,19 +43,19 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig:{
-    apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
+    apiBase: process.env.API_BASE_URL || 'http://172.30.96.1:3089',
     turnstile:{
       secretKey: process.env.TURNSTILE_SECRET_KEY
     },
     public:{
       ablyApiKey: process.env.ABLY_API_KEY,
-      backendApi: process.env.API_BASE_URL || 'http://localhost:3000'
+      backendApi: process.env.API_BASE_URL || 'http://172.30.96.1:3089'
     }
   },
   build: {
     transpile: ['@fortawesome/vue-fontawesome']
   },
-  
+
   modules: [
     ["@nuxtjs/google-fonts",{families:{Kanit: [100,200,300,400,500,600,700,800,900]}}],
     "nuxt-monaco-editor",
@@ -43,6 +64,7 @@ export default defineNuxtConfig({
     "@nuxtjs/turnstile",
     "dayjs-nuxt",
     "@hypernym/nuxt-gsap",
+    '@vite-pwa/nuxt',
   ],
   monacoEditor:{
     languages: ['javascript', 'typescript', 'html', 'css', 'json', 'xml', 'python', 'java', 'php', 'markdown', 'yaml', 'sql', 'shell', 'plaintext'],
@@ -56,7 +78,11 @@ export default defineNuxtConfig({
       trustHost: false,
       defaultProvider: 'credentials',
       addDefaultCallbackUrl: true
-    }
+    },
+    isEnabled: true,
+    disableServerSideAuth: false,
+    baseURL: process.env.BASE_URL + '/api/auth',
+    
   },
 
   turnstile: { 
@@ -68,4 +94,22 @@ export default defineNuxtConfig({
       package: 'dayjs/plugin/timezone',
     }]
   },
+
+  nitro:{
+    routeRules:{
+      '/**':{
+        headers:{
+          'Cross-Origin-Opener-Policy': 'unsafe-none',
+        }
+      }
+    }
+  },
+  app: {
+    head: {
+      link: [
+        { rel: 'manifest', href: '/manifest.webmanifest' }
+      ]
+    }
+  },
+
 })

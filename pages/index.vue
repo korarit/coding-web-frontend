@@ -161,6 +161,10 @@ const countUser = ref(0)
 const load_data = async () => {
     const config = useRuntimeConfig()
     const res = await fetch(config.public.backendApi +'/webinfo/report')
+    if (res.status !== 200) {
+        countQuestion.value = 500000000
+        return
+    }
     const datas = await res.json()
 
     countQuestion.value = datas.data.count_question

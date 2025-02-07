@@ -99,7 +99,7 @@
                         <p class="text-[18px]">ตั้งค่าบัญชี</p>
                     </NuxtLink>
 
-                    <button  v-if="loginStatus" @click="() => signOut" title="logout" class="flex space-x-3 items-center bg-red-500 text-[#FEFEFE] hover:bg-red-600 py-1.5 px-2 rounded-md">
+                    <button  v-if="loginStatus" @click="() => signOut()" title="logout" class="flex space-x-3 items-center bg-red-500 text-[#FEFEFE] hover:bg-red-600 py-1.5 px-2 rounded-md">
                         <div class="w-[48px] h-fit flex items-center justify-center">
                             <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-[24px] " />
                         </div>

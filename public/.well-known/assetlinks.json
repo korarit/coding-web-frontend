@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "thestepkla.codingwithme",
+        "sha256_cert_fingerprints": ["54:2A:9F:A6:C7:94:C3:C5:83:42:F6:37:60:01:2D:C3:56:05:8A:42:65:B9:5D:67:A8:9F:A6:25:87:61:43:11"]
+      }
+    }]

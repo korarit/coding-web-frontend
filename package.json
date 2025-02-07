@@ -3,13 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "nuxt start",
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@capacitor/android": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
+    "@capacitor/ios": "^7.0.1",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
@@ -40,6 +44,7 @@
     "@tiptap/starter-kit": "^2.6.6",
     "@tiptap/vue-3": "^2.6.6",
     "@types/uuid": "^10.0.0",
+    "@vite-pwa/nuxt": "^0.10.6",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.11.0",
     "@zxcvbn-ts/core": "^3.0.4",
@@ -65,6 +70,7 @@
     "vue-sweetalert-icons": "^5.0.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.0.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",

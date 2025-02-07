@@ -1,4 +1,5 @@
 import { NuxtAuthHandler } from '#auth'
+import { Capacitor } from "@capacitor/core";
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
@@ -99,6 +100,7 @@ export default NuxtAuthHandler({
     GoogleProvider.default({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      checks: ['none'],
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     AzureADProvider.default({

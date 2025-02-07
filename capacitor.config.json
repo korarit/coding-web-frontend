@@ -1,0 +1,16 @@
+{
+  "appId": "com.thestepkla.codingwithme",
+  "appName": "Coding With Me",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    },
+    "CapacitorBrowser": {
+      "enabled": true
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  },
+  "webDir": "dist"
+}

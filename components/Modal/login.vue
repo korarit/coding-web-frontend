@@ -76,19 +76,19 @@
         <p class="text-center text-sm 2xl:text-[20px] my-4 text-[#606060] dark:text-[#FEFEFE]">หรือเข้าสู่ระบบด้วย</p>
 
         <div class="flex justify-center space-x-4 mb-4">
-          <button @click="signIn('github')"
+          <button @click="openPopupOauth('github')"
             class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'github']" class="text-[36px]" />
           </button>
-          <button @click="signIn('facebook')"
+          <button @click="openPopupOauth('facebook')"
             class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'facebook']" class="text-[36px]" />
           </button>
-          <button @click="signIn('google')"
+          <button @click="openPopupOauth('google')"
             class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'google']" class="text-[36px]" />
           </button>
-          <button @click="signIn('azure-ad')"
+          <button @click="openPopupOauth('azure-ad')"
             class="text-gray-600 hover:text-black dark:text-[#FEFEFE] dark:hover:text-gray-400 dark:active:text-gray-400">
             <font-awesome-icon :icon="['fab', 'windows']" class="text-[36px]" />
           </button>
@@ -112,6 +112,8 @@
 }
 </style>
 <script setup lang="ts">
+
+const router = useRouter()
 
 const props = defineProps({
   show: Boolean
@@ -201,5 +203,19 @@ const checkInput = async () => {
     credentialsLogin.value = false
   }
 }
+
+const openPopupOauth = (provider: string) => {
+  window.open(`/login/${provider}`, 'auth', "width=350,height=250")
+}
+
+//check window send message
+onMounted(() => {
+  window.addEventListener('message', (event) => {
+    console.log(event.data)
+    if (event.data === 'close') {
+      window.location.reload();
+    }
+  })
+})
 
 </script>
