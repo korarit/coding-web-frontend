@@ -11,6 +11,7 @@
 <img src="https://i.imgur.com/xybPHfT.jpeg" width="30%" title="hover text">
 
 ## Feature
+ - มีการ port ลงเป็น PWA Android และ native application
  - สามารถฝึกทำโจทย์
  - มี ranking คะแนนในการทำโจทย์
  - มี profile แสดงการทำโจทย์
