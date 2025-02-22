@@ -1,16 +1,12 @@
 {
-  "appId": "com.thestepkla.codingwithme",
+  "appId": "com.thestepkla.coding",
   "appName": "Coding With Me",
+  "webDir": "src/.output/public",
   "plugins": {
-    "CapacitorHttp": {
-      "enabled": true
-    },
-    "CapacitorBrowser": {
-      "enabled": true
+    "StatusBar": {
+      "Style": "dark",
+      "BackgroundColor": "#000000",
+      "OverlaysWebView": false
     }
-  },
-  "android": {
-    "allowMixedContent": true
-  },
-  "webDir": "dist"
+  }
 }

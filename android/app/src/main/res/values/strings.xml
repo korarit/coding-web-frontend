@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Coding With Me</string>
+    <string name="title_activity_main">Coding With Me</string>
+    <string name="package_name">com.thestepkla.coding</string>
+    <string name="custom_url_scheme">com.thestepkla.coding</string>
+
+    <string name="facebook_app_id">1453450678646503</string>
+    <string name="fb_login_protocol_scheme">fb1453450678646503</string>
+
+    <string name="custom_host">foo</string>
+    <string name="azure_b2c_scheme">msauth</string>
+    <string name="azure_b2c_signature_hash">/vjvcbWvJLUQCNTq2Dzac%2BU2vGqw%3D</string><!-- The leading slash is required. Copied from Azure Portal Android Config "Signature hash" field -->
+
+    <string name="custom_url_scheme_github">githubauth</string>
+    <string name="custom_path_github">/vjvcbWvJLUQCNTq2Dzac%2BU2vGqw%3D</string>
+</resources>
