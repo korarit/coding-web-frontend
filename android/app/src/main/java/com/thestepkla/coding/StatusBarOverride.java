@@ -2,11 +2,15 @@ package com.thestepkla.coding;
 
 import android.app.Activity;
 import android.os.Build;
-import android.view.Window;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.graphics.Color;
-import android.view.WindowManager;
-import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.activity.ComponentActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.ViewCompat;
 
 public class StatusBarOverride {
     private final Activity activity;
@@ -16,26 +20,37 @@ public class StatusBarOverride {
     }
 
     public void setStatusBarColor() {
+        if (!(activity instanceof ComponentActivity)) {
+            throw new IllegalArgumentException("Activity must be a ComponentActivity");
+        }
+
         Window window = activity.getWindow();
-        // เคลียร์ flag ที่อาจทำให้ status bar โปร่งใส
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // เปิดให้วาด system bar backgrounds
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        View decorView = window.getDecorView();
 
-        // ตั้งค่าสี status bar เป็นสีดำ
-        window.setStatusBarColor(Color.BLACK);
+        // เปิดใช้งานโหมด edge-to-edge
+        WindowCompat.setDecorFitsSystemWindows(window, false);
 
+        // ตั้งค่าสีพื้นหลังของ Status Bar ด้วยการจัดการ WindowInsets
+        ViewCompat.setOnApplyWindowInsetsListener(decorView, (view, insets) -> {
+            int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+            // วาดสีพื้นหลังของ Status Bar
+            view.setBackgroundColor(Color.BLACK); // เปลี่ยนเป็นสีที่ต้องการ
+            view.setPadding(0, statusBarHeight, 0, 0); // ป้องกันเนื้อหาทับ Status Bar
+            return insets;
+        });
+
+        // ตั้งค่าไอคอน Status Bar (Light/Dark)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // ให้ระบบจัดการ layout ของ system bar แยกออกจากเนื้อหา
-            window.setDecorFitsSystemWindows(true);
-
-            // ใช้ WindowInsetsControllerCompat เพื่อจัดการลักษณะของ status bar
-            WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(window, window.getDecorView());
-            // ปิดการตั้งค่าที่บังคับให้ไอคอนเป็นสีเข้ม (light status bars)
-            insetsController.setAppearanceLightStatusBars(false);
+            WindowInsetsController controller = window.getInsetsController();
+            if (controller != null) {
+                controller.setSystemBarsAppearance(
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                );
+                controller.show(WindowInsets.Type.statusBars());
+            }
         } else {
-            // สำหรับ Android รุ่นเก่า ให้ตั้งค่า UI visibility เป็นแบบปกติ
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
 }
