@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-dvh max-w-full bg-[#FBFBFB] dark:bg-[#0F0F0F]">
+    <div class="flex h-screen-safe max-w-full bg-[#FBFBFB] dark:bg-[#0F0F0F]">
         <div class="w-[72px]">
             <Sidebar :page_name="page_name"/>
         </div>

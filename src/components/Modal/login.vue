@@ -113,6 +113,8 @@
 </style>
 <script setup lang="ts">
 
+import { Capacitor } from '@capacitor/core';
+
 const router = useRouter()
 
 const props = defineProps({
@@ -204,14 +206,19 @@ const checkInput = async () => {
   }
 }
 
-const openPopupOauth = (provider: string) => {
-  window.open(`/login/${provider}`, 'auth', "width=350,height=250")
+const openPopupOauth = async (provider: string) => {
+  if (Capacitor.isNativePlatform()) {
+    const { NativeLogin } = useNativeAuth()
+    await  NativeLogin(provider)
+    console.log('native')
+  }else{
+    window.open(`/login/${provider}`, 'auth', "width=350,height=250")
+  }
 }
 
 //check window send message
 onMounted(() => {
   window.addEventListener('message', (event) => {
-    console.log(event.data)
     if (event.data === 'close') {
       window.location.reload();
     }

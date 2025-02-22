@@ -31,7 +31,10 @@ export default defineNuxtConfig({
       swDest: 'service-worker.js',
     }
   },
-  
+  typescript: {
+    strict: true
+  },
+
 
   ssr: process.env.BUILD_MOBILE === 'true' ? false : true,
 
@@ -49,7 +52,19 @@ export default defineNuxtConfig({
     },
     public:{
       ablyApiKey: process.env.ABLY_API_KEY,
-      backendApi: process.env.API_BASE_URL || 'http://172.30.96.1:3089'
+      backendApi: process.env.API_BASE_URL || 'http://172.30.96.1:3089',
+
+      clientGoogleId: process.env.GOOGLE_CLIENT_ID,
+      clientGoogleAndroidId: process.env.GOOGLE_CLIENT_ID_ANDROID,
+
+      clientFacebookId: process.env.FACEBOOK_CLIENT_ID,
+
+      clientAzureId: process.env.AZURE_AD_CLIENT_ID,
+      clientAzureTenantId: process.env.AZURE_AD_TENANT_ID,
+      AzureRedirectUri: process.env.AZURE_AD_REDIRECT_URI,
+
+      clientGithubId: process.env.GITHUB_CLIENT_ID,
+
     }
   },
   build: {

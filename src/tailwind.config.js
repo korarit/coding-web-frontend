@@ -23,6 +23,6 @@ export default {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require('tailwindcss-safe-area-capacitor')],
 }
 

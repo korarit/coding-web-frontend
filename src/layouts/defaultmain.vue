@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[100dvh] flex flex-col max-w-full" :class="`${show_modal ? 'overflow-hidden' : ''} ${isDarkMode ? 'dark' : ''}`">
+    <div class="h-screen-safe flex flex-col max-w-full" :class="`${show_modal ? 'overflow-hidden' : ''} ${isDarkMode ? 'dark' : ''}`">
         <Navbar 
 
             @open-mobile-nav="openNavMobile"
