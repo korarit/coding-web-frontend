@@ -11,7 +11,7 @@
 <img src="https://i.imgur.com/xybPHfT.jpeg" width="30%" title="hover text">
 
 ## Feature
- - มีการ port ลงเป็น PWA Android และ native application
+ - มีการ port ลงเป็น PWA Android และ native application (Android)
  - สามารถฝึกทำโจทย์
  - มี ranking คะแนนในการทำโจทย์
  - มี profile แสดงการทำโจทย์
@@ -25,7 +25,7 @@
 <br />
 
  - ระบบตรวจคำตอบ รองรับ python 3 , python 2 , c , c++ , c# , golang , php , rust , lua , java , javascript , typescript
- - มีระบบ LLM (Gemini-1.5-flash) ในการช่วยตรวจ เขียน prompt ในเพื่อตรวจสอบเงื่อนไขได้
+ - มีระบบ LLM (Gemini-1.5-flash, SCBX Typhoon 2, OpenThaiGPT 1.5) ในการช่วยตรวจ เขียน prompt ในเพื่อตรวจสอบเงื่อนไขได้
  - สามารถค้นหาโจทย์ได้ใช้ (lexical + semantic)
 
 ## Tech Stack (Front-End)
