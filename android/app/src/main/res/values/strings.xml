@@ -6,12 +6,13 @@
     <string name="custom_url_scheme">com.thestepkla.coding</string>
 
     <string name="facebook_app_id">1453450678646503</string>
+    <string name="facebook_client_token">6a0157e391522269381e4c56152a1455</string>
     <string name="fb_login_protocol_scheme">fb1453450678646503</string>
 
     <string name="custom_host">foo</string>
     <string name="azure_b2c_scheme">msauth</string>
-    <string name="azure_b2c_signature_hash">/vjvcbWvJLUQCNTq2Dzac%2BU2vGqw%3D</string><!-- The leading slash is required. Copied from Azure Portal Android Config "Signature hash" field -->
+    <string name="azure_b2c_signature_hash">/Zj9GJwQ/Pz8/Pz8yP1I/YTo/P1c=</string><!-- The leading slash is required. Copied from Azure Portal Android Config "Signature hash" field -->
 
     <string name="custom_url_scheme_github">githubauth</string>
-    <string name="custom_path_github">/vjvcbWvJLUQCNTq2Dzac%2BU2vGqw%3D</string>
+    <string name="custom_path_github">/Zj9GJwQ%2FPz8%2FPz8yP1I%2FYTo%2FP1c%3D</string>
 </resources>
