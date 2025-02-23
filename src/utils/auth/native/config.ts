@@ -13,7 +13,7 @@ export const facebookConfig : OAuth2AuthenticateOptions = {
       windowOptions: "height=600,left=0,top=0"
     },
     android: {
-      customHandlerClass: " ",
+      customHandlerClass: "com.thestepkla.coding.YourAndroidFacebookOAuth2Handler",
     }
 };
 
@@ -24,7 +24,7 @@ export const azureConfig : OAuth2AuthenticateOptions = {
   accessTokenEndpoint: `https://login.microsoftonline.com/${config.public.clientAzureTenantId}/oauth2/v2.0/token`,
   resourceUrl: 'https://graph.microsoft.com/v1.0/me/',
   responseType: 'code',
-  pkceEnabled: true,
+  pkceEnabled: false,
   logsEnabled: true,
   android: {
     redirectUrl: config.public.AzureRedirectUri, // See Azure Portal -> Authentication -> Android Configuration "Redirect URI"
