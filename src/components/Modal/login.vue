@@ -139,7 +139,7 @@ const closeModal = () => {
 ///////////// check input //////////////
 const username = ref('')
 const username_error = ref(false)
-const turnstile_token = ref<string | null>(null)
+const turnstile_token = ref<string |null>(null)
 const turnstile_ref = ref()
 
 watch(username, (val) => {
@@ -209,7 +209,24 @@ const checkInput = async () => {
 const openPopupOauth = async (provider: string) => {
   if (Capacitor.isNativePlatform()) {
     const { NativeLogin } = useNativeAuth()
-    await  NativeLogin(provider)
+    
+    switch (provider) {
+      case 'github':
+        await NativeLogin('github')
+        break;
+      case 'facebook':
+        await NativeLogin('facebook')
+        break;
+      case 'google':
+        await NativeLogin('google')
+        break;
+      case 'azure-ad':
+        await NativeLogin('azure-ad')
+        break;
+      default:
+        break;
+    }
+
     console.log('native')
   }else{
     window.open(`/login/${provider}`, 'auth', "width=350,height=250")
