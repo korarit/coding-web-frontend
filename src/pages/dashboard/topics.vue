@@ -113,7 +113,7 @@
 definePageMeta({
     auth: true
 })
-const { status, data } = useAuth()
+const { status, data } = await useNativeAuth()
 
 const sessionData = ref<any>(null)
 

@@ -281,7 +281,7 @@ import {v7 as uuidv7} from 'uuid'
 definePageMeta({
     auth: true
 })
-const { status, data } = useAuth()
+const { status, data } = await useNativeAuth()
 
 const router = useRouter()
 onMounted(() => {

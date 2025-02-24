@@ -12,12 +12,14 @@ interface credentialsPayload {
     password: string;
 }
 
-export const NativeAuth = () => {
+const token= ref<string|null>(null);
+const data= ref<any|null>(null);
+const status= ref<("authenticated"|"loading"|"unauthenticated")>("loading");
+const providerSave= ref<(null | "google" | "facebook" | "azure-ad" | "github"| "credentials")>(null);
 
-    const token = ref<string|null>(null);
-    const data = ref<any|null>(null);
-    const status = ref<("authenticated"|"loading"|"unauthenticated")>("loading");
-    const providerSave = ref<(null | "google" | "facebook" | "azure-ad" | "github"| "credentials")>(null);
+export const NativeAuth = async () => {
+
+
 
     const removeByKey = async (key: string) => {
         try {
@@ -30,6 +32,7 @@ export const NativeAuth = () => {
     const setSessionToken = async (sessionToken: string) => {
         try{
             await Preferences.set({ key: 'sessionToken', value: sessionToken });
+
             token.value = sessionToken;
         } catch (error) {
             console.error('Error setting session token:', error);
@@ -41,7 +44,9 @@ export const NativeAuth = () => {
             const sessionToken = await Preferences.get({ key: 'sessionToken' });
             if (sessionToken.value) {
                 status.value = "authenticated";
+
                 token.value = sessionToken.value;
+
             } else {
                 status.value = "unauthenticated";
                 token.value = null;
@@ -55,24 +60,29 @@ export const NativeAuth = () => {
     
 
     const BackendSSOLogin = async (provider: ("google" | "facebook" | "azure-ad" | "github"), access_token: string) => {
-        const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: access_token})
-        });
+        try {
+            const data_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/oauth/login`, {
+                method: 'POST',
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ provider: provider.toLowerCase(), provider_token: access_token})
+            });
 
-        if (data_session.status >= 200 && data_session.status < 300) {
-            const data = await data_session.json();
-            console.log('OAuth login successful:', data);
+            if (data_session.status >= 200 && data_session.status < 300) {
+                const data = await data_session.json();
+                console.log('OAuth login successful:', data);
 
-            await setSessionToken(data.login_token);
+                await setSessionToken(data.login_token);
 
-            return data;
-        } else {
-            status.value = "unauthenticated";
-            console.error('OAuth login failed:', await data_session.json());
+                return data;
+            } else {
+                status.value = "unauthenticated";
+                console.error('OAuth login failed:', await data_session.json());
+                return null;
+            }
+        } catch (error) {
+            console.error('Error during OAuth login:', error);
             return null;
         }
     }
@@ -87,7 +97,7 @@ export const NativeAuth = () => {
                 return null;
             }
 
-            const query_session = await fetch(`${useRuntimeConfig().apiBase}/auth/session`, {
+            const query_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/session`, {
                 method: 'GET',
                 headers: {
                   "Content-Type": "application/json",
@@ -132,7 +142,7 @@ export const NativeAuth = () => {
         }
     }
     // call onload
-    onload();
+    await onload();
 
     const GoogleLogin = async () => {
         try {
@@ -141,8 +151,13 @@ export const NativeAuth = () => {
             await GenericOAuth2.logout(googleConfig);
 
             const response =  await GenericOAuth2.authenticate(googleConfig);
+
+            // get response type
+            console.log(typeof response);
+
             providerSave.value = "google";
-            const google_token = response['access_token']
+            const google_token = response.access_token;
+
             await BackendSSOLogin("google", google_token);
             if (token.value) {
                 getSession();
@@ -159,7 +174,9 @@ export const NativeAuth = () => {
             await GenericOAuth2.logout(facebookConfig);
 
             const response =  await GenericOAuth2.authenticate(facebookConfig);
+            
             providerSave.value = "facebook";
+            
             const fb_token = response['access_token']
             await BackendSSOLogin("facebook", fb_token);
             if (token.value) {
@@ -178,7 +195,9 @@ export const NativeAuth = () => {
             await GenericOAuth2.logout(azureConfig);
 
             const response =  await GenericOAuth2.authenticate(azureConfig);
+
             providerSave.value = "azure-ad"
+
             const azure_token = response['access_token']
             await BackendSSOLogin("azure-ad", azure_token);
             if (token.value) {
@@ -196,7 +215,9 @@ export const NativeAuth = () => {
             await GenericOAuth2.logout(githubConfig);
 
             const response =  await GenericOAuth2.authenticate(githubConfig);
+
             providerSave.value = "github";
+
             console.log(response);
         } catch (error) {
             console.error(error);

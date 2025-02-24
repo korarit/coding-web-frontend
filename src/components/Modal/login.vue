@@ -156,7 +156,7 @@ watch(password, (val) => {
   }
 })
 
-const { signIn } = useAuth()
+const { signIn } = await useNativeAuth()
 const error = ref<string | null | undefined>(null)
 const credentialsLogin = ref(false)
 
@@ -191,7 +191,12 @@ const checkInput = async () => {
     //loading animation
     credentialsLogin.value = true
 
-    const res = await signIn('credentials', login_data)
+    const res = await signIn('credentials', {
+      password: login_data.password,
+      turnstile_token: login_data.turnstile_token,
+      type: login_data.type,
+      username: login_data.username,
+    })
     console.log(res)
     if (res?.error !== null) {
       error.value = res?.error
@@ -208,20 +213,18 @@ const checkInput = async () => {
 
 const openPopupOauth = async (provider: string) => {
   if (Capacitor.isNativePlatform()) {
-    const { NativeLogin } = useNativeAuth()
-    
     switch (provider) {
       case 'github':
-        await NativeLogin('github')
+        await signIn('github')
         break;
       case 'facebook':
-        await NativeLogin('facebook')
+        await signIn('facebook')
         break;
       case 'google':
-        await NativeLogin('google')
+        await signIn('google')
         break;
       case 'azure-ad':
-        await NativeLogin('azure-ad')
+        await signIn('azure-ad')
         break;
       default:
         break;

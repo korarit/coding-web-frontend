@@ -135,8 +135,11 @@ const login = (username :string, password:string) => {
 
 ///////////////////////// login status /////////////////////////
 
-const { status , data } = useAuth()
+const { status , data } = await useNativeAuth()
 const user_data = ref<any>(data.value)
+onMounted(() => {
+    console.log('user_data', data.value, user_data)
+})
 
 
 ////////////////////// notification //////////////////////

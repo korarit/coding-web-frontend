@@ -92,5 +92,5 @@ watch(() => props.show, (val) => {
   }
 })
 
-const { signOut } = useAuth()
+const { signOut } = await useNativeAuth()
 </script>

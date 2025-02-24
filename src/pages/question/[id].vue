@@ -113,7 +113,7 @@ definePageMeta({
     auth: { unauthenticatedOnly: false, navigateAuthenticatedTo: '/' }
 })
 
-const { status, data } = useAuth()
+const { status, data } = await useNativeAuth()
 const route = useRoute()
 
 const isVerticalLeftMode = ref<boolean>(false);
