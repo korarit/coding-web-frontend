@@ -23,7 +23,7 @@ public class NotificationPlugin extends Plugin {
             SharedPreferences sharedPref = context.getSharedPreferences("CapacitorStorage", Context.MODE_PRIVATE);
             return sharedPref.getString("sessionToken", null);
         } catch (Exception e) {
-            throw new RuntimeException("Error getting token: " + e.getMessage());
+            throw new RuntimeException("Failed to get access token: " + e.getMessage());
         }
     }
 
@@ -43,9 +43,11 @@ public class NotificationPlugin extends Plugin {
 
         if (token == null) {
             JSObject result = new JSObject();
+
             result.put("success", false);
             result.put("message","No access token found. Please login first.");
             call.resolve(result);
+
             return;
         }
 
@@ -60,7 +62,11 @@ public class NotificationPlugin extends Plugin {
             result.put("success", true);
             call.resolve(result);
         } catch (AblyException e) {
-            call.reject("Failed to register device: " + e.getMessage());
+            JSObject result = new JSObject();
+
+            result.put("success", false);
+            result.put("message","Failed to register device: " + e.getMessage());
+            call.resolve(result);
         }
     }
 
@@ -71,9 +77,11 @@ public class NotificationPlugin extends Plugin {
 
         if (token == null) {
             JSObject result = new JSObject();
+
             result.put("success", false);
             result.put("message","No access token found. Please login first.");
             call.resolve(result);
+
             return;
         }
 
@@ -86,12 +94,14 @@ public class NotificationPlugin extends Plugin {
             }
 
             JSObject result = new JSObject();
+
             result.put("success", true);
             result.put("message","un register device success");
 
             call.resolve(result);
         } catch (AblyException e) {
             JSObject result = new JSObject();
+
             result.put("success", false);
             result.put("message","un register device fail :" + e.getMessage());
 
