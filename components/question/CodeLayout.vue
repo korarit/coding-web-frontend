@@ -62,8 +62,17 @@
 
         <!-- Editor -->
         <div class="flex-auto w-full p-1 overflow-hidden min-h-0">
-            <MonacoEditor ref="editorRef" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false }" v-model="codeSave"
-                :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " />
+            <!-- <MonacoEditor ref="editorRef" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false }" v-model="codeSave"
+                :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " /> -->
+            <ClientOnly>
+                <QuestionCodeEditor 
+                    v-model="codeSave" 
+                    :language="LanguageEditor.lang"
+                    v-model:line="currentLine" 
+                    v-model:col="currentColumn" 
+                />
+            </ClientOnly>
+
         </div>
 
         <div class="flex-none px-3 py-2 flex items-center justify-between border-t border-[#B0B0B0] dark:border-[#545454]">
@@ -107,7 +116,8 @@
 </template>
 
 <script setup lang="ts">
-
+import { ClientOnly, QuestionCodeEditor } from '#components';
+import CodeEditor from './CodeEditor.vue';
 
 const props = defineProps<{
     paneEditor: number
@@ -137,41 +147,22 @@ function fullScreen() {
 ///////////////////////////// control Editor /////////////////////////////////
 const currentLine = ref(0)
 const currentColumn = ref(0)
-const editorRef = ref<any>(null)
-onMounted(() => {
-  nextTick(() => {
-    const editorInstance = editorRef.value?.$editor;
 
-    if (editorInstance) {
 
-        editorInstance.onDidFocusEditorText(() => {
-            const position = editorInstance.getPosition();
-            currentLine.value = position.lineNumber;
-            currentColumn.value = position.column;
-        });
+// const handleEditorUpdate = (editor: ViewUpdate) => {
+//     currentLine.value = editor.state.doc.lineAt(editor.state.selection.main.head).number + 1
+//     currentColumn.value = editor.state.selection.ranges[0].anchor
+// }
 
-        editorInstance.onDidBlurEditorText(() => {
-            currentLine.value = 0;
-            currentColumn.value = 0;
-        });
+// const handleEditorBlur = () => {
+//     currentLine.value = 0
+//     currentColumn.value = 0
+// }
 
-        editorInstance.onMouseDown(() => {
-            const position = editorInstance.getPosition();
-            currentLine.value = position.lineNumber;
-            currentColumn.value = position.column;
-        });
-
-    
-        editorInstance.onDidChangeCursorPosition(() => {
-            const position = editorInstance.getPosition();
-            currentLine.value = position.lineNumber;
-            currentColumn.value = position.column;
-        });
-
-    }
-
-  });
-});
+// const handleEditorFocus = (editor: ViewUpdate) => {
+//     currentLine.value = editor.state.doc.lineAt(editor.state.selection.main.head).number + 1
+//     currentColumn.value = editor.state.selection.ranges[0].anchor
+// }
 
 const EditorMode = ref<string>('vs-light')
 onMounted(() => {

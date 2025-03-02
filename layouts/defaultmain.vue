@@ -152,7 +152,7 @@ async function RegisterDevice(ably_id:string, form_factor:string, target_url:str
             p256dh: p256dh,
             auth_id: auth_id
         })
-    const res = await fetch(config.public.backendApi + '/notification/reg', {
+    const res = await fetch(config.public.backendApi + '/notification/reg/browser', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -6,6 +6,14 @@ export default defineNuxtConfig({
     '@fortawesome/fontawesome-svg-core/styles.css',
     'vue-sweetalert-icons/dist/style.css'
   ],
+  vite: {
+    server: {
+      hmr: {
+        overlay: false,
+      },
+    },
+  },
+
   pwa: {
     manifest: {
       name: 'Coding with Me',

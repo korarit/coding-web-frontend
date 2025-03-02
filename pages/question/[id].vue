@@ -4,7 +4,7 @@
             id="main_screen">
 
             <!-- desktop view -->
-            <div class="min-h-full h-fit px-4 xl:px-16 2xl:px-[96px] gap-x-5 gap-y-8 flex-grow hidden xl:block">
+            <div v-if="isReady" class="min-h-full h-fit px-4 xl:px-16 2xl:px-[96px] gap-x-5 gap-y-8 flex-grow hidden xl:block">
                 <!-- Your content here -->
                 <splitpanes @resized="onResizedWidth"
                     :style="`${isFullscreen ? 'height: calc(100dvh - 100px)' : 'height: calc(100dvh - 195px)'}`">
@@ -372,7 +372,7 @@ type resultOfSubmit = {
     code_error: string
 }
 
-const submitLoading = ref<boolean>(false)
+const submitLoading = ref<boolean|undefined>(false)
 async function SubmitCode() {
 
     if (status.value != 'authenticated') {
@@ -531,10 +531,14 @@ const getSubmitHistory = async () => {
 }
 
 
+const isReady = ref<boolean>(false);
 onMounted(async () => {
     if (status.value == 'authenticated') {
         await getSubmitHistory();
     }
+    nextTick(() => {
+        isReady.value = true; // อัปเดตเป็น true เมื่อพร้อม
+  });
 })
 
 </script>

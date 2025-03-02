@@ -93,14 +93,13 @@ export default NuxtAuthHandler({
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     GithubProvider.default({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: process.env.GITHUB_CLIENT_ID_WEB,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET_WEB,
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     GoogleProvider.default({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      checks: ['none'],
+      clientId: process.env.GOOGLE_CLIENT_ID_WEB,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET_WEB,
     }),
     // @ts-expect-error Use .default here for it to work during SSR.
     AzureADProvider.default({
@@ -142,7 +141,7 @@ export default NuxtAuthHandler({
             access_token = decoded_ad_btoc.idp_access_token
           }
 
-          const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login`, {
+          const data_session = await fetch(`${useRuntimeConfig().apiBase}/auth/oauth/login/web`, {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
