@@ -19,11 +19,12 @@ interface registerPayload {
     otp_code: string;
 }
 
+const token = useState<string | null>('auth_token', () => null);
+const data = useState<any | null>('auth_data', () => null);
+const status = useState<"authenticated" | "loading" | "unauthenticated">('auth_status', () => "loading");
+const providerSave = useState<null | "google" | "facebook" | "azure-ad" | "github" | "credentials">('auth_provider', () => null);
+
 export const NativeAuth = () => {
-    const token = ref<string | null>(null);
-    const data = ref<any | null>(null);
-    const status = ref<"authenticated" | "loading" | "unauthenticated">("loading");
-    const providerSave = ref<null | "google" | "facebook" | "azure-ad" | "github" | "credentials">(null);
 
     const removeByKey = async (key: string) => {
         try {
@@ -91,6 +92,8 @@ export const NativeAuth = () => {
                 data.value = null;
                 return null;
             }
+
+            status.value = "loading";
 
             const query_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/session`, {
                 method: 'GET',
