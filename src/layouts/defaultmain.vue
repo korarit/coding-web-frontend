@@ -57,7 +57,7 @@ body {
 <script setup lang="ts">
 import { type ActionPerformed, type PushNotificationSchema, PushNotifications, type Token } from '@capacitor/push-notifications';
 import { LocalNotifications } from '@capacitor/local-notifications';
-
+import { FCM } from '@capacitor-community/fcm';
 import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from "@capacitor/core"
 
@@ -140,7 +140,7 @@ const login = (username :string, password:string) => {
 
 ///////////////////////// login status /////////////////////////
 
-const { status , data } = await useNativeAuth()
+const { status , data } = useNativeAuth()
 const user_data = ref<any>(data.value)
 onMounted(() => {
     console.log('user_data', data.value, user_data)
@@ -149,6 +149,35 @@ onMounted(() => {
 
 ////////////////////// notification //////////////////////
 // listen for push notifications from firebase cloud messaging (FCM) for android
+
+const SubscribeChannel = async (channel_id:string) => {
+    const channel_old = await Preferences.get({ key: 'noti-channel' });
+    if(channel_old.value !== null){
+        //ป้องกัน subscribe ซ้ำ
+        if(channel_old.value !== channel_id){
+            // ยกเลิก subscribe เก่า
+            await FCM.unsubscribeFrom({ topic: channel_old.value });
+            // สร้าง subscribe ใหม่
+            await Preferences.set({ key: 'noti-channel', value: channel_id });
+            try {
+                await FCM.subscribeTo({ topic: channel_id });
+            } catch (error) {
+                console.error('Error subscribing to topic', error);
+            }
+        }
+    }else{
+        //ป้องกัน subscribe ซ้ำ
+        if(channel_old.value !== channel_id){
+            await Preferences.set({ key: 'noti-channel', value: channel_id });
+            try {
+                await FCM.subscribeTo({ topic: channel_id });
+            } catch (error) {
+                console.error('Error subscribing to topic', error);
+            }
+        }
+    }
+}
+
 onMounted(async() => {
     if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
 
@@ -198,6 +227,49 @@ onMounted(async() => {
         PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
             console.log('Push action performed: ' + JSON.stringify(notification));
         });
+
+        if(status.value == 'authenticated'){
+            // Get the user's token
+            if(user_data.value.type_level === 2){
+                await SubscribeChannel('admin-channel')
+            } else if (user_data.value.type_level === 3){
+                await SubscribeChannel('supper-admin-channel')
+            } else{
+                await SubscribeChannel('user-channel')
+            }
+
+        }else{
+            const old_channel = await Preferences.get({ key: 'noti-channel' });
+            if(old_channel.value !== null){
+                await FCM.unsubscribeFrom({ topic: old_channel.value });
+            }
+        }
+    }
+})
+
+watch(status, async (value) => {
+    if(value == 'authenticated'){
+        //reset old channel
+        const has_channel = await PushNotifications.listChannels()
+        if(has_channel.channels.length > 0){
+            has_channel.channels.forEach(async (channel) => {
+                await PushNotifications.deleteChannel({ id: channel.id })
+            })
+        }
+
+        // Get the user's token
+        if(user_data.value.type_level === 2){
+            await SubscribeChannel('admin-channel')
+        } else if (user_data.value.type_level === 3){
+            await SubscribeChannel('supper-admin-channel')
+        }else{
+            await SubscribeChannel('user-channel')
+        }
+    }else if(value == 'unauthenticated'){
+        const old_channel = await Preferences.get({ key: 'noti-channel' });
+        if(old_channel.value !== null){
+            await FCM.unsubscribeFrom({ topic: old_channel.value });
+        }
     }
 })
 </script>
