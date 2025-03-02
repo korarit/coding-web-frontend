@@ -62,8 +62,14 @@
 
         <!-- Editor -->
         <div class="flex-auto w-full p-1 overflow-hidden min-h-0">
-            <MonacoEditor ref="editorRef" :options="{ minimap: { enabled: false }, theme: EditorMode, contextmenu: false }" v-model="codeSave"
-                :lang="LanguageEditor.lang" class="min-h-full border-[#000000] " />
+            <ClientOnly>
+                <QuestionCodeEditor 
+                    v-model="codeSave" 
+                    :language="LanguageEditor.lang" 
+                    v-model:line="currentLine" 
+                    v-model:col="currentColumn" 
+                />
+            </ClientOnly>
         </div>
 
         <div class="flex-none px-3 py-2 flex items-center justify-between border-t border-[#B0B0B0] dark:border-[#545454]">

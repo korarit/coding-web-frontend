@@ -7,6 +7,13 @@
       "Style": "dark",
       "BackgroundColor": "#000000",
       "OverlaysWebView": false
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_notification",
+      "iconColor": "#00C7A3"
+    },
+    "PushNotifications":{
+      "icon": "ic_notification"
     }
   }
 }

@@ -12,14 +12,19 @@ interface credentialsPayload {
     password: string;
 }
 
+interface registerPayload {
+    email: string;
+    password: string;
+    otp: string;
+    otp_code: string;
+}
+
 const token= ref<string|null>(null);
 const data= ref<any|null>(null);
 const status= ref<("authenticated"|"loading"|"unauthenticated")>("loading");
 const providerSave= ref<(null | "google" | "facebook" | "azure-ad" | "github"| "credentials")>(null);
 
 export const NativeAuth = async () => {
-
-
 
     const removeByKey = async (key: string) => {
         try {
@@ -61,7 +66,7 @@ export const NativeAuth = async () => {
 
     const BackendSSOLogin = async (provider: ("google" | "facebook" | "azure-ad" | "github"), access_token: string) => {
         try {
-            const data_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/oauth/login`, {
+            const data_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/oauth/login/native`, {
                 method: 'POST',
                 headers: {
                 "Content-Type": "application/json",
@@ -134,7 +139,6 @@ export const NativeAuth = async () => {
         }
     }
 
-
     const onload = async () => {
         await getSessionToken();
         if (token.value) {
@@ -143,6 +147,51 @@ export const NativeAuth = async () => {
     }
     // call onload
     await onload();
+
+    const registerDeviceForNotifications = async () => {
+        const deviceToken = await Preferences.get({ key: 'ably-device-token' });
+        if (deviceToken.value === null) {
+            console.error('Device token not found');
+            return;
+        }
+
+        const body = JSON.stringify({
+            registration_token: deviceToken.value,
+        })
+
+        console.log('Device registration body:', body);
+
+        const response = await fetch(`${useRuntimeConfig().public.backendApi}/notification/reg/fcm`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token.value}`
+            },
+            body: body
+        });
+
+        if (response.status >= 200 && response.status < 300) {
+            console.log('Device registration successful:', await response.json());
+        } else {
+            console.error('Device registration failed:', await response.json());
+        }   
+    }
+
+    const UnRegisterDeviceForNotifications = async () => {
+        const response = await fetch(`${useRuntimeConfig().public.backendApi}/notification`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token.value}`
+            }
+        });
+
+        if (response.status >= 200 && response.status < 300) {
+            console.log('Device un registration successful:', await response.json());
+        } else {
+            console.error('Device un registration failed:', await response.json());
+        }   
+    }
 
     const GoogleLogin = async () => {
         try {
@@ -160,7 +209,8 @@ export const NativeAuth = async () => {
 
             await BackendSSOLogin("google", google_token);
             if (token.value) {
-                getSession();
+                await getSession();
+                await registerDeviceForNotifications();
             }
         } catch (error) {
             console.error(error);
@@ -181,6 +231,7 @@ export const NativeAuth = async () => {
             await BackendSSOLogin("facebook", fb_token);
             if (token.value) {
                 getSession();
+                await registerDeviceForNotifications();
             }
             console.log(response);
         } catch (error) {
@@ -202,6 +253,7 @@ export const NativeAuth = async () => {
             await BackendSSOLogin("azure-ad", azure_token);
             if (token.value) {
                 getSession();
+                await registerDeviceForNotifications();
             }
         } catch (error) {
             console.error(error);
@@ -216,11 +268,107 @@ export const NativeAuth = async () => {
 
             const response =  await GenericOAuth2.authenticate(githubConfig);
 
-            providerSave.value = "github";
-
             console.log(response);
+            if (!response.authorization_response) {
+                console.error('Error during Github login:', response);
+                return;
+            }
+            const get_github_token = await fetch(`${useRuntimeConfig().public.backendApi}/auth/oauth/get/access_token`,{
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    code_token: response.authorization_response.code,
+                    code_verifier: response.authorization_response.codeVerifier,
+                    provider: "github",
+                    redirect_url: githubConfig.android?.redirectUrl
+                })
+            })
+            if (get_github_token.status >= 200 && get_github_token.status < 300) {
+                const data = await get_github_token.json();
+                console.log('Github token:', data);
+                await BackendSSOLogin("github", data.access_token);
+                if (token.value) {
+                    getSession();
+                    await registerDeviceForNotifications();
+                }
+            } else {
+                console.error('Error during Github login:', await get_github_token.json());
+            }
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    const CredentialsLogin = async (credentials: credentialsPayload) => {
+        if (!credentials.turnstile_token) {
+            console.error('Turnstile token not found');
+            return;
+        }
+        try {
+            const data_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/login`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" , "Turnstile-Token": credentials.turnstile_token},
+                body: JSON.stringify({
+                    type: credentials.type,
+                    username: credentials.username,
+                    password: credentials.password
+                })
+            });
+
+            if (data_session.status >= 200 && data_session.status < 300) {
+                const data = await data_session.json();
+                console.log('Credentials login successful:', data);
+                await setSessionToken(data.login_token);
+
+                if (token.value) {
+                    getSession();
+                    await registerDeviceForNotifications();
+                }
+                return;
+            } else {
+                status.value = "unauthenticated";
+                console.error('Credentials login failed:', await data_session.json());
+                return;
+            }
+        } catch (error) {
+            console.error('Error during credentials login:', error);
+            return;
+        }
+    }
+
+    const RegisterLogin = async (credentials: registerPayload) => {
+        try {
+            const data_session = await fetch(`${useRuntimeConfig().public.backendApi}/auth/register/login`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: credentials.email,
+                    password: credentials.password,
+                    otp: credentials.otp,
+                    otp_code: credentials.otp_code
+                })
+            });
+
+            if (data_session.status >= 200 && data_session.status < 300) {
+                const data = await data_session.json();
+                console.log('Register successful:', data);
+                await setSessionToken(data.login_token);
+
+                if (token.value) {
+                    getSession();
+                    await registerDeviceForNotifications();
+                }
+                return;
+            } else {
+                status.value = "unauthenticated";
+                console.error('Register failed:', await data_session.json());
+                return;
+            }
+        } catch (error) {
+            console.error('Error during register:', error);
+            return;
         }
     }
 
@@ -235,14 +383,17 @@ export const NativeAuth = async () => {
             case "github":
                 return await GithubLogin();
             case "credentials":
-                return;
+                return await CredentialsLogin(credentials);
             case "register":
-                return;
+                return await RegisterLogin(credentials);
         }
     }
 
 
     const signOut = async () => {
+
+        await UnRegisterDeviceForNotifications();
+
         token.value = null;
         data.value = null;
         status.value = "unauthenticated";
@@ -251,20 +402,23 @@ export const NativeAuth = async () => {
 
         switch (providerSave.value) {
             case "google":
-                GenericOAuth2.logout(googleConfig);
+                await GenericOAuth2.logout(googleConfig);
                 break;
             case "facebook":
-                GenericOAuth2.logout(facebookConfig);
+                await GenericOAuth2.logout(facebookConfig);
                 break;
             case "azure-ad":
-                GenericOAuth2.logout(azureConfig);
+                await GenericOAuth2.logout(azureConfig);
                 break;
             case "github":
-                GenericOAuth2.logout(githubConfig);
+                await GenericOAuth2.logout(githubConfig);
                 break;
             case "credentials":
                 break;
         }
+
+        // reload page
+        window.location.reload();
     }
 
     return {

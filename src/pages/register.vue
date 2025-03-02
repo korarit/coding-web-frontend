@@ -170,7 +170,7 @@ definePageMeta({
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/'}
 })
 
-const {status, signIn} = useNativeAuth()
+const {status, signIn} = await useNativeAuth()
 
 
 const router = useRouter()

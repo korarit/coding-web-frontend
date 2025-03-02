@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "793275443736",
+    "project_id": "coding-website-83070",
+    "storage_bucket": "coding-website-83070.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793275443736:android:2e5463a5fa6dda290cf16d",
+        "android_client_info": {
+          "package_name": "com.thestepkla.coding"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAzTsSrB4isW1z5yBEa7oXPSmcmIbXMrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

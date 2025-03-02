@@ -196,13 +196,14 @@
 </template>
 
 <script setup lang="ts">
-
+import { Capacitor } from '@capacitor/core'
+import { NativeOauthConnext } from '~/utils/auth/native/NativeConnect'
 
 definePageMeta({
     auth: { unauthenticatedOnly: false, navigateAuthenticatedTo: '/' }
 })
 
-const { status, data, signOut } = await useNativeAuth()
+const { status, data, signOut, } = await useNativeAuth()
 
 
 const router = useRouter()
@@ -696,8 +697,41 @@ const oauthRemoveConnect = async (connect_status: boolean, provider: string) => 
 
     } else {
         //กรณีที่ยังไม่เชื่อมต่อ แล้วต้องการเชื่อมต่อ
-        window.location.href = config.public.backendApi + '/auth/oauth/connect/' + provider 
-        + '?redirect=' + window.location.origin + '/user' + '&access_token=' + user_session.sessionToken
+    
+        if(Capacitor.isNativePlatform()){
+            // กรณีเป็น Native App
+            const nativeOauth = await NativeOauthConnext()
+            switch (provider) {
+                case 'google':
+                    const status_connect_google = await nativeOauth.Connect('google', user_session.sessionToken);
+                    if(status_connect_google){
+                        user_thired_party.value[provider] = true
+                    }
+                    break
+                case 'github':
+                    const status_connect_github = await nativeOauth.Connect('github', user_session.sessionToken)
+                    if(status_connect_github){
+                        user_thired_party.value[provider] = true
+                    }
+                    break
+                case 'facebook':
+                    const status_connect_facebook = await nativeOauth.Connect('facebook', user_session.sessionToken)
+                    if(status_connect_facebook){
+                        user_thired_party.value[provider] = true
+                    }
+                    break
+                case 'azure_ad':
+                    const status_connect_azure_ad = await nativeOauth.Connect('azure-ad', user_session.sessionToken)
+                    if(status_connect_azure_ad){
+                        user_thired_party.value[provider] = true
+                    }
+                    break
+            }
+
+        }else{
+            window.location.href = config.public.backendApi + '/auth/oauth/connect/' + provider 
+            + '?redirect=' + window.location.origin + '/user' + '&access_token=' + user_session.sessionToken
+        }
     }
 }
 

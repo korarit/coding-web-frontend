@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen-safe flex flex-col max-w-full" :class="`${show_modal ? 'overflow-hidden' : ''} ${isDarkMode ? 'dark' : ''}`">
+    <div class="h-screen-safe flex flex-col max-w-full" :class="`${show_modal ? 'overflow-hidden touch-none' : ''} ${isDarkMode ? 'dark' : ''}`">
         <Navbar 
 
             @open-mobile-nav="openNavMobile"
@@ -55,8 +55,13 @@ body {
 }
 </style>
 <script setup lang="ts">
-import Ably from 'ably';;
-import Push from 'ably/push';
+import { type ActionPerformed, type PushNotificationSchema, PushNotifications, type Token } from '@capacitor/push-notifications';
+import { LocalNotifications } from '@capacitor/local-notifications';
+
+import { Preferences } from '@capacitor/preferences';
+import { Capacitor } from "@capacitor/core"
+
+
 
 const props = defineProps({
     page_name: String
@@ -143,205 +148,56 @@ onMounted(() => {
 
 
 ////////////////////// notification //////////////////////
-
-async function RegisterDevice(ably_id:string, form_factor:string, target_url:string, public_vapid_key:string, p256dh:string, auth_id:string) {
-    const user_session = user_data.value
-    const config = useRuntimeConfig()
-    console.log({
-            ably_id: ably_id,
-            form_factor: form_factor,
-            target_url: target_url,
-            public_vapid_key: public_vapid_key,
-            p256dh: p256dh,
-            auth_id: auth_id
-        })
-    const res = await fetch(config.public.backendApi + '/notification/reg/browser', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + user_session.sessionToken
-        },
-        body: JSON.stringify({
-            ably_id: ably_id,
-            form_factor: form_factor,
-            target_url: target_url,
-            public_vapid_key: public_vapid_key,
-            p256dh: p256dh,
-            auth_id: auth_id
-        })
-    })
-
-    if (res.status === 200) {
-        const data_device = await res.json()
-        console.log(data)
-        return await data_device
-    }
-    return null
-}
-
-async function DeleteDevice() {
-    const user_session = user_data.value
-    const config = useRuntimeConfig()
-    const res = await fetch(config.public.backendApi + '/notification', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + user_session.sessionToken
-        }
-    })
-
-    if (res.status === 200) {
-        const data_device = await res.json()
-        return await data_device
-    }
-    return null
-}
-
-const config = useRuntimeConfig()
-
+// listen for push notifications from firebase cloud messaging (FCM) for android
 onMounted(async() => {
+    if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
 
-    
-    if (status.value === 'authenticated') {
-        //notification ably
-        if (config.public.ablyApiKey !== null && 'serviceWorker' in navigator) {
+        // Check if we already have a device token stored in preferences
+        const deviceToken = await Preferences.get({ key: 'ably-device-token' });
+        if (deviceToken.value === null) {
 
-            const url_service_worker:any = await navigator.serviceWorker.register('/service-worker.js')
-
-            navigator.serviceWorker.getRegistration().then((registration) => {
-                if (registration) {
-                registration.update();
+            PushNotifications.requestPermissions().then((result) => {
+                if (result.receive === 'granted') {
+                    // Register with Apple / Google to receive push via APNS/FCM
+                    PushNotifications.register();
+                } else {
+                    // Show some error
+                    console.log('Push notification permission denied');
                 }
             });
 
-            console.log(url_service_worker.scope+'service-worker.js')
-
-            //setlocalstorage status notification
-            localStorage.setItem('notification', 'true')
-
-            const client_ably  = new Ably.Realtime({ key: config.public.ablyApiKey, pushServiceWorkerUrl: url_service_worker.scope+'service-worker.js' , plugins: {Push}});
-            if(Notification.permission === 'default'){
-                await client_ably.push.activate(async(deviceDetails, callback) => {
-                    console.log('deviceDetails', deviceDetails)
-                    callback(null, deviceDetails);
-                    const device = await RegisterDevice(deviceDetails.id, 
-                        deviceDetails.formFactor, 
-                        deviceDetails.push.recipient.targetUrl, 
-                        deviceDetails.push.recipient.publicVapidKey, 
-                        deviceDetails.push.recipient.encryptionKey.p256dh, 
-                        deviceDetails.push.recipient.encryptionKey.auth
-                    )
-                    if (device){
-                        callback(null, device);
-                    }else{
-                        callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
-                    }
-                });
-            }else if (Notification.permission === 'denied'){
-                await client_ably.push.deactivate(async(deviceDetails, callback) => {
-                    const device = await DeleteDevice()
-                    console.log('deviceDetails', deviceDetails)
-                    if (device){
-                        callback(null, device);
-                    }else{
-                        callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
-                    }
-                });
-            }
-
-
-            const channel = client_ably.channels.get('pushenabled:all');
-            console.log('channel')
-            channel.subscribe('example',(message) => {
-                url_service_worker.active.postMessage({
-                    type: 'notification',
-                    payload: message.data
-                });
-                console.log('message notification', message)
-            });
-
-            let user_ch = ''
-
-            if (user_data.value.type_level === 2) {
-                user_ch = 'pushenabled:admin'
-            }else if (user_data.value.type_level === 3) {
-                user_ch = 'pushenabled:super_admin'
-            }else{
-                user_ch = 'pushenabled:user'
-            }
-
-            const user_channel = client_ably.channels.get(user_ch);
-
-            user_channel.subscribe('example',(message) => {
-                url_service_worker.active.postMessage({
-                    type: 'notification',
-                    payload: message.data
-                });
-                console.log('message notification', message)
-            });
-
-            console.log('test')
-
         }
-    } else {
-        //notification ably
-        if (config.public.ablyApiKey) {
 
-            //setlocalstorage status notification
-            const url_service_worker = await navigator.serviceWorker.register('/service-worker.js')
+        // On success, we should be able to receive notifications from FCM
+        PushNotifications.addListener('registration', async (token: Token) => {
+            console.log('Push registration success, token: ' + token.value);
+            await Preferences.set({ key: 'ably-device-token', value: token.value });
+        });
 
-            const clinet_ably = new Ably.Realtime({ key: config.public.ablyApiKey , plugins: {Push}, pushServiceWorkerUrl: url_service_worker.scope+'service-worker.js' });
-            
-            await clinet_ably.push.deactivate(async(deviceDetails, callback) => {
-                console.log('deviceDetails', deviceDetails)
-                const device = await DeleteDevice()
-                    console.log('deviceDetails', deviceDetails)
-                if (device){
-                    callback(null, device);
-                }else{
-                    callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
-                }
+        // Some issue with our setup and push will not work
+        PushNotifications.addListener('registrationError', (error: any) => {
+            console.log('Error on registration: ' + JSON.stringify(error));
+        });
+
+        // Show us the notification payload if the app is open on our device
+        PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
+            console.log('Push received: ' + JSON.stringify(notification));
+            await LocalNotifications.schedule({
+                notifications: [
+                    {
+                        title: notification.title || 'No Title',
+                        body: notification.body || 'No Body',
+                        id: Math.floor(Date.now() / 1000), // ID เฉพาะ
+                        schedule: { at: new Date(Date.now() + 500) }, // แสดงใน 1 วินาที
+                    },
+                ],
             });
-        }
-    }
-})
+        });
 
-watch(() => status.value ,async () => {
-    if (status.value === 'authenticated') {
-        const ably_key = process.env.ABLY_API_KEY
-        //notification ably
-        if (ably_key) {
-
-            //setlocalstorage status notification
-            localStorage.setItem('notification', 'true')
-
-            const clinet_ably = new Ably.Realtime({ key: ably_key , plugins: {Push}});
-            
-            await clinet_ably.push.activate(async(deviceDetails, callback) => {
-                console.log('deviceDetails', deviceDetails)
-            });
-        }
-    } else {
-        const ably_key = process.env.ABLY_API_KEY
-        //notification ably
-        if (ably_key) {
-
-            //setlocalstorage status notification
-            localStorage.setItem('notification', 'true')
-
-            const clinet_ably = new Ably.Realtime({ key: ably_key , plugins: {Push}});
-            
-            await clinet_ably.push.deactivate(async(deviceDetails, callback) => {
-                console.log('deviceDetails', deviceDetails)
-                const device = await DeleteDevice()
-                console.log('deviceDetails', deviceDetails)
-                if (device){
-                    callback(null, device);
-                }else{
-                    callback({ name: 'Error', code: 500, statusCode: 500, message: 'error' }, undefined);
-                }
-            });
-        }
+        // Method called when tapping on a notification
+        PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
+            console.log('Push action performed: ' + JSON.stringify(notification));
+        });
     }
 })
 </script>

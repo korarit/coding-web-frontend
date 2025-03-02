@@ -154,7 +154,7 @@
             <div class="w-full h-full" v-else-if="resultType == 'submit' && TestCaseCount != 0">
 
                 <!--ตรวจสอบว่ามี การตรวจสอบ ด้วย LLM ไหม-->
-                <div class="w-full h-full flex flex-col justify-center items-center" v-if="props.llmCheck && resultSubmit[0] == undefined">
+                <div class="w-full h-full flex flex-col justify-center items-center p-1 md:p-0" v-if="props.llmCheck && resultSubmit[0] == undefined">
                     <div class="flex items-center space-x-2">
                         <svg class=" animate-spin -ml-1 h-[32px] w-[32px] text-[#303030] dark:text-[#FEFEFE]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -163,18 +163,18 @@
                             </path>
                         </svg>
 
-                        <p class="text-[20px] text-[#303030] dark:text-[#FEFEFE]">กำลังตรวจสอบ Code ด้วย AI LLM ว่าผ่านเงื่อนไขหรือไม่</p>
+                        <p class="text-[16px] md:text-[20px] text-[#303030] dark:text-[#FEFEFE]">กำลังตรวจสอบ Code ด้วย AI LLM ว่าผ่านเงื่อนไขหรือไม่</p>
                     </div>
-                    <p class="text-[16px] text-[#303030] dark:text-[#FEFEFE]">Model Gemini-1.5-Flash</p>
+                    <p class="text-[12px] md:text-[16px] text-[#303030] dark:text-[#FEFEFE]">Model Gemini-1.5-Flash</p>
                 </div>
 
                 <!--ตรวจสอบว่ามี การตรวจสอบ ด้วย LLM ไหม-->
                 <div class="w-full h-full flex justify-center items-center" v-else-if="props.llmCheck && resultSubmit[0].error != undefined && resultSubmit[0].status == 'error_llm'">
-                    <div class="flex items-center space-x-2">
-                        <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[36px] text-red-500" />
-                        <p v-if="resultSubmit[0].error == 'llm response is not valid'" class="text-[20px] leading-6 text-[#303030] dark:text-[#FEFEFE]">ผลลัพท์ของการตรวจสอบของ Ai ไม่ถูกต้องกรุณาลองใหม่</p>
-                        <p v-else-if="resultSubmit[0].error == 'the conditions of the question are not met'" class="text-[20px] leading-6 text-[#303030] dark:text-[#FEFEFE]">Code ของคุณไม่ผ่านเงื่อนไขของโจทย์</p>
-                        <p v-else class="text-[20px] leading-6 text-[#303030] dark:text-[#FEFEFE]">ระบบในการเรียกใช้งาน Gemini 1.5 flash มีปัญหากรุณาลองใหม่</p>
+                    <div class="flex items-center space-x-2 p-2 md:p-0">
+                        <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="text-[32px] md:text-[36px] text-red-500" />
+                        <p v-if="resultSubmit[0].error == 'llm response is not valid'" class="text-[16px] md:text-[20px] leading-5 md:leading-6 text-[#303030] dark:text-[#FEFEFE]">ผลลัพท์ของการตรวจสอบของ Ai ไม่ถูกต้องกรุณาลองใหม่</p>
+                        <p v-else-if="resultSubmit[0].error == 'the conditions of the question are not met'" class="text-[16px] md:text-[20px] leading-5 md:leading-6 text-[#303030] dark:text-[#FEFEFE]">Code ของคุณไม่ผ่านเงื่อนไขของโจทย์</p>
+                        <p v-else class="text-[16px] md:text-[20px] leading-5 md:leading-6 text-[#303030] dark:text-[#FEFEFE]">ระบบในการเรียกใช้งาน Gemini 1.5 flash มีปัญหากรุณาลองใหม่</p>
                     </div>
                 </div>
 

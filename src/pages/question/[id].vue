@@ -49,7 +49,7 @@
             </div>
 
             <!-- mobile view -->
-            <div class="min-h-full h-fit px-4 gap-y-8 flex flex-col  xl:hidden">
+            <div class="min-h-full mb-4 h-fit px-4 gap-y-8 flex flex-col  xl:hidden">
                 <!-- Your content here -->
                 <QuestionLeftLayout 
                     :submitList="ListSubmit" 

@@ -55,7 +55,7 @@
         </div>
 
         <!-- Login with credential -->
-        <button @click="checkInput"
+        <button @click="signIn('credentials')"
           class="w-full bg-[#00C7A3] hover:bg-[#199c80] active:bg-[#199c80] dark:bg-[#3DD6BA] dark:hover:bg-[#00C7A3] dark:active:bg-[#00C7A3] p-2 rounded">
           <span v-if="!credentialsLogin" class="text-[24px] text-white dark:text-[#0f0f0f]">
             เข้าสู่ระบบ
@@ -216,15 +216,25 @@ const openPopupOauth = async (provider: string) => {
     switch (provider) {
       case 'github':
         await signIn('github')
+        closeModal()
+        
         break;
       case 'facebook':
         await signIn('facebook')
+        closeModal()
+
         break;
       case 'google':
         await signIn('google')
+        closeModal()
+
         break;
       case 'azure-ad':
         await signIn('azure-ad')
+        closeModal()
+        break;
+      case 'credentials':
+        await checkInput()
         break;
       default:
         break;
