@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const { signIn, status } = await useNativeAuth()
+const { signIn, status } = useNativeAuth()
 const route = useRoute()
 
 onMounted(async() => {

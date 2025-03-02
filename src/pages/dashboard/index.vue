@@ -123,7 +123,7 @@
 definePageMeta({
     auth: true
 })
-const { status, data } = await useNativeAuth()
+const { status, data } = useNativeAuth()
 const router = useRouter()
 onMounted(() => {
     if (status.value === 'authenticated' && data.value) {

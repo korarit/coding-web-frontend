@@ -117,7 +117,7 @@ const props = defineProps<{
     image_link: string|null
 }>()
 
-const { status, data } = await useNativeAuth()
+const { status, data } = useNativeAuth()
   
 const show_modal = ref<boolean>(false)
 const loading = ref<boolean>(false)

@@ -180,7 +180,7 @@ definePageMeta({
     auth: { unauthenticatedOnly: false, navigateAuthenticatedTo: '/' }
 })
 
-const { status, data } = await useNativeAuth()
+const { status, data } = useNativeAuth()
 const data_user = ref<any>(data.value)
 
 ////////////////////////////////////// Radar Chart //////////////////////////////////////

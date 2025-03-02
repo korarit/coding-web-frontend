@@ -1,25 +1,35 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, defineProps, defineEmits, computed } from 'vue';
 import { Codemirror } from 'vue-codemirror';
+
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
+import { cpp } from '@codemirror/lang-cpp';
+import { c, csharp,  } from '@codemirror/legacy-modes/mode/clike';
+import { rust } from '@codemirror/legacy-modes/mode/rust';
+import { java } from '@codemirror/lang-java';
+import {lua} from "@codemirror/legacy-modes/mode/lua"
+import { go } from '@codemirror/legacy-modes/mode/go';
+import {php} from "@codemirror/lang-php"
+
 import { indentUnit } from '@codemirror/language';
 import { EditorView, lineNumbers } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { materialLight, materialDark } from '@uiw/codemirror-theme-material';
+import { StreamLanguage } from '@codemirror/language'; // เพิ่ม StreamLanguage เพื่อใช้กับ legacy modes
 
 // Props และ Emits
 const props = defineProps<{
   language: string;
   modelValue: string;
-  line: number; // เพิ่ม prop สำหรับ v-model:line
-  col: number;  // เพิ่ม prop สำหรับ v-model:col
+  line: number;
+  col: number;
 }>();
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
-  (e: 'update:line', value: number): void; // เพิ่ม emit สำหรับ v-model:line
-  (e: 'update:col', value: number): void;  // เพิ่ม emit สำหรับ v-model:col
+  (e: 'update:line', value: number): void;
+  (e: 'update:col', value: number): void;
 }>();
 
 // Reactive state
@@ -28,7 +38,7 @@ const customBgLight = ref('#FEFEFE');
 const customBgDark = ref('#1a1a1a');
 const customGutterBgLight = ref('#e0e0e0');
 const customGutterBgDark = ref('#2a2a2a');
-let editorView: any = null; // ตัวแปรสำหรับเก็บ EditorView
+let editorView: any = null;
 
 // ตรวจสอบว่าเป็นอุปกรณ์มือถือหรือไม่
 const isMobile = ref(false);
@@ -68,11 +78,31 @@ const languageExtension = computed(() => {
   const lang = props.language.toLowerCase();
   switch (lang) {
     case 'javascript':
-      return javascript({ jsx: false });
+        return javascript({ jsx: false });
+    case 'typescript':
+        return javascript({ jsx: false, typescript: true });
     case 'python':
-      return python();
+        return python(); // Python 3
+    case 'python2':
+        return python(); // Python 2 ใช้ legacy mode
+    case 'c':
+        return StreamLanguage.define(c);
+    case 'c++':
+        return cpp();
+    case 'c#':
+        return StreamLanguage.define(csharp);
+    case 'rust':
+        return StreamLanguage.define(rust);
+    case 'java':
+        return java();
+    case 'php':
+        return php();
+    case 'lua':
+        return StreamLanguage.define(lua);
+    case 'go':
+        return StreamLanguage.define(go);
     default:
-      return javascript({ jsx: false });
+        return javascript({ jsx: false });
   }
 });
 
@@ -113,7 +143,7 @@ const updateCursorPosition = () => {
   // ดึง line และ column จากตำแหน่งเคอร์เซอร์
   const line = state.doc.lineAt(pos);
   const lineNumber = line.number;
-  const col = pos - line.from + 1; // Column เริ่มจาก 1
+  const col = pos - line.from + 1;
 
   console.log('Cursor position:', { line: lineNumber, col });
   emit('update:line', lineNumber);
@@ -157,7 +187,7 @@ watch(isDarkMode, () => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .editor-wrapper {
   width: 100%;
   height: 100%;

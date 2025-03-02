@@ -156,7 +156,7 @@ watch(password, (val) => {
   }
 })
 
-const { signIn } = await useNativeAuth()
+const { signIn } = useNativeAuth()
 const error = ref<string | null | undefined>(null)
 const credentialsLogin = ref(false)
 

@@ -56,7 +56,7 @@ definePageMeta({
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/'}
 })
 // หากมีการเข้าสู่ระบบแล้ว ให้กลับไปหน้าหลัก
-const {status} = await useNativeAuth()
+const {status} = useNativeAuth()
 const router = useRouter()
 onMounted(() => {
     if (status.value === 'authenticated') {

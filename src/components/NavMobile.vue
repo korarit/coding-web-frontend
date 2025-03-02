@@ -129,7 +129,7 @@ watch(() => props.show, (val) => {
     }
 })
 
-const { signOut } = await useNativeAuth()
+const { signOut } = useNativeAuth()
 
 
 

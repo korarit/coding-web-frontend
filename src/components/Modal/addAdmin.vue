@@ -68,7 +68,7 @@ const props = defineProps<{
     show: boolean
 }>()
 
-const { status, data } = await useNativeAuth()
+const { status, data } = useNativeAuth()
   
 const show_modal = ref<boolean>(false)
 const loading = ref<boolean>(false)

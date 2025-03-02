@@ -1,10 +1,10 @@
 import { Capacitor } from "@capacitor/core"
 import { NativeAuth } from "@/utils/auth/native/NativeAuth"
 
-export const useNativeAuth = async () => {
+export const useNativeAuth = () => {
 
     if (Capacitor.isNativePlatform()) {
-        return await NativeAuth();
+        return NativeAuth();
     } else {
         return useAuth();
     }

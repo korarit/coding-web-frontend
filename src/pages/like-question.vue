@@ -142,7 +142,7 @@ import submission_status  from '~/assets/json/submission_status.json'
 definePageMeta({
     auth: true
 })
-const { status, data } = await useNativeAuth()
+const { status, data } = useNativeAuth()
 if (status.value !== 'authenticated') {
   navigateTo('/')
 }
