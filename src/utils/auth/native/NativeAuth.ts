@@ -355,6 +355,7 @@ export const NativeAuth = () => {
         signIn,
         signOut,
         getSession,
+        getSessionToken,
         status,
         data,
         token
