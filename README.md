@@ -3,14 +3,16 @@
 เว็บไซต์ฝึกเขียนโปรแกรม มีระบบตรวจคำตอบ รองรับหลายภาษา **ได้รางวัลอันดับ 2 จากแข่งขัน ด้าน Mobile Applilcation ในงานการนำเสนอผลงานนิสิตภายใต้โครงการ ICT Open House 2024 และ ได้อันดับ 1 ในการประกวดโปรเจค ระดับชั้นปีที่ 2 ภายในสาขา** 
 เป็นโปรเจคในรายวิชา ฐานข้อมูล และ กระบวนการซอฟต์แวร์
 ## Team
-- กรฤต แสงทอง (Full-Stack) (backend/frontend/ai/) และแปลงลง Android Application
+- กรฤต แสงทอง (Full-Stack) (backend/frontend/ai/Mobile)
 - ณภัทร หนองเหล็ก (Front-End) (html+tailwind)
 - พรสิณี กิจชอุ่ม (Front-End) (html+tailwind)
 - เอ็ม ไม่มีนามสกุล (UX/UI)
+
 <p>
 <img src="https://img5.pic.in.th/file/secure-sv1/imagedc80f588589fa9b9.png" width="40%" title="hover text">
 <img src="https://i.imgur.com/xybPHfT.jpeg" width="30%" title="hover text">
 </p>
+
 ## Feature
  - มีการ port ลงเป็น PWA Android และ native application (Android)
  - สามารถฝึกทำโจทย์
