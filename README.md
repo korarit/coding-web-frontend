@@ -35,9 +35,9 @@
  <img src="https://i.imgur.com/CVRluso.png" width="70%" title="hover text">
 
 ## Repository BackEnd
- - Main BackEnd DB/Route [**Pravite Repo**](https://github.com/korarit/coding-web-backend) 
+ - Main BackEnd DB/Route [**Link**](https://github.com/korarit/coding-web-backend) 
  - Code Excute Service (Modifly By กรฤต แสงทอง) [**LINK**](https://github.com/korarit/piston-for-coding-web-project)
- - NLP Backend Service LLM/Search [**Pravite Repo**](https://github.com/korarit/coding-web-nlp)
+ - NLP Backend Service LLM/Search [**Link**](https://github.com/korarit/coding-web-nlp)
 
 ## Figma UX/UI
  - Figma Coding Website Project [**LINK**](https://www.figma.com/design/cPyGfpF9ZkJYBGb6I80h0O/UX%2FUI-coding-web-project?node-id=0-1&t=7hw4UgJUEx5T1S0v-1)
